@@ -1,0 +1,137 @@
+\documentclass{report}
+
+% Page Size
+\usepackage[letterpaper, portrait, margin=1in, left=1.5in]{geometry}
+
+% Spacing
+\usepackage{setspace}
+\setlength{\parskip}{\baselineskip}
+\doublespacing{}
+
+
+% Bibliography
+\usepackage[american]{babel}
+\usepackage[style=apa, citestyle=apa, backend=biber]{biblatex}
+\DeclareLanguageMapping{american}{american-apa}
+\addbibresource{references.bib}
+\usepackage[babel,threshold=2]{csquotes}
+
+% Graphics
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+% Table of Content
+\setcounter{tocdepth}{2}
+
+% Code Formatting
+\usepackage{minted}
+\usemintedstyle{pastie}
+
+\def\code#1{\texttt{#1}}
+
+% Positioning
+\usepackage{float}
+
+% Colors
+\usepackage[dvipsnames]{xcolor}
+
+% Links
+\usepackage{hyperref}
+\hypersetup{
+	pdftitle={Development of a touch typing trainer with an emphasis on finger and wrist placement},
+	pdfstartview={FitH},
+	colorlinks=true,
+	linkcolor=black,
+	citecolor=black,
+	filecolor=black,
+	urlcolor=MidnightBlue
+}
+
+
+\begin{document}
+
+\pagenumbering{gobble}
+\begin{titlepage}
+	\centering
+	\includegraphics[width=0.25\textwidth]{upc.png}
+	\includegraphics[width=0.25\textwidth]{dcs.png}
+	\par\vspace{1cm}
+	{\scshape\LARGE Research Brief \par}
+	\par\vspace{1cm}
+	\begin{tabular}{ | l | l | }
+		\hline
+		Name               & Oscar Vian L. Valles                  \\
+		\hline
+		Student ID number  & 2018--06491                           \\
+		\hline
+		Project Title      & Development of a touch typing trainer \\ & with an emphasis on finger and wrist positions\\
+		\hline
+		Project No.        & 9                                     \\
+		\hline
+		Name of Supervisor & Dhong Fhel K. Gom-os                  \\
+		\hline
+	\end{tabular}
+
+
+
+
+\end{titlepage}
+\newpage
+
+\tableofcontents
+\newpage
+
+\pagenumbering{arabic}
+
+\setcounter{chapter}{1}
+\section{Background of the Study}
+There are a lot of educational typing tests available that help people learn
+touch typing, including Monkeytype, TypeRacer, or Keybr. These typing tests list
+out words that are then typed out. The inputted keys are then compared to check
+if the user has typed the expected letter. At the end of the test, the time
+taken is calculated and certain metrics is given. These metrics include words
+per minute (WPM) and accuracy \parencite{bartnik2021}.
+
+However, this method of examination leaves out a crucial part of typing —
+ergonomics. Ergonomic typing prevents a lot health issues in the future like
+repetitive strain injury or carpal tunnel. One important factor that affects
+ergonomics is the typing procedure and posture. This means proper placement of
+the wrist, hands, and hitting the keys using the right finger that is assigned
+to the key.
+
+Correct finger placement is usually taught at the beginning using a diagram,
+with each key being associated with a specific finger. For instance, the letter
+Q in a QWERTY layout should be hit using the fifth digit of the left hand, and
+this is shown by coloring the fifth digit and the key Q with the same color or
+by placing the letters directly on the fingers \parencite{dobson2009touch}.
+
+Incorrect finger placement may cause these hand and wrist positions: ulnar
+deviation, forearm pronation, and wrist extension \parencite{serina1999}. These
+three are hand and wrist positions that are common in all activities, however,
+prolonged periods in these positions may cause cause injuries such as Carpal
+tunnel syndrome (CTS) \parencite{toosi2015}
+
+In addition, this type of typing is frequently taught in the beginner level.
+However, finger position is not \parencite{donica2018}
+
+There is currently no way to automatically detect which finger is used during
+typing. No hardware or software solutions currently exist in the market. This
+research aims to solve this by combine finger tracking, with educational typing
+tests to determine which finger pressed the key and if that finger is the
+correct one to use.
+
+\section{Significance of the Research}
+This research is beneficial for all users of physical keyboards. These include a
+vast majority of the population as there are a lot of professions that heavily
+rely on keyboards. Examples include developers, physicians, educators,
+accountants.
+
+This research has a direct impact on people that has onset RSI or other
+hand/wrist injuries [ statistics ] that are caused by poor typing habits. By
+correcting these poor habits, pain from these injuries will be lessened, and
+even be prevented from occurring in the first place.
+
+\newpage
+\nocite{*} \printbibliography[heading=bibintoc,title={References}]{}
+
+\end{document}
