@@ -111,25 +111,49 @@ three are hand and wrist positions that are common in all activities, however,
 prolonged periods in these positions may cause cause injuries such as Carpal
 tunnel syndrome (CTS) \parencite{toosi2015}
 
-In addition, this type of typing is frequently taught in the beginner level.
-However, finger position is not \parencite{donica2018}
+In addition, this type of typing is frequently taught in the beginner level
+\parencite{donica2018}. This means that there is a need to weed out bad habits
+that may develop, like using the index finger for pressing the spacebar or
+backspace. However, it is impractical for an educator to check each individual
+student if they are not performing these movements as these may only show for a
+specific which may not be common.
 
-There is currently no way to automatically detect which finger is used during
-typing. No hardware or software solutions currently exist in the market. This
-research aims to solve this by combine finger tracking, with educational typing
-tests to determine which finger pressed the key and if that finger is the
-correct one to use.
+Thus, there is a need for automatically detecting which finger is used during
+typing, and for the position of the wrist in relation to the arm. One way to do
+this is through finger and hand tracking. One solution for tracking is by using
+image processing and machine learning. An example of this is MediaPipe by
+\cite{mediapipe}.
+
+MediaPipe allows for various applications for machine learning in the field of
+image processing. This includes, hand tracking, pose estimation, object
+detection, and others. Another example of a library that allows for hand and
+finger tracking is OpenCV by \cite{opencv}. This is a tool that simplifies for
+computer vision, and image processing. Machine learning can also be used with
+OpenCV.
+
+This research aims to improve touch typing training by combining hand and finger
+tracking, with educational typing tests to determine if the finger used to type
+is correct and if the overall posture of the hand ergonomic and healthy.
 
 \section{Significance of the Research}
 This research is beneficial for all users of physical keyboards. These include a
 vast majority of the population as there are a lot of professions that heavily
 rely on keyboards. Examples include developers, physicians, educators,
-accountants.
+accountants. By having better ergonomics while typing, wrist injuries can be
+prevented, and typing speed may be increased
+
+This research also helps educators, especially early educators teaching beginner
+typers. By automatically checking for ergonomics and posture, the burden of
+checking each individual students is lessened, and directed interventions for
+bad habits can be easily created as students with these bad habits are easily
+identified
 
 This research has a direct impact on people that has onset RSI or other
-hand/wrist injuries [ statistics ] that are caused by poor typing habits. By
-correcting these poor habits, pain from these injuries will be lessened, and
-even be prevented from occurring in the first place.
+hand/wrist injuries that are caused by poor typing habits. By correcting these
+poor habits, pain from these injuries will be lessened, and even be prevented
+from occurring in the first place. A specific example of this is by reducing
+ulnar deviation which affects the nerve that is indicative of CTS
+\parencite{toosi2015}.
 
 \newpage
 \nocite{*} \printbibliography[heading=bibintoc,title={References}]{}
