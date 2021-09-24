@@ -85,32 +85,53 @@ period which may not be caught in time.
 Thus, there is a need for automatically detecting which finger is used during
 typing, and for the position of the wrist in relation to the arm. One way to do
 this is through finger and hand tracking. One solution for tracking is by using
-image processing and machine learning. An example of this is MediaPipe by
-.
+image processing and machine learning. An example of this is MediaPipe
+by .
 
 MediaPipe allows for various applications for machine learning in the field of
 image processing. This includes, hand tracking, pose estimation, object
 detection, and others. Another example of a library that allows for hand and
-finger tracking is OpenCV by. This is a tool that simplifies
+finger tracking is OpenCV by . This is a tool that simplifies
 computer vision and image processing. Machine learning can also be used with
 OpenCV.
 
-This research aims to improve touch typing training by combining hand and finger
-tracking, with educational typing tests to determine if the finger used to type
-is correct and if the overall posture of the hand is ergonomic and healthy.
-
 Research Objectives
+
+General Objectives
+To create a touch typing trainer that corrects poor finger placement and hand
+position to develop better typing habits and healthier typing ergonomics.
+
+Specific Objectives
+
+	To develop a program that tracks fingers and hand positions while typing
+	To create a subroutine that ascertains which finger was used to type a key
+	To detect if incorrect fingers were used to press a key or if the
+	position of the hand in relation to the wrist is problematic
+	To assess the accuracy and performance of the developed program's ability
+	to perform the previously stated objectives
+	To develop a user-friendly interface for users to train touch typing
+	using the developed program
+	To generate key statistics of a user's touch typing performance
 
 
 Scope and Limitation
 This research will focus on typing on a 60% keyboard. This type of keyboard
 only has the alphanumeric part of the keyboard. This limits the number of keys
-to be checked and the expected movement of the hand.
+to be checked and the expected movement of the hand. Furthermore, The keycaps
+will also be of a light color, while the surface that the keyboard rests upon
+will be of a dark color.
 
 In addition, the keyboard layout will be ANSI. This layout is described by the
 American National Standards Institute ansi. This is the most
 common layout in the United States. However, it is also used in numerous
 English-speaking countries such as the Philippines, Malaysia, and India.
+
+The program will expect the that user has all ten digits and has no hand,
+finger, or wrist deformities. In addition, only the placement of the hands,
+fingers, and wrists will be taken into account when determining if the
+ergonomics of the user while typing is healthy. The program will not check
+seating position, angle of elbows, and other metrics for an ergonomic typing
+posture while typing.
 
 Capturing of the video to be analyzed by the program would be limited to a
 single 1080p webcam that is capturing in 60 frames per second. The camera will
@@ -125,17 +146,16 @@ accountants. By having better ergonomics while typing, wrist injuries can be
 prevented, and typing speed may be increased
 
 This research also helps educators, especially early educators teaching beginner
-typers. By automatically checking for ergonomics and posture, the burden of
-checking each student is lessened, and directed interventions for
+typers. By automatically checking for ergonomics, posture and correct technique,
+the burden of checking each student is lessened, and directed interventions for
 bad habits can be easily created as students with these bad habits are easily
 identified
 
-This research has a direct impact on people that has onset RSI or other
-hand/wrist injuries that are caused by poor typing habits. By correcting these
-poor habits, pain from these injuries will be lessened, and even be prevented
-from occurring in the first place. A specific example of this is by reducing
-ulnar deviation which affects the nerve that is indicative of CTS
-toosi2015.
+This research has a direct impact on people that has hand or wrist injuries that
+are caused by poor typing habits. By correcting these poor habits, pain from
+these injuries will be lessened, and even be prevented from occurring in the
+first place. A specific example of this is by reducing ulnar deviation which
+affects the nerve that is indicative of CTS toosi2015.
 
 * [heading=bibintoc,title=References]
 
