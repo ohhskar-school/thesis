@@ -88,6 +88,14 @@
 	urlcolor=MidnightBlue
 }
 
+% Misc
+\usepackage{gensymb}
+
+%Flowchart
+\usepackage{tikz}
+\usetikzlibrary{shapes,positioning,calc}
+
+
 
 \begin{document}
 
@@ -239,7 +247,7 @@ seating position, angle of elbows, and other metrics for an ergonomic typing
 posture while typing.
 
 Capturing of the video to be analyzed by the program would be limited to a
-single 1080p webcam that is capturing in 60 frames per second. The camera will
+single 480p webcam that is capturing in 24 frames per second. The camera will
 be pointed downwards facing the keyboard and the hand. This means that the
 vertical angle of the wrist may not be accurate.
 
@@ -692,6 +700,7 @@ Windows, Linux, Android, and macOS, allowing for great developer experience, and
 wide deployment capabilities \parencite{opencv}.
 
 \subsubsection{MediaPipe}
+\label{section:rrl-mediapipe}
 
 MediaPipe is an open-source computer vision framework that allows developers to
 create a perception pipeline. This perception pipeline is a directed graph of
@@ -721,16 +730,16 @@ possible in the platform \parencite{matlab}.
 There have been multiple applications and products that utilize hand and finger
 tracking as their main component.
 
-\citeauthor{dorf2001} presents a use case for finger tracking in augmented
+\cite{dorf2001} presents a use case for finger tracking in augmented
 environments. In the paper, interaction in a virtual environment through the use
 of gestures. The tracking system uses an optical marker-based motion capture
 system where the user wears a glove with retroreflective markers.
 
-\citeauthor{chiang2014} used a Kinect, a 3D sensing device by Microsoft that
+\cite{chiang2014} used a Kinect, a 3D sensing device by Microsoft that
 uses depth data, to track fingers to play virtual instruments. Virtual Pianos
 and Guitars were created and played with reliable and stable tracking.
 
-\citeauthor{yousaf2014} created a virtual keyboard that operates using finger
+\cite{yousaf2014} created a virtual keyboard that operates using finger
 tracking. The tracking uses the movement of the finger joints as the basis for
 selecting which key to press. A camera captures the movement, and the resulting
 video stream is used for hand region detection and finger joint localization.
@@ -752,6 +761,383 @@ correct mistakes.
 This is also important because certain movements and hand positions will cause
 nerve and muscular disorders that will impact the user. By correcting these
 problematic movements and hand positions, these disorders can be prevented.
+
+\chapter{Methodology}
+
+\section{Setup}
+\label{section:metho-setup}
+
+The experimental setup and configuration will be composed of three elements: the
+camera, the keyboard, and the environment.
+
+\subsection{Camera}
+The camera setup will use a single monocular camera positioned in a top-down
+view. The camera should capture the entirety of the keyboard and the movement of
+the ten fingers. Figure~\ref{fig:metho-keeb} shows what the camera will capture
+once placed in its correct position.
+
+The specific camera to be used will be a Logitech C270.
+Figure~\ref{fig:metho-cam} is a picture of this camera. This is a 0.9 mega pixel
+webcam with a CMOS sensor. This camera is capable of capturing color videos in
+720p/30fps and it has a diagonal field of view of 55\degree. This camera has a
+universal mounting clip that will reduce the difficulty in mounting the camera
+\parencite{logitech}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{webcam.png}
+	\caption{Logitech C270. Reprinted from \fullcite{logitech}}
+	\label{fig:metho-cam}
+	\centering
+\end{figure}
+
+\subsection{Keyboard}
+\label{section:metho-keeb}
+The keyboard will be a 60\% keyboard as shown in Figure~\ref{fig:metho-keeb}.
+This will limit the necessary mapping for the algorithm to the alphanumeric
+portion of the keyboard. This keyboard choice will also lessen the area that the
+camera will need to capture, as this keyboard type is considerably smaller
+compared to a full-size keyboard. The keyboard will have key caps and a case in
+a light color that will contrast the dark surface that it will be placed on.
+This is to improve initial keyboard detection. In addition, the keyboard layout
+will also be ANSI, due to the availability and widespread adoption of the layout
+in the Philippines.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{actual-keeb.png}
+	\caption{Keyboard, camera angle, and placement to be used for testing.}
+	\label{fig:metho-keeb}
+	\centering
+\end{figure}
+
+
+\subsection{Environment}
+The environment the setup would be placed in would be a well lit environment
+with a light source beside the camera. This light source will evenly light the
+keyboard and the fingers used for typing. The light source to be used will be a
+common LED desk lamp rated at 9 Watts with 700 lumens. This light will be white
+with a color temperature of 6500k.
+
+In addition, the surface where the keyboard is to be placed on will be solid
+green without any variation of color. This is to improve initial keyboard
+detection.
+
+\section{Algorithm}
+\label{section:metho-algo}
+
+\subsection{Computer Vision based Keyboard Detection, and Mapping}
+\label{section:metho-algo-keyboard}
+
+A computer vision algorithm will be created as a starting point for detecting,
+and mapping the keyboard within a video. The flowchart of the algorithm is shown
+in Figure~\ref{fig:metho-key-algo}.
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[font=\small,thick]
+		\node[draw,
+			rounded rectangle,
+			minimum width=2.5cm,
+			minimum height=1cm] (start) {START};
+
+		\node[draw,
+			trapezium,
+			trapezium left angle = 65,
+			trapezium right angle = 115,
+			trapezium stretches,
+			below=of start,
+			minimum width=3.5cm,
+			minimum height=1cm
+		] (input) {Input Frame};
+
+		\node[draw,
+			below=of input,
+			minimum width=3.5cm,
+			minimum height=1cm] (bg-rem) {Background Removal};
+
+		\node[draw,
+			below=of bg-rem,
+			minimum width=3.5cm,
+			minimum height=1cm] (gray) {Convert to Grayscale};
+
+		\node[draw,
+			below=of gray,
+			minimum width=3.5cm,
+			minimum height=1cm] (sobel) {Edge Detection using Sobel Filter};
+
+		\node[draw,
+			below=of sobel,
+			minimum width=3.5cm,
+			minimum height=1cm] (contours) {Find Contours (Simple)};
+
+		\node[draw,
+			below=of contours,
+			minimum width=3.5cm,
+			minimum height=1cm] (map) {Overlay Virtual Keyboard Map using Contour Points};
+
+		\node[draw,
+			trapezium,
+			trapezium left angle = 65,
+			trapezium right angle = 115,
+			trapezium stretches,
+			below=of map,
+			minimum width=3.5cm,
+			minimum height=1cm
+		] (output) {Output Frame};
+
+		\node[draw,
+			below=of output,
+			rounded rectangle,
+			minimum width=2.5cm,
+			minimum height=1cm] (end) {END};
+
+		\draw[-latex] (start) edge (input)
+		(input) edge (bg-rem)
+		(bg-rem) edge (gray)
+		(gray) edge (sobel)
+		(sobel) edge (contours)
+		(contours) edge (map)
+		(map) edge (output)
+		(output) edge (end);
+
+	\end{tikzpicture}
+	\caption{Flowchart of Keyboard Detection and Mapping Algorithm}
+	\label{fig:metho-key-algo}
+\end{figure}
+
+
+\subsubsection{Background Removal}
+The background of the frame will be removed by using colors as the main metric
+for determining the foreground and the background. This is made easier by the
+setup as the setup will have a green background, with a light colored keyboard
+as a foreground.
+
+\subsubsection{Convert to Grayscale}
+The frame will then be converted to grayscale. This is done because future steps
+of the algorithm does not require color values and this improves the performance
+of these algorithms.
+
+\subsubsection{Edge Detection using Sobel Filter}
+A Sobel Filter is a edge detection filter that uses a 3$times$3 kernel that is
+convolved twice. Once horizontally, and another vertically to produce a
+grayscale image of the outlines within the frame.
+
+\subsubsection{Find Contours (Simple)}
+Contours are curves joining all continuous points that have the same color or
+intensity \parencite{opencv-contours}. In this algorithm, an OpenCV function is
+to be used to find the contours of the outlines of the object found using the
+previous step. This OpenCV function implements the algorithm of \cite{contours}.
+The expected result is four contour points which are positioned on the four
+edges of the keyboard.
+
+\subsubsection{Overlay Virtual Keyboard Map using Contour Points}
+The virtual keyboard map is a rectangular image that has individual region of
+interest (ROI) for each key in a 60\% \ac{ansi} keyboard. Each key has a
+corresponding color assigned to it and this color fills the region the key is
+assigned to.
+
+The virtual map is then stretched over the object, with the four contour points
+as the four edges of the virtual keyboard map. The image generated is then
+returned as the final output of the graph.
+
+\subsection{Computer Vision based Finger Detection, and Tracking}
+\label{section:metho-algo-finger}
+
+A computer vision algorithm will be chosen as a starting point for detecting,
+and tracking fingers within a video.
+
+The first component this algorithm will have is the ability to detect fingers
+within a video. This would involve capturing exactly where the finger is in the
+current frame. This data would then be used for the next component of the
+algorithm: tracking. This component would track the movement of the finger as it
+performs a typing motion. This algorithm should have the ability to separate the
+different fingers and track the movement of the ten fingers individually.
+
+The specific algorithm used for finger detection and tracking will be the
+solution offered by MediaPipe. More details about the specific algoritihm can be
+found in Section~\ref{section:rrl-mediapipe}.
+
+\subsection{Integration for finger-key identification and mapping}
+
+The two previously chosen algorithms will be combined to accomplish finger-key
+identification and mapping. Finger-key identification refers to identifying
+which finger is used to press which key. As an example, the key Q was pressed
+with the pinky finger of the left hand.
+
+The integration of the algorithm is a two step process. The first step is to get
+the mapping of the keyboard using the algorithm shown in Section~\ref{section:metho-algo-keyboard}.
+
+The second step is a continous loop where the mapping of the keyboard is used in
+conjunction with the finger tracking algorithm chosen in
+Section~\ref{section:metho-algo-finger}. The flowchart of the algorithm is shown
+in Figure~\ref{metho-algo-integration}
+
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[font=\small,thick]
+		\node[draw,
+			rounded rectangle,
+			minimum width=2.5cm,
+			minimum height=1cm] (start) {START};
+
+		\node[draw,
+			trapezium,
+			trapezium left angle = 65,
+			trapezium right angle = 115,
+			trapezium stretches,
+			below left=of start,
+			minimum width=3.5cm,
+			minimum height=1cm
+		] (map) {Virtual Keyboard Map};
+
+		\node[draw,
+			trapezium,
+			trapezium left angle = 65,
+			trapezium right angle = 115,
+			trapezium stretches,
+			below right=of start,
+			minimum width=3.5cm,
+			minimum height=1cm
+		] (track) {Finger Tracking Frame};
+
+		\coordinate (CENTER) at ($(map)!0.5!(track)$);
+
+		\node[draw,
+			diamond,
+			aspect=2,
+			below = 3cm of CENTER,
+			minimum width=2.5cm,
+			inner sep=0] (if-packet) {Keypress Packet Received};
+
+		\node[draw,
+			below left=of if-packet,
+			minimum width=3.5cm,
+			minimum height=1cm] (find-roi) {Find ROI of the pressed key in Virtual Keyboard Map};
+
+		\node[draw,
+			below=of find-roi,
+			minimum width=3.5cm,
+			minimum height=1cm] (find-finger) {Find which fingertip is on that ROI};
+
+
+		\node[draw,
+			trapezium,
+			trapezium left angle = 65,
+			trapezium right angle = 115,
+			trapezium stretches,
+			below=of find-finger,
+			minimum width=3.5cm,
+			minimum height=1cm
+		] (return) {Return which fingertip};
+
+		\node[draw,
+			trapezium,
+			trapezium left angle = 65,
+			trapezium right angle = 115,
+			trapezium stretches,
+			below = 11cm of CENTER,
+			minimum width=3.5cm,
+			minimum height=1cm
+		] (output) {Output Frame};
+
+		\node[draw,
+			below=of output,
+			rounded rectangle,
+			minimum width=2.5cm,
+			minimum height=1cm] (end) {END};
+
+		\draw[-latex] (start) edge (map)
+		(start) edge (track)
+		(track) edge (if-packet)
+		(map) edge (if-packet)
+		(find-roi) edge (find-finger)
+		(find-finger) edge (return)
+		(return) edge (output)
+		(output) edge (end);
+
+		\draw[-latex] (if-packet) -| (find-roi)
+		node[pos=0.25,fill=white,inner sep=0]{true};
+
+		\draw[-latex] (if-packet) edge node[pos=0.4,fill=white,inner sep=2pt]{No}(output);
+
+	\end{tikzpicture}
+	\caption{Flowchart of the overall flow}
+	\label{fig:metho-algo-integration}
+\end{figure}
+
+\subsubsection{Find ROI of the pressend key in Virtual Keyboard Map}
+Since there is a known color-key mapping based on Virtual Keyboard Map, the
+algorithm will find the correct color to search for based on the received keypress
+packet. This color is isolated from the Virtual Keyboard Map, and the region of
+interest and its coordinates are obtained.
+
+\subsubsection{Find which fingertip is on that ROI}
+The Finger Tracking Frame contains the pixel positions of each landmark of the
+hand. For this step, the algorithm will find the landmark which is positioned
+within the region of interest from the previous step.
+
+\subsubsection{Return which fingertip}
+The finger containing the landmark will be returned. This finger will then be
+compared with the expected finger to be used to press the key to determine if it
+is correct or not.
+
+\section{Trainer}
+
+\subsection{Create typing test sequences}
+Typing test sequences are strings that will be used in testing the user in their
+ability to type. The test sequences that will be used in the trainer will come
+from text found in the public domain obtained from Project Gutenberg and the
+Internet Archive. Sentences from these text will be isolated and used as the
+test sequences. There will be a total of 20 test sequences that will be
+gathered. An example test sequence is ``What of it, if some old hunks of a
+sea-captain orders me to get a broom and sweep down the decks?'' from Moby Dick
+by \cite{moby-dick}. The 19 other test sequences can be found in the appendix.
+
+\subsection{UX/UI design and Front-end development for the touch typing trainer}
+The touch typing trainer will have its UX/UI design created in Figma. This
+design will be based on other type tests such as Monkeytype
+\parencite{bartnik2021}, and Keybr \parencite{keybr}, with additional components
+for showing real-time finger-key identification and mapping.
+Figure~\ref{fig:ui-test} and \ref{fig:ui-stat} illustrates the two main pages of
+the design.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{ui-test.png}
+	\caption{Test screen of the front-end design}
+	\label{fig:ui-test}
+	\centering
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{ui-stats.png}
+	\caption{Statistics screen of the front-end design}
+	\label{fig:ui-stat}
+	\centering
+\end{figure}
+
+The front-end will be web based, and the framework the front-end will be
+developed in will be Svelte, due to its community resources, performance, and
+the researcher's familiarity with the framework.
+
+
+
+\subsection{Back-end development of a touch typing trainer using the program created
+	in \ref{section:metho-algo} and the experimental setup identified in
+	\ref{section:metho-setup}}
+\subsection{Testing of finger-key identification and mapping accuracy}
+\section{Metric}
+%% 4. Finger Placement Keyboard Typing Metric Development
+%%     1. Determine if the metric is for individual key presses or for the whole typing sequence or both.
+%%     2. Evaluate which variables need to be taken into account for the metric depending on (5.a):
+%%         1. Actual Finger Used
+%%         2. Correct Finger to be Used
+%%         3. Specific key pressed
+%%         4. Number of keys pressed with the correct fingers
+%%         5. Number of keys pressed with the wrong fingers
 
 \newpage
 \printbibliography[heading=bibintoc,title={References}]{}
