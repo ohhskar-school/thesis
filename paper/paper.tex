@@ -945,18 +945,35 @@ returned as the final output of the graph.
 \label{section:metho-algo-finger}
 
 A computer vision algorithm will be chosen as a starting point for detecting,
-and tracking fingers within a video.
+and tracking fingers within a video. The specific algorithm used for finger
+detection and tracking will be the solution offered by MediaPipe dubbed
+MediaPipe Hands. This algorithm is composed of multiple ML models working in
+conjunction to be able to detect the different parts of the hands and track them
+accurately.
 
-The first component this algorithm will have is the ability to detect fingers
-within a video. This would involve capturing exactly where the finger is in the
-current frame. This data would then be used for the next component of the
-algorithm: tracking. This component would track the movement of the finger as it
-performs a typing motion. This algorithm should have the ability to separate the
-different fingers and track the movement of the ten fingers individually.
+\subsubsection{Palm Detection Model}
+The first model, the Palm Detection Model detects the initial hand locations
+using a single shot detector model based on the paper by \cite{ssd}. This
+model achieves an average precision of 95.7\% in palm detection.
 
-The specific algorithm used for finger detection and tracking will be the
-solution offered by MediaPipe. More details about the specific algoritihm can be
-found in Section~\ref{section:rrl-mediapipe}.
+MediaPipe Hands detects the palms first, instead of the whole hands with one
+model because the hands lack high contrast patterns. This prevents the model to
+detect the hand accurately. In addition, detecting a palm is simpler compared to
+detecting hands with articulated fingers since estimating a bounding box around
+a rigid objects, i.e.\ a palm, is much simpler. Furthermore, a palm can be
+modeled using only square anchors reducing the number of anchors by a factor of
+3--5.
+
+\subsubsection{Hand Landmark Model}
+After the palms have been detected and an appropriate anchor has been
+established, the Hand Landmark Model pinpoints 21 3D hand-knuckle coordinates
+inside the detected hand. This is done using direct coordinate prediction.
+
+This model was trained using 30,000 manually annotated, real-world images with
+21 3D hand-knuckle coordinates. Using this information, the model can also
+accurately add landmarks to partially visible hands and hands with
+self-occlusion. This is also made possible by the model's consistent internal hand
+pose representation.
 
 \subsection{Integration for finger-key identification and mapping}
 
@@ -1085,15 +1102,22 @@ is correct or not.
 
 \section{Trainer}
 
-\subsection{Create typing test sequences}
+\subsection{Typing Test Sequences}
 Typing test sequences are strings that will be used in testing the user in their
 ability to type. The test sequences that will be used in the trainer will come
 from text found in the public domain obtained from Project Gutenberg and the
-Internet Archive. Sentences from these text will be isolated and used as the
-test sequences. There will be a total of 20 test sequences that will be
-gathered. An example test sequence is ``What of it, if some old hunks of a
-sea-captain orders me to get a broom and sweep down the decks?'' from Moby Dick
-by \cite{moby-dick}. The 19 other test sequences can be found in the appendix.
+Internet Archive. Sentences will be isolated from these text and used as test
+sequences if they fit a criteria.
+
+The criteria for choosing test sequences is as follows: (1) $\approx80\%$ of the
+characters in the keyboard is present in a test sequence. (2) The number of
+words in a test sequence do not exceed 25. (3) Numbers and punctuations should
+be present in at least $\approx30\%$ of the total test sequences.
+
+There will be a total of 10 test sequences that will be gathered. An example
+test sequence is ``What of it, if some old hunks of a sea-captain orders me to
+get a broom and sweep down the decks?'' from Moby Dick by \cite{moby-dick}. The
+9 other test sequences can be found in the appendix.
 
 \subsection{UX/UI design and Front-end development for the touch typing trainer}
 The touch typing trainer will have its UX/UI design created in Figma. This
