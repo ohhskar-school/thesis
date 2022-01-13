@@ -90,12 +90,11 @@
 
 % Misc
 \usepackage{gensymb}
+\usepackage{amsmath}
 
 %Flowchart
 \usepackage{tikz}
 \usetikzlibrary{shapes,positioning,calc}
-
-
 
 \begin{document}
 
@@ -808,7 +807,6 @@ in the Philippines.
 	\includegraphics[width=0.8\textwidth]{actual-keeb.png}
 	\caption{Keyboard, camera angle, and placement to be used for testing.}
 	\label{fig:metho-keeb}
-	\centering
 \end{figure}
 
 
@@ -831,7 +829,7 @@ detection.
 
 A computer vision algorithm will be created as a starting point for detecting,
 and mapping the keyboard within a video. The flowchart of the algorithm is shown
-in Figure~\ref{fig:metho-key-algo}.
+in Figure~\ref{fig:metho-algo-key-flow}.
 
 \begin{figure}[H]
 	\centering
@@ -853,11 +851,6 @@ in Figure~\ref{fig:metho-key-algo}.
 
 		\node[draw,
 			below=of input,
-			minimum width=3.5cm,
-			minimum height=1cm] (bg-rem) {Background Removal};
-
-		\node[draw,
-			below=of bg-rem,
 			minimum width=3.5cm,
 			minimum height=1cm] (gray) {Convert to Grayscale};
 
@@ -893,8 +886,7 @@ in Figure~\ref{fig:metho-key-algo}.
 			minimum height=1cm] (end) {END};
 
 		\draw[-latex] (start) edge (input)
-		(input) edge (bg-rem)
-		(bg-rem) edge (gray)
+		(input) edge (gray)
 		(gray) edge (sobel)
 		(sobel) edge (contours)
 		(contours) edge (map)
@@ -903,27 +895,42 @@ in Figure~\ref{fig:metho-key-algo}.
 
 	\end{tikzpicture}
 	\caption{Flowchart of Keyboard Detection and Mapping Algorithm}
-	\label{fig:metho-key-algo}
+	\label{fig:metho-algo-key-flow}
+\end{figure}
+
+\subsubsection{Convert to Grayscale}
+The frame will then be converted to a 256 level grayscale image. This step will
+be performed because future steps of the algorithm will not require color values
+to work. In addition, the performance of these steps will be improved.
+
+\subsubsection{Edge Detection using Sobel Filter}
+A Sobel Filter is an edge detection filter that uses a 3$\times$3 kernel that is
+convolved twice. Once horizontally, and another vertically to produce a
+grayscale image of the outlines within the frame. The kernels used by the Sobel
+Filter \parencite{sobel2014} is shown in Figure~\ref{fig:metho-algo-key-sobel}.
+This filter will be used in the algorithm to obtain the four edges of the
+keyboard.
+
+\begin{figure}[H]
+	\centering
+  $\begin{bmatrix}
+  +1 & 0 & -1\\
+  +2 & 0 & -2\\
+  +1 & 0 & -1
+  \end{bmatrix}$
+	and
+  $\begin{bmatrix}
+  +1 & +2 & +1\\
+  0 & 0 & 0\\
+  -1 & -2 & -1
+  \end{bmatrix}$
+	\caption{Sobel Operator Kernels. Reproduced from \fullcite{sobel2014}}
+	\label{fig:metho-algo-key-sobel}
 \end{figure}
 
 
-\subsubsection{Background Removal}
-The background of the frame will be removed by using colors as the main metric
-for determining the foreground and the background. This is made easier by the
-setup as the setup will have a green background, with a light colored keyboard
-as a foreground.
-
-\subsubsection{Convert to Grayscale}
-The frame will then be converted to grayscale. This is done because future steps
-of the algorithm does not require color values and this improves the performance
-of these algorithms.
-
-\subsubsection{Edge Detection using Sobel Filter}
-A Sobel Filter is a edge detection filter that uses a 3$times$3 kernel that is
-convolved twice. Once horizontally, and another vertically to produce a
-grayscale image of the outlines within the frame.
-
 \subsubsection{Find Contours (Simple)}
+\label{section:metho-algo-key-contours}
 Contours are curves joining all continuous points that have the same color or
 intensity \parencite{opencv-contours}. In this algorithm, an OpenCV function is
 to be used to find the contours of the outlines of the object found using the
@@ -932,14 +939,42 @@ The expected result is four contour points which are positioned on the four
 edges of the keyboard.
 
 \subsubsection{Overlay Virtual Keyboard Map using Contour Points}
-The virtual keyboard map is a rectangular image that has individual region of
-interest (ROI) for each key in a 60\% \ac{ansi} keyboard. Each key has a
-corresponding color assigned to it and this color fills the region the key is
-assigned to.
+The virtual keyboard map is a rectangular image that contains individual region
+of interest (ROI) for each key in a 60\% \ac{ansi} keyboard. Each key has a
+corresponding color assigned to it and this color fills the region where this
+key is located at. Figure~\ref{fig:metho-algo-key-map} is the virtual keyboard
+map.
 
-The virtual map is then stretched over the object, with the four contour points
-as the four edges of the virtual keyboard map. The image generated is then
-returned as the final output of the graph.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{image-map.png}
+	\caption{Initial Image Map}
+	\label{fig:metho-algo-key-map}
+	\centering
+\end{figure}
+
+The virtual map will then be stretched over the object, with the four contour
+points as the four edges of the virtual keyboard map. The image generated will
+then be returned as the final output of the graph.
+Figure~\ref{fig:metho-algo-key-overlay} illustrates this image, and
+Figure~\ref{fig:metho-algo-key-half} shows how accurate the image map is when
+overlaid over the image.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{image-map-final.png}
+	\caption{Expected output of the algorithm}
+	\label{fig:metho-algo-key-overlay}
+	\centering
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{image-map-half.png}
+	\caption{Overlaid image map shown at 60\% opacity}
+	\label{fig:metho-algo-key-half}
+	\centering
+\end{figure}
 
 \subsection{Computer Vision based Finger Detection, and Tracking}
 \label{section:metho-algo-finger}
@@ -947,14 +982,15 @@ returned as the final output of the graph.
 A computer vision algorithm will be chosen as a starting point for detecting,
 and tracking fingers within a video. The specific algorithm used for finger
 detection and tracking will be the solution offered by MediaPipe dubbed
-MediaPipe Hands. This algorithm is composed of multiple ML models working in
+MediaPipe Hands. This algorithm is composed of two ML models working in
 conjunction to be able to detect the different parts of the hands and track them
 accurately.
 
 \subsubsection{Palm Detection Model}
 The first model, the Palm Detection Model detects the initial hand locations
-using a single shot detector model based on the paper by \cite{ssd}. This
-model achieves an average precision of 95.7\% in palm detection.
+using a single shot detector model based on the paper by \cite{ssd}. This model
+achieves an average precision of 95.7\% in palm detection
+\parencite{mediapipe-hands}.
 
 MediaPipe Hands detects the palms first, instead of the whole hands with one
 model because the hands lack high contrast patterns. This prevents the model to
@@ -962,7 +998,7 @@ detect the hand accurately. In addition, detecting a palm is simpler compared to
 detecting hands with articulated fingers since estimating a bounding box around
 a rigid objects, i.e.\ a palm, is much simpler. Furthermore, a palm can be
 modeled using only square anchors reducing the number of anchors by a factor of
-3--5.
+3--5 \parencite{mediapipe-hands}.
 
 \subsubsection{Hand Landmark Model}
 After the palms have been detected and an appropriate anchor has been
@@ -972,8 +1008,8 @@ inside the detected hand. This is done using direct coordinate prediction.
 This model was trained using 30,000 manually annotated, real-world images with
 21 3D hand-knuckle coordinates. Using this information, the model can also
 accurately add landmarks to partially visible hands and hands with
-self-occlusion. This is also made possible by the model's consistent internal hand
-pose representation.
+self-occlusion. This is also made possible by the model's consistent internal
+hand pose representation \parencite{mediapipe-hands}.
 
 \subsection{Integration for finger-key identification and mapping}
 
@@ -983,13 +1019,13 @@ which finger is used to press which key. As an example, the key Q was pressed
 with the pinky finger of the left hand.
 
 The integration of the algorithm is a two step process. The first step is to get
-the mapping of the keyboard using the algorithm shown in Section~\ref{section:metho-algo-keyboard}.
+the mapping of the keyboard using the algorithm shown in
+Section~\ref{section:metho-algo-keyboard}.
 
-The second step is a continous loop where the mapping of the keyboard is used in
-conjunction with the finger tracking algorithm chosen in
+The second step is a continuous loop where the mapping of the keyboard is used
+in conjunction with the finger tracking algorithm chosen in
 Section~\ref{section:metho-algo-finger}. The flowchart of the algorithm is shown
-in Figure~\ref{metho-algo-integration}
-
+in Figure~\ref{fig:metho-algo-integration}
 
 \begin{figure}[H]
 	\centering
@@ -1085,20 +1121,44 @@ in Figure~\ref{metho-algo-integration}
 \end{figure}
 
 \subsubsection{Find ROI of the pressend key in Virtual Keyboard Map}
-Since there is a known color-key mapping based on Virtual Keyboard Map, the
-algorithm will find the correct color to search for based on the received keypress
-packet. This color is isolated from the Virtual Keyboard Map, and the region of
-interest and its coordinates are obtained.
+Since there is a known color-key mapping based on the Virtual Keyboard Map, the
+algorithm will find the correct color to search for based on the received
+keypress packet. This color is isolated from the Virtual Keyboard Map, and the
+region of interest and its coordinates are obtained. The edges of this ROI will
+then be obtained by finding its contours. The specific implementation if this is
+explained in Section~\ref{section:metho-algo-key-contours}.
+
+The coordinate system will have its origin at the top left, starting at 0, 0.
+Going to the right increases the value of the x-axis, and going to the bottom
+increases the value of the y-axis. This will result in a coordinate system that
+only has positive values with each value corresponding to a pixel.
+
+The expected output of this is four sets of pairs. Each pair corresponds to an
+edge of the region of interest.
 
 \subsubsection{Find which fingertip is on that ROI}
-The Finger Tracking Frame contains the pixel positions of each landmark of the
-hand. For this step, the algorithm will find the landmark which is positioned
-within the region of interest from the previous step.
+The Finger Tracking Frame will contain the pixel positions of each landmark of
+the hand. For this step, the algorithm will find the landmark which is
+positioned within the region of interest obtained from the previous step. This
+will be done using a series of checks:
 
 \subsubsection{Return which fingertip}
-The finger containing the landmark will be returned. This finger will then be
-compared with the expected finger to be used to press the key to determine if it
-is correct or not.
+The landmark will then be used to determine which specific finger corresponds to
+the keypress. Figure~\ref{fig:metho-algo-integration-landmarks} shows each
+possible landmark that may be returned from the previous step. This step will
+then simply return the name of the landmark, up until the first underscore. As
+an example, if the landmark found is \emph{MIDDLE\_FINGER\_DIP}, this step will
+return \emph{MIDDLE} denoting that the middle finger is the finger that
+corresponds with the keypress.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{hand-landmarks.png}
+	\caption{Hand landmarks that may be returned by the algorithm. Reproduced from \fullcite{mediapipe-hands}}.
+	\label{fig:metho-algo-integration-landmarks}
+	\centering
+\end{figure}
+
 
 \section{Trainer}
 
@@ -1125,7 +1185,8 @@ design will be based on other type tests such as Monkeytype
 \parencite{bartnik2021}, and Keybr \parencite{keybr}, with additional components
 for showing real-time finger-key identification and mapping.
 Figure~\ref{fig:ui-test} and \ref{fig:ui-stat} illustrates the two main pages of
-the design.
+the design. Additional screens, such as historical statistics, in-platform
+tutorial, and a written guide are shown in the appendix.
 
 \begin{figure}[H]
 	\centering
