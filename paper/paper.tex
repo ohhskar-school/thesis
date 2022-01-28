@@ -79,7 +79,7 @@
 % Links
 \usepackage{hyperref}
 \hypersetup{
-	pdftitle={Development of a touch typing trainer with an emphasis on finger and wrist placement},
+	pdftitle={Development of a touch typing trainer with an emphasis on finger-key identification},
 	pdfstartview={FitH},
 	colorlinks=true,
 	linkcolor=black,
@@ -112,7 +112,7 @@
 	\includegraphics[width=0.2\textwidth]{dcs.png}
 	\par\vspace{1cm}
 
-	\textsc{Development of a touch typing trainer\\with an emphasis on finger and wrist positions}
+	\textsc{Development of a touch typing trainer\\with an emphasis on finger-key identification }
 	\par\vspace{0.5cm}
 
 	\hrulefill
@@ -137,7 +137,7 @@
 	Adviser
 	\par\vspace{0.5cm}
 
-	October 2021
+	February 2022
 	\vfill
 	\hspace{0pt}
 \end{titlepage}
@@ -770,14 +770,14 @@ problematic movements and hand positions, these disorders can be prevented.
 \label{section:metho-setup}
 
 The experimental setup and configuration will be composed of three elements: the
-camera, the keyboard, and the environment. Figure~\ref{fig:metho-setup-cam}
+camera, the keyboard, and the environment. Figure~\ref{fig:metho-setup}
 shows the sketch of the complete experimental setup.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{webcam.png}
+	\includegraphics[width=0.4\textwidth]{setup.png}
 	\caption{Sketch of the experimental setup}
-	\label{fig:metho-setup-cam}
+	\label{fig:metho-setup}
 	\centering
 \end{figure}
 
@@ -1324,14 +1324,49 @@ There will be 15 videos of the researcher performing the typing test sequences.
 The researcher will then manually perform finger-key identification for all key
 presses present in the video. The finger-key identification submodule will then
 perform the same process for the same videos. The accuracy of the submodule will
-then be obtained by identifying which of its identification is incorrect, based
-on the manual identification.
+then be obtained by identifying if its identification is as expected, based on
+the manual identification.
 
 \section{Metric}
 \label{section:metric}
 
 There will be two total metrics obtained pertaining to finger and key mapping.
 The first will be per test sequence, and the second will be per key.
+
+\subsection{Per Test Sequence}
+The metric to be calculated per test sequence is Finger Placement Accuracy (FP
+ACC). This metric will compute the percentage of accurate key presses pressed
+with the correct finger over the length of the typing test sequence. Inputting
+the wrong character, even if pressed with the correct finger will reduce FP ACC
+since FP ACC measures \emph{accurate key presses}, and incorrect characters will
+be considered as inaccurate key presses.
+
+The equation for calculating FP ACC is as follows:
+
+\begin{equation}
+	FP ACC = \frac{|F|}{|T|} \cdot 100\%
+\end{equation}
+
+Where $|F|$ refers to the number of accurate key presses pressed with the
+correct finger and $|T|$ refers to the length of the text.
+
+\subsection{Per Key}
+This metric will compute the Historical Finger Placement Accuracy (HFP ACC) for
+a certain key. This will include the times the user pressed the wrong key when
+asked for a certain character, the same as in FP ACC. This will allow the user
+to easily verify which keys need attention and retraining if there is a high
+frequency of error.
+
+The equation for calculating a key's HFP ACC is as follows:
+
+\begin{equation}
+	HFP ACC = \frac{|F_{char}|}{|C_{char}|} \cdot 100\%
+\end{equation}
+
+Where $|F_{char}|$ refers to the number of accurate key presses pressed with the
+correct finger for a certain character, identified as $char$. $|C_{char}|$
+refers to the number of times the character has appeared in all test sequences
+for the user.
 
 %% 4. Finger Placement Keyboard Typing Metric Development
 %%     1. Determine if the metric is for individual key presses or for the whole typing sequence or both.
