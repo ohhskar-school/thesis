@@ -23,11 +23,69 @@ pastie
 
 
 
+iso
+	short=ISO,
+	long=International Organization for Standardization
+
+
+ansi
+	short=ANSI,
+	long=American National Standards Institute
+
+
+jis
+	short=JIS,
+	long=Japanese International Standards
+
+
+wpm
+	short=WPM,
+	long=Words per Minute
+
+
+neck
+	short=WRNULD,
+	long=Work-related neck and upper limb disorders
+
+
+cv
+	short=CV,
+	long=Computer Vision
+
+
+roi
+	short=ROI,
+	long=Region of Interest
+
+
+cts
+	short=CTS,
+	long=Carpal Tunnel Syndrome
+
+
+
+[display]
+
+Chapter 
+0em
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+shapes,positioning,calc
 
 
 
@@ -36,11 +94,44 @@ pastie
 
 gobble
 
-				1cm
-	Research Brief 
-	1cm
 	
+	
+	
+			1cm
 
+	Development of a touch typing trainer
+with an emphasis on finger-key identification 
+	0.5cm
+
+		0.25cm
+	A Special Project Proposal Presented to the
+
+	Faculty of the Department of Computer Science,
+
+	University of the Philippines Cebu
+
+	0.25cm
+	In Partial Fulfillment
+
+	Of the Requirements for the Degree
+
+	Bachelor of Science in Computer Science
+
+	0.25cm
+		0.5cm
+
+	Oscar Vian L. Valles
+
+	BS Computer Science
+	0.5cm
+
+	Dhong Fhel K. Gom-os
+
+	Adviser
+	0.5cm
+
+	February 2022
+		
 
 
 
@@ -48,13 +139,16 @@ gobble
 
 arabic
 
+Introduction
+
+
 Background of the Study
 There are a lot of educational typing tests available that help people learn
-touch typing, including Monkeytype, TypeRacer, or Keybr. These typing tests list
-out words that are then typed out. The inputted keys are then compared to check
-if the user has typed the expected letter. At the end of the test, the time
-taken is calculated and certain metrics are given. These metrics include words
-per minute (WPM) and accuracy bartnik2021.
+touch typing, including Monkeytype, TypeRacer, and Keybr. These typing tests
+list out words that are then typed out. The entered keys are then compared to
+check if the user has typed the expected letter. At the end of the test, the
+time taken is calculated, and certain metrics are given. These metrics include
+wpm and accuracy bartnik2021.
 
 However, this method of examination leaves out a crucial part of typing —
 ergonomics. Ergonomic typing prevents a lot of health issues in the future like
@@ -65,15 +159,16 @@ to the key.
 
 Correct finger placement is usually taught at the beginning using a diagram,
 with each key being associated with a specific finger. For instance, the letter
-Q in a QWERTY layout should be hit using the fifth digit of the left hand, and
-this is shown by coloring the fifth digit and the key Q with the same color or
-by placing the letters directly on the fingers dobson2009touch.
+Q in a QWERTY layout should be hit using the fifth digit, or the little finger,
+of the left hand, and this is shown by coloring the fifth digit and the key Q
+with the same color or by placing the letters directly on the fingers
+dobson2009touch.
 
 Incorrect finger placement may cause these hand and wrist positions: ulnar
 deviation, forearm pronation, and wrist extension serina1999. These
 three are hand and wrist positions that are common in all activities, however,
-prolonged periods in these positions may cause injuries such as Carpal
-tunnel syndrome (CTS) toosi2015
+prolonged periods in these positions may cause injuries such as cts
+toosi2015
 
 In addition, this type of typing is frequently taught in the beginner level
 donica2018. This means that there is a need to weed out bad habits
@@ -83,10 +178,9 @@ they are not performing these movements as these may only show for a small
 period which may not be caught in time.
 
 Thus, there is a need for automatically detecting which finger is used during
-typing, and for the position of the wrist in relation to the arm. One way to do
-this is through finger and hand tracking. One solution for tracking is by using
-image processing and machine learning. An example of this is MediaPipe
-by .
+typing. One way to do this is through finger and hand tracking. One solution for
+tracking is by using image processing and machine learning. An example of this
+is MediaPipe by .
 
 MediaPipe allows for various applications for machine learning in the field of
 image processing. This includes, hand tracking, pose estimation, object
@@ -98,33 +192,38 @@ OpenCV.
 Research Objectives
 
 General Objectives
-To create a touch typing trainer that corrects poor finger placement and hand
-position to develop better typing habits and healthier typing ergonomics.
+To create a touch typing trainer that detects poor finger placement and hand
+position to help develop better typing habits and healthier typing ergonomics.
 
 Specific Objectives
 
-	To develop a program that tracks fingers and hand positions while typing
-	To create a subroutine that ascertains which finger was used to type a key
-	To detect if incorrect fingers were used to press a key or if the
-	position of the hand in relation to the wrist is problematic
-	To assess the accuracy and performance of the developed program's ability
-	to perform the previously stated objectives
-	To develop a user-friendly interface for users to train touch typing
-	using the developed program
-	To generate key statistics of a user's touch typing performance
+	Develop an algorithm or technique using computer vision that is capable
+	      of identifying which keys are being pressed by which fingers during keyboard
+	      typing - i.e. finger-key identification.
+	Identify the setup and configuration of a single optical camera that can
+	      be used to capture images during keyboard typing for real-time finger-key
+	      identification using the algorithm identified in 1
+	Design and develop a touch typing trainer using the algorithm in 1 and
+	      camera setup and configuration in 2
+	Determine the accuracy of the touch typing trainer in finger-key
+	      identification
+	Develop a new keyboard typing metric that uses both the key and
+	      finger used to press as parameters
 
 
 Scope and Limitation
-This research will focus on typing on a 60% keyboard. This type of keyboard
-only has the alphanumeric part of the keyboard. This limits the number of keys
-to be checked and the expected movement of the hand. Furthermore, The keycaps
-will also be of a light color, while the surface that the keyboard rests upon
-will be of a dark color.
+This research will focus on typing on a 60% keyboard. Figure illustrates this type of keyboard. This type of keyboard only has the
+alphanumeric part of the keyboard. This limits the number of keys to be checked
+and the expected movement of the hand. Furthermore, the keycaps will also be of
+a light color, while the surface that the keyboard rests upon will be of a dark
+color.
 
-In addition, the keyboard layout will be ANSI. This layout is described by the
-American National Standards Institute ansi. This is the most
+In addition, the keyboard layout will be ansi. This layout is described by
+the American National Standards Institute ansi. This is the most
 common layout in the United States. However, it is also used in numerous
-English-speaking countries such as the Philippines, Malaysia, and India.
+English-speaking countries such as the Philippines, Malaysia, and India
+apple-layout.
+
 
 The program will expect the that user has all ten digits and has no hand,
 finger, or wrist deformities. In addition, only the placement of the hands,
@@ -134,9 +233,12 @@ seating position, angle of elbows, and other metrics for an ergonomic typing
 posture while typing.
 
 Capturing of the video to be analyzed by the program would be limited to a
-single 1080p webcam that is capturing in 60 frames per second. The camera will
-be pointed downwards facing the keyboard and the hand. This means that the
-vertical angle of the wrist may not be accurate.
+single 720p webcam that is capturing in 30 frames per second. The camera will be
+pointed downwards facing the keyboard and the hand.
+
+
+			A 60% keyboard in ansi layout. Reprinted from 60
+		
 
 Significance of the Research
 This research is beneficial for all users of physical keyboards. These include a
@@ -146,16 +248,1026 @@ accountants. By having better ergonomics while typing, wrist injuries can be
 prevented, and typing speed may be increased
 
 This research also helps educators, especially early educators teaching beginner
-typers. By automatically checking for ergonomics, posture and correct technique,
-the burden of checking each student is lessened, and directed interventions for
-bad habits can be easily created as students with these bad habits are easily
-identified
+typists. By automatically checking for ergonomics, posture, and correct
+technique, the burden of checking each student is lessened, and directed
+interventions for bad habits can be easily created as students with these bad
+habits are easily identified
 
 This research has a direct impact on people that has hand or wrist injuries that
 are caused by poor typing habits. By correcting these poor habits, pain from
 these injuries will be lessened, and even be prevented from occurring in the
 first place. A specific example of this is by reducing ulnar deviation which
-affects the nerve that is indicative of CTS toosi2015.
+affects the nerve that is indicative of cts toosi2015.
 
-* [heading=bibintoc,title=References]
+Advanced Review of Related Literature
 
+Keyboard Typing
+
+Keyboard typing is the process of using a keyboard to input characters in a
+system. In the context of this paper, keyboard typing will refer to the act of
+using a physical keyboard to input characters in a computer system.
+
+
+
+Keyboard Layouts and Form Factors
+
+One key characteristic of a keyboard is its physical attributes. Keyboards come
+in a lot of layouts and form factors. Keyboard layouts are the shapes, size, and
+positions of a key on a keyboard while the form factor of a keyboard refers to
+its shape and dimensions. The form factor also refers to the number of keys included
+in the keyboard parkkinen2018. By combining different layouts and
+form factors, different permutations of a keyboard can be created.
+
+Different keyboard layouts and form factors also produce different effects for
+the user. This is due to how vastly different some keyboard layouts and form
+factors are from one another. Some layouts focus on ergonomics, while others
+focus on typing speed. Some form factors were designed for aesthetics, while
+others focus on comfort and health. As such, different layouts may affect typing
+performance, ergonomics, and long-term health effects ciobanu2015.
+
+ANSI and ISO Layout
+
+There are two common keyboard layouts around the world - iso and ansi.
+
+ansi is the standard that first defined the ansi layout.
+Figure  illustrates what the ansi layout looks like. This layout
+is also used by countries other than America. Examples of countries that use
+this layout as its standard is the Philippines, China, and Korea
+apple-layout. However, these countries also opt to modify the layout
+by adding extra layers to accommodate other character sets.
+
+iso is the standard series that defines a framework that is used to
+create other layouts. Layouts created from this standard are colloquially called
+iso Layouts. Countries around the world use this framework to create layouts
+that fit the characters in their language. Examples of countries that use this
+framework to create their own layout are France, Greece, Canada, and Sweden
+apple-layout.
+
+Both of these layouts usually utilize the same key ordering. This ordering is
+commonly called QWERTY, based on the first five characters of the first row
+of this specific layout.
+
+There are other layouts available, however, they are not as common as the two
+previously mentioned layouts. Examples of this include jis. Other esoteric
+layouts, like Tsangan or split-backspace, also exist. These layouts modify the
+iso and ansi standards by adding or removing certain keys to fit the
+character set of a language, or for additional keys. Other layouts are also
+exactly the same as ansi or iso, however, these layouts change the
+arrangement of the alphabet within the keyboard.
+
+Despite the ubiquity of these common layouts, studies have shown that these
+layouts are not ergonomic. The main issue with these layouts is the random
+configurations of the letters. The randomness of the layout necessitates
+memorization of the layout which reduces the ease of learning, reduces performance
+in typing by reducing speed, and increases of typing errors
+ciobanu2015.
+
+Keyboard Form Factors
+
+There is only one common keyboard form factor used worldwide: the full-size
+keyboard. This keyboard contains all the keys specified in the keyboard
+layout. This includes the alphanumeric keys, the function keys, the navigation
+cluster, and the numpad.
+
+Other common keyboard form factors are based on the full-size keyboard. The name
+of these layouts, 60%, 75%, and 80% reference the remaining number of keys
+after cutting a portion off from the full-size keyboard. The 60% keyboards only
+contain the alphanumeric cluster while the 80% and 75% layouts retain the
+navigation cluster and the function keys parkkinen2018. The main
+draw for using keyboards with reduced sizes is for aesthetics, space
+constraints, and ergonomics.
+
+
+			ansi Keyboard layout with form factors. Reprinted from figure-ansi
+		
+Ergonomic Keyboards Layouts and Form Factors
+
+There have been other keyboard layouts and form factors created to mitigate
+common issues associated with QWERTY layouts. These include Colemak, Dvorak, and
+Alphabetical layouts. However, studies have shown that the layout itself does
+not matter as beginners do not necessarily see the keyboard as a structured set,
+but rather as a random collection of characters, even if it is alphabetized
+norman1982,
+
+A different form factor has a great effect on ergonomics. One such example of a
+form factor is an ergonomic keyboard developed by Microsoft called Microsoft
+Natural MultiMedia Keyboard. used this keyboard in
+determining that ergonomic keyboards can help in reducing symptoms of neck.
+Figure  shows the layout of the Microsoft Natural MultiMedia
+Keyboard.
+
+
+			Microsoft Natural MultiMedia Keyboard. Reprinted from mn
+		
+There are other form factors other than the full-size keyboard and variations
+thereof that focus on ergonomics. One such example is a split keyboard layout
+where the keyboard is split in half, one for the left hand and one for the
+right. One such benefit, according to, is a more relaxed
+position due to typing at shoulder width.
+
+Keyboard Typing Metrics
+
+There are numerous metrics used to quantify keyboard typing performance. Two
+common metrics used in the majority of typing tests include Accuracy and Speed.
+
+Standardized Keyboard Typing Assessments
+
+To be able to measure these metrics, a keyboard typing assessment needs to be
+done. However, there are no standardized keyboard typing assessments
+donica2018. As such, teaching methods and assessments, like
+Keyboarding without Tears, Monkeytype, and Keybr, may produce different metrics
+for the same typist due to their difference in conducting the assessment.
+
+Speed
+Speed, also called as entry rate by, measures the number
+of characters entered in a specific time frame. The most common metric that
+measures speed is wpm. wpm as defined by is:
+
+
+
+where,  is the length of the text,  is the time in seconds spent writing
+the text. This time starts directly after the first character has been pressed,
+and ends when the last letter has been entered. As such,  is subtracted from
+, as the time spent to find and press the first character cannot be
+accurately determined. However, some typing assessments do not subtract  from
+.  refers to the number of seconds in a minute and 
+normalizes the metric for the average length of words.
+
+
+Other metrics also measure speed but they aren't as commonly used as wpm.
+These include Characters per Minute, Gestures per Second, Adjusted Words per
+Minute, and Keystrokes per Second
+
+Accuracy
+Accuracy measures the number of correctly pressed characters in an input string.
+Accuracy, as defined by, is:
+
+
+
+where  is the number of correct characters and  is the length of the
+text.
+
+The inverse of accuracy is error rate, where the number of incorrectly pressed
+characters is measured instead. describe 5 common error
+rate metrics: Error Rate, Minimum String Distance Error Rate, Keystroke per
+Character, Erroneous Keystroke Error Rate, and Total Error Rate.
+
+Limitations of the Metrics
+These metrics are all based on the inputted characters by the user. These
+metrics do not take into account other aspects of keyboard typing such as
+posture, hand and wrist positions, and finger placement. Consequently, these
+metrics do not give a full picture of the performance of the person typing and
+they only provide a cursory view of how a person types.
+
+Keyboard Typing Methodology
+Keyboard typing can be accomplished in numerous ways. The main difference
+between the different methodologies is the number of fingers used when typing
+and how the typist navigates the keyboard to find the keys. The methodology
+ranges from Hunt and Peck to Touch Typing, with variations of the two in
+between.
+
+Hunt and Peck uses one finger on one hand to press a key. This method is aided
+by using vision to locate the specific key to press hoot1986. On the
+other hand, Touch typing uses standard QWERTY mapping to type without using
+visual cues. dobson2009touch This mapping involves assigning certain
+fingers to certain keys. Figure  is the standard QWERTY
+mapping used for an ansi layout. Kinesthesis and proprioception are used in
+locating the keys logan2016.
+
+
+			Standard QWERTY mapping for ansi. Reprinted from logan2016
+		
+
+Keyboard Typing in Education
+
+Today, students are expected to type essays, articles, and other submissions
+using word processors poole2016. Testing is also commonly done using
+computerized assessments which require the need for keyboards
+moodle. As such, there is a need for students to be well versed in
+keyboard typing and for keyboard typing to be part of the curriculum.
+
+Keyboard typing has been a part of this curriculum for a long time, with studies
+about effective methods to teach keyboard typing reaching as far back as 1986
+hoot1986. Studies have continued to this day to continue to optimize
+and improve methods of teaching keyboard typing to students.
+
+These studies start teaching kids in the kindergarten level and the studies try
+to optimize the teaching methods to improve the speed and accuracy of typing of
+the learners. By starting to teach touch typing to students early, these
+students will develop the potential for higher-level keyboard typing
+donica2018.
+
+Expectations of Keyboard Proficiency
+
+In the United States, keyboard typing is an expected learning outcome for third
+grade in the Common Core State Standards ccs. At this grade level,
+only basic keyboard typing skills are required. By fourth grade, students are
+expected to have enough proficiency to type one page in one sitting. This is
+increased to two pages by fifth grade.
+
+In the Philippine context, the expects learners with a mental
+age of 4-6.9 years old to use correct posture and locate characters, learners
+with a mental age of 7-11.9 are introduced to home row finger placement, and
+learners with a mental age of 12 and above are expected to "use proper typing
+technique with efficiency and accuracy without looking at the keyboard"
+deped.
+
+Current Teaching Methods
+
+Current teaching methods involve replicating a given text. Learners then copy
+the text into a given text field that records the typed characters. Correct and
+incorrect characters are then identified, and suitable errors are presented.
+Afterward, metrics, such as wpm, and accuracy are given
+bartnik2021, typeracer.
+
+Through this process, the learner goes through the three stages of Motor
+Learning Theory. The student undergoes the cognitive stage where they try to
+understand and create strategies to accomplish the given task. Then the
+associative stage follows where the strategies and skills learned from the
+previous stage are refined. At this stage, the learners are expected to rely less
+on visuals to locate the keys and more on kinesthesis. By the final stage, the
+autonomous stage, the learner does not rely on visuals at all and focuses on
+using kinesthetic feedback to find the keys. By this point, the learner has
+progressed from using Hunt and Peck, to becoming proficient in touch typing.
+donica2018
+
+Keyboarding without Tears
+
+Keyboarding without Tears is a web-based application and curriculum that teaches
+students touch typing. However, one key differentiator of this curriculum is the
+usage of a row-based standard mapping, rather than a column-based standard
+mapping that is common in other teaching guides. Figure  shows the
+standard mapping used in this curriculum.
+
+This curriculum is self-directed and learners can learn at their own pace. At
+its core, the curriculum is designed to be 36-week long with 5-10 minutes of
+lessons per day. The lessons in the curriculum follow the three stages of
+Motor Learning Theory kwt.
+
+
+			Row based standard mapping. Reprinted from kwt
+		
+
+Monkeytype, Typeracer
+
+These two keyboard typing tests are similar. They follow a common experience
+where users type a predetermined phrase, quote, or random words, and metrics are
+given after the test. Afterward, the learners may try the test again, or choose
+another set of words to type. These typing tests do not have a structured
+curriculum for learning how to touch type. It is left to the learner to practice
+and learn on their own bartnik2021, typeracer.
+
+Keybr
+
+Keybr is similar to Monkeytype and Typerace, in that they also have the users
+type a predetermined phrase, quote, or random words. However, this application
+has more guidance compared to the two. Keybr uses statistics to create typing
+lessons that are appropriate to the current typing proficiency of the learner.
+The words selected are random at first, and the skill level of the learner is
+determined by the performance of the user with these words and characters. The
+information gathered is then used to generate new words for the next iteration.
+As an example, if a learner has difficulty in typing the letter q, the next
+iterations will have a lot of words that contain the letter q.
+
+Statistics from their website show that this learning method is successful, with
+some learners improving their typing speed by 20-40 wpm keybr.
+
+Keyboard Typing in Health
+
+There have been a lot of studies that show the effect of keyboard typing, and
+its associated movements (or lack thereof), has an effect on the human body.
+These studies have shown that keyboard typing has an effect on our neck, shoulder,
+upper limb, wrist, arms, and fingers szeto2005, baker2007digit
+
+Health Issues arising from Keyboard Typing
+
+neck are a common issue that is associated with an elongated length of time
+maintaining a static posture. When using the computer, the posture commonly
+adapted by users has the neck and shoulder regions in a static hold for a long
+time. This results in forward neck flexion and increased muscle tension
+szeto2005.
+
+In addition, it has been shown that 22% of computer users sustain
+musculoskeletal disorders of the upper extremity. This includes the neck,
+shoulder, hands, and wrists. gerr2002
+
+Carpal tunnel syndrome is also a common issue in the general population. This is
+caused by the chronic compression of the median nerve. There is a common belief
+that typing is one main cause for the disorder carpal-myth. There
+are no definite conclusions if this myth is true, however, a study by
+toosi2015 found that typing causes ulnar deviation, especially if
+done without proper form. This ulnar deviation contributes to the swelling of
+the median nerve during and after typing. However, the authors noted that it is
+unclear if this swelling leads to long-term nerve injury.
+
+Finger and Wrist Kinematics
+The way people move their hands, wrists, and fingers differ between each person.
+This can be attributed to the different typing styles each person has. One key
+difference between people is the angle of the 5th digit.
+
+However, there are some common movements and positions regardless of typing
+style: flexion, or the curving of the fingers, across the fingers, is decreasing
+across the hand, with the 2nd digit having the least flexion. This may be due to
+the instinct to reduce pronation of the hand, which in turn increases the
+distance of the 2nd digit to the keyboard. In addition, some people isolate or
+extend one of their thumbs, usually the one not used for pressing a key. This is
+also true for some people that do not use their 5th digit during typing
+baker2007.
+
+The movement and angle of the wrists also depend on the typing style of the
+typists. Some people do not reposition their hands, while others do. This
+difference comes from the way these people reach for certain far-away keys. Some
+stretch their fingers to reach far-away keys, while others move their entire
+hand to reach these keys.
+
+For those that reach their keys by stretching their fingers, there is an
+increased probability that the wrists and fingers adapt non-neutral postures.
+These include wrist extension, ulnar deviation, and pronation, which may cause
+musculoskeletal disorders of the upper extremity ( as cited in
+)
+
+Finger and Hand Tracking
+Finger and Hand tracking is a method of tracking fingers and hands in 3D space
+using motion capture systems or computer vision. This technique allows computers
+to perform actions and analyses on the motions and positions of these body
+parts.
+
+
+Types of Tracking
+
+Hardware Aided Solutions
+
+Motion Capture Systems allow for capturing detailed skeletal motion in humans.
+These systems usually capture full-body motion, focusing on large parts of the
+human body, such as the torso, limbs, and head.
+
+However, motion capture systems have difficulty in tracking more articulated
+body parts - with the fingers being one of them. The industry standard for
+capturing finger movements is through the use of an optical marker-based motion
+capture system. This is due to its ability to capture natural motion accurately.
+
+This method uses cameras to triangulate the 3D location of markers attached to
+the limbs of a person. For finger tracking, 13-20 markers are placed on the
+fingers, and cameras are brought closer to track the small movements of the
+finger wheatland2015.
+
+But this method is cost-prohibitive, and cannot handle occlusions well.
+alexanderson2016 present a method for an optical marker-based
+motion capture system that can predictably recover from self-occlusion and has a
+better performance compared to previously used algorithms, however, the issue of
+cost and self-occlusion still persists.
+
+Bend-sensor gloves are also an option for finger tracking. These gloves have
+sensors within them that track joint angles in the hand and fingers. One key
+differentiator of this solution compared to the others is the removal of
+self-occlusion in the data. As such, this is commonly used in sign language, and
+gesture recognition due to its accuracy.
+
+However, these gloves need a lot of time to calibrate as cross-coupling of the
+sensors proves a problem. Cross-coupling is prevalent because the movement of
+one finger also moves other parts of the hand. These movements may cause a
+sensor aimed to track a specific movement of a different part of the hand to
+inadvertently detect a movement when there should be none
+wheatland2015.
+
+Computer Vision
+
+At its core, Computer Vision aims to perform tasks that the human visual system
+can do cern. This includes object classification, tracking, and
+gesture recognition, and face recognition. At the present, most computer vision
+systems utilize deep learning algorithms, and convolutional networks to gather
+information from an image, or a set of images. One such example of a
+convolutional network used in computer vision is Inception by
+szegedy2015 which proposes a convolutional neural network
+architecture for object classification and detection.
+
+Available CV Solutions for Tracking
+
+OpenCV
+
+OpenCV is an open-source computer vision and machine learning software library
+that houses  optimized algorithms. This library is widely used by
+companies, researchers, and open source communities that utilize computer vision
+and machine learning in their projects. Examples of companies that use OpenCV
+include Google, Sony, and Honda.
+
+The library has C++, Python, Java, and Matlab interfaces. The library also supports
+Windows, Linux, Android, and macOS, allowing for great developer experience, and
+wide deployment capabilities opencv.
+
+MediaPipe
+
+MediaPipe is an open-source computer vision framework that allows developers to
+create a perception pipeline. This perception pipeline is a directed graph of
+calculators. Data passes through the graph as packets and a group of packets
+constitute a data stream. As the data passes through the pipeline, the
+calculators, produce the desired output.
+
+This framework allows for performant object detection, hand and finger tracking,
+human pose detection. The framework also allows for combining multiple features,
+by adding them to the graph as calculators. MediaPipe has C++, Python, JS, and
+Coral interfaces. It also supports Android and iOS devices
+mediapipe.
+
+MATLAB
+MATLAB is a programming platform for the analysis and designing of systems.
+MATLAB is commonly used by engineers and scientists for computational
+mathematics what-matlab.
+
+A toolbox offered by MATLAB is the Computer Vision Toolbox that contains
+algorithms, and functions for use in the development of computer vision, 3D
+vision, and video processing systems. By using the available algorithms in the
+toolbox, such as YOLOv2, and ACF, hand detection and gesture recognition is made
+possible in the platform matlab.
+
+Applications
+
+There have been multiple applications and products that utilize hand and finger
+tracking as their main component.
+
+ presents a use case for finger tracking in augmented
+environments. In the paper, interaction in a virtual environment through the use
+of gestures. The tracking system uses an optical marker-based motion capture
+system where the user wears a glove with retroreflective markers.
+
+ used a Kinect, a 3D sensing device by Microsoft that
+uses depth data, to track fingers to play virtual instruments. Virtual Pianos
+and Guitars were created and played with reliable and stable tracking.
+
+ created a virtual keyboard that operates using finger
+tracking. The tracking uses the movement of the finger joints as the basis for
+selecting which key to press. A camera captures the movement, and the resulting
+video stream is used for hand region detection and finger joint localization.
+Using probabilistic regional density-based kernel tracking, finger joint
+trajectories are gathered. Feature vectors are then interpreted from the
+trajectories. These feature vectors are used in logic-based techniques and
+Dynamic Bayesian Network for classification, detection, and recognition of
+keystrokes.
+
+Summary of the Research Gap
+While there are a lot of applications and curriculum aimed at teaching touch
+typing, there is no automated system available that detects if a person uses the
+correct finger to press a key.
+
+By having this system, educators can accurately determine if and when a student
+is having a hard time typing and if these students will need an intervention to
+correct mistakes.
+
+This is also important because certain movements and hand positions will cause
+nerve and muscular disorders that will impact the user. By correcting these
+problematic movements and hand positions, these disorders can be prevented.
+
+Methodology
+
+Setup
+
+The experimental setup and configuration will be composed of three elements: the
+camera, the keyboard, and the environment. Figure shows the sketch of the complete experimental setup.
+
+
+			Sketch of the experimental setup
+		
+Camera
+The camera setup will use a single monocular camera positioned in a top-down
+view. The camera will capture the entirety of the keyboard and the movement of
+the ten fingers. To do so, it will be mounted on top of the monitor and the
+camera will point down towards the table. Figure illustrates what the camera will capture once placed in its correct position.
+
+
+			Keyboard, camera angle, and placement to be used for testing.
+	
+The specific camera to be used will be a Logitech C920.
+Figure  is a picture of this camera. It is a 3 mega pixel
+webcam that is capable of capturing color video in 1080p/30fps and 720p/30fps
+with a diagonal field of view of 78. This camera has a universal mounting
+clip that will allow the camera to be correctly positioned within the
+experimental setup logitech.
+
+
+			Logitech C920. Reprinted from logitech
+		
+Keyboard
+
+The keyboard will be a 60% keyboard as shown in
+Figure . This will limit the necessary mapping for the
+algorithm to the alphanumeric portion of the keyboard. This keyboard choice will
+also lessen the area that the camera will need to capture, as this keyboard type
+is considerably smaller compared to a full-size keyboard. The keyboard will have
+key caps and a case in a light color that will contrast the dark surface that it
+will be placed on. This is to improve initial keyboard detection. In addition,
+the keyboard layout will also be ANSI, due to the availability and widespread
+adoption of the layout in the Philippines.
+
+Environment
+The environment the setup would be placed in would be a well lit environment
+with a light source beside the camera. This light source will evenly light the
+keyboard and the fingers used for typing. The light source to be used will be a
+common LED desk lamp rated at 9 Watts with 700 lumens. This light will be white
+with a color temperature of 6500k.
+
+In addition, the surface where the keyboard is to be placed on will be solid
+black without any variation of color. This is to improve initial keyboard
+detection.
+
+Algorithm
+
+Computer Vision based Keyboard Detection, and Mapping
+
+A computer vision algorithm will be created as a starting point for detecting,
+and mapping the keyboard within a video. The flowchart of the algorithm is shown
+in Figure .
+
+
+		
+	Flowchart of Keyboard Detection and Mapping Algorithm
+	
+Convert to Grayscale
+The frame will be converted to a 256 level grayscale image. This step will be
+performed because future steps of the algorithm will not require color values to
+work. In addition, the performance of the following steps will be also improved
+as the number of dimensions to be analyzed is reduced.
+
+Edge Detection using Sobel Filter
+A Sobel Filter is an edge detection filter that uses a 33 kernel that is
+convolved twice. Once horizontally, and another vertically to produce a
+grayscale image of the outlines within the frame. The kernels used by the Sobel
+Filter sobel2014 is shown in Figure .
+
+
+		
+	and
+	
+	Sobel Operator Kernels. Reproduced from sobel2014
+	
+The expected result of this step is a black and white image that highlights the
+edges of the keyboard in white.
+
+Find Contours (Simple)
+Contours are curves joining all continuous points that have the same color or
+intensity opencv-contours. In this algorithm the OpenCV function
+findContours will be used to find the contours of the outlines of the
+object found using the previous step. This function accepts a contour
+approximation method as one of its arguments. Two methods are provided by
+OpenCV, CHAINAPPROXNONE and CHAINAPPORXSIMPLE. The
+former returns all contours in the shape, while the latter removes redundant
+points and returns the least amount of points that describes the shape. The
+algorithm will use the latter, as only the extreme edges of the keyboard needs
+to be detected. This OpenCV function implements the algorithm of
+ in their paper "contourstitle".
+
+The expected result of this algorithm is four contour points which are
+positioned on the four edges of the keyboard.
+
+Overlay Virtual Keyboard Map using Contour Points
+The virtual keyboard map is a rectangular image that contains individual
+roi for each key in a 60% ansi keyboard. Each key has a corresponding
+color assigned to it and this color fills the region where this key is located
+at. Figure  is the virtual keyboard map. Appendix
+Chapter  is a table that shows the hex color code and key
+mapping present in the image map.
+
+
+			Initial Image Map
+		
+The virtual map will then be stretched over the object, with the four contour
+points as the four edges of the virtual keyboard map. The image generated will
+then be returned as the final output of the graph.
+Figure  illustrates this image, and
+Figure  shows how accurate the image map is when
+overlaid over the image.
+
+
+			Expected output of the algorithm
+		
+
+
+			Overlaid image map shown at 60% opacity
+		
+Computer Vision based Finger Detection, and Tracking
+A computer vision algorithm will be chosen as a starting point for detecting,
+and tracking fingers within a video. The specific algorithm used for finger
+detection and tracking will be the solution offered by MediaPipe dubbed
+MediaPipe Hands. This algorithm is composed of two ML models working in
+conjunction to be able to detect the different parts of the hands and track them
+accurately.
+
+Palm Detection Model
+The first model, the Palm Detection Model detects the initial hand locations
+using a single shot detector model based on the paper by. This model
+achieves an average precision of 95.7% in palm detection
+mediapipe-hands.
+
+MediaPipe Hands detects the palms first, instead of the whole hands with one
+model because the hands lack high contrast patterns. This reduces the model's
+ability to detect the hand with accuracy. In addition, detecting a palm is
+simpler compared to detecting hands with articulated fingers since estimating a
+bounding box around a rigid objects, i.e. a palm, is much simpler. Furthermore,
+a palm can be modeled using only square anchors reducing the number of anchors
+by a factor of 3-5 mediapipe-hands.
+
+Hand Landmark Model
+After the palms have been detected and an appropriate anchor has been
+established, the Hand Landmark Model pinpoints 21 3D hand-knuckle coordinates
+inside the detected hand. This is done using direct coordinate prediction.
+
+This model was trained using 30,000 manually annotated, real-world images with
+21 3D hand-knuckle coordinates. Using this information, the model can also
+accurately add landmarks to partially visible hands and hands with
+self-occlusion. This is also made possible by the model's consistent internal
+hand pose representation mediapipe-hands.
+
+Integration for finger-key identification and mapping
+
+The two previously chosen algorithms will be combined to accomplish finger-key
+identification and mapping. Finger-key identification refers to identifying
+which finger is used to press which key. As an example, the key Q was pressed
+with the pinky finger of the left hand.
+
+The integration of the algorithm is a two step process. The first step is to get
+the mapping of the keyboard using the algorithm shown in
+Section .
+
+The second step is a continuous loop where the mapping of the keyboard is used
+in conjunction with the finger tracking algorithm chosen in
+Section . The flowchart of the algorithm is shown
+in Figure 
+
+		
+	Flowchart of the overall flow
+	
+Find roi of the pressend key in Virtual Keyboard Map
+Since there is a known color-key mapping based on the Virtual Keyboard Map, the
+algorithm will find the correct color to search for based on the received
+keypress packet. This color is isolated from the Virtual Keyboard Map, and the
+roi and its coordinates are obtained. The edges of this roi will
+then be obtained by finding its contours. The specific implementation of this is
+explained in Section .
+
+The coordinate system will have its origin at the top left, starting at 0, 0.
+Going to the right increases the value of the x-axis, and going to the bottom
+increases the value of the y-axis. This will result in a coordinate system that
+only has positive values with each value corresponding to a pixel.
+
+The expected output of this is four sets of pairs. Each pair corresponds to an
+edge of the single roi.
+
+Find which fingertip is on that roi
+The Finger Tracking Frame will contain the pixel positions of each landmark of
+the hand. For this step, the algorithm will find the landmark which is
+positioned within the single roi obtained from the previous step.
+This will be done using a series of checks.
+
+Each landmark's coordinates will be compared to the coordinates of the edges of
+the roi. A landmark will be determined as positioned within the roi if all of the
+following conditions are true:
+
+	In the X axis, the landmark's coordinates is greater than one or both of
+	      the two coordinates found of the left side of the roi
+	In the X axis, the landmark's coordinates is less than one or both of
+	      the two coordinates found of the right side of the roi
+	In the Y axis, the landmark's coordinates is greater than one or both of
+	      the two coordinates found of the top side of the roi
+	In the Y axis, the landmark's coordinates is less than one or both of
+	      the two coordinates found of the bottom side of the roi
+
+These conditions maximize the total area of the roi and is not strict about
+exact accuracy. In essence, these conditions will create a perfectly rectangular
+box that contains the quadrilateral formed by the four points from the previous
+step.
+
+Return which fingertip
+The landmark will then be used to determine which specific finger corresponds to
+the keypress. Figure  shows each
+possible landmark that may be returned from the previous step. This step will
+then return the name of the landmark, up until the first underscore. As an
+example, if the landmark found is MIDDLEFINGERTIP, this step will
+return MIDDLE denoting that the middle finger is the finger that
+corresponds with the keypress. In addition, the specific hand will also be
+returned as one of two strings, Left and Right, since
+this information is also bundled together with the landmarks.
+
+
+			Hand landmarks that may be returned by the algorithm. Reproduced from mediapipe-hands.
+		
+Implementation
+The previously discussed algorithms will be implemented using Python. The
+Keyboard Detection, and Mapping Algorithm in
+Section  will be implemented as a separate
+submodule in Python using OpenCV.Finger Detection, and Tracking Solution
+in Section  will be consumed using the prebuilt
+Python package offered by the MediaPipe team. Finally, the integration of the
+two will be done as another separate submodule in Python.
+
+Trainer
+
+Typing Test Sequences
+Typing test sequences are strings that will be used in testing the user in their
+ability to type. The test sequences that will be used in the trainer will come
+from text found in the public domain obtained from Project Gutenberg and the
+Internet Archive. Sentences will be isolated from these text and used as test
+sequences if they fit a criteria.
+
+The criteria for choosing test sequences is as follows: (1)  of the
+characters in the keyboard is present in a test sequence. (2) The number of
+words in a test sequence do not exceed 25. (3) Numbers and punctuations should
+be present in at least  of the total test sequences.
+
+There will be a total of 10 test sequences that will be gathered. An example
+test sequence is "What of it, if some old hunks of a sea-captain orders me to
+get a broom and sweep down the decks?" from Moby Dick by. The
+9 other test sequences can be found in Appendix
+Chapter
+
+ .
+
+UX/UI design and Front-end development for the touch typing trainer
+Design
+This design will be based on other type tests such as Monkeytype
+bartnik2021, and Keybr keybr, with additional components
+for showing real-time finger-key identification and mapping.
+Figure  and  illustrates the two main pages of
+the design. Additional screens, such as historical statistics, in-platform
+tutorial, and a written guide are shown in the appendix.
+
+
+			Test screen of the front-end design
+		
+Figure  has four main components. From the top, the first
+component is the navigation bar. This directs the user to the different pages
+within the website. The second component in the upper left displays the number
+of remaining words to be typed. This is 16 in the example. Below that is the
+test sequence. This shows the user what characters to type, and highlights
+mistakes in two distinct colors. Red if the character pressed was incorrect and
+purple if the character typed was correct, but the finger used to type it is
+wrong. The last main component in this screen is the keyboard that illustrates
+the correct finger positioning, with each finger corresponding to a different
+color.
+
+
+			Statistics screen of the front-end design
+		
+Figure  has two main components. The first component at the top
+shows the three major statistics for the typing test: Words per minute,
+Accuracy, and Finger placement accuracy. Finger placement accuracy will be
+explained in Section . The component below the statistics is a
+graph plotting the major statistics of the user in time. This includes when the
+user made the mistake and when the user slowed down, or increased their speed.
+
+Implementation
+The design will be created in Figma and the front-end will be web based.The
+framework the front-end will be developed in will be Svelte, due to its
+community resources, performance, and the researcher's familiarity with the
+framework. The front-end will serve as a display for the information and the
+interface which the user interacts and inputs information into the trainer. No
+calculation will be done within the front-end.
+
+Back-end development of a touch typing trainer using the program created
+	in  and the experimental setup identified in
+	
+
+The back-end will handle all of the computation for the trainer-mainly
+finger-key identification. The backend will also handle authentication and data
+storage.
+
+The back-end will expose a REST API. This is a type of application programming
+interface (API) that conforms to the REST architectural style. One key
+characteristic of the this style is its statelessness and cacheable data
+rest. This will be implemented using Django, a Python REST API
+framework.
+
+Finger-key Identification
+The submodule that integrates all of the sub algorithms will be called within
+the framework. The framework will then respond to requests for finger-key
+identification using this submodule. This will allow the back-end to expose its
+finger-key identification abilities and allow the front-end to use this data for
+the trainer.
+
+Authentication
+The core authentication system will rely on JSON Web Tokens (JWTs) . According
+to, "JSON Web Token (JWT) is a compact, URL-safe means of
+representing claims to be transferred between two parties." This allows for a
+user to claim that they are that specific user securely as the claim is
+cryptographically signed. For the backend of the trainer, the JWT will be signed
+using a secret and it will be encoded in HMAC SHA256.
+
+Data Storage
+The trainer will store all of the data in a relational database using
+PostgreSQL.specific technology was chosen due to its maturity, community,
+and industry recommendations and the researchers' familiarity with the
+technology.
+
+Testing of finger-key identification and mapping accuracy
+
+There will be 3 groups of 10 videos to be captured by the researcher, for a
+total of 30 videos. Each group corresponds to three predetermined speeds of
+typing: slow (15wpm), average(35wpm), and fast(80wpm). The researcher will type
+the 10 typing test sequences at these predetermined speeds. During typing,
+errors will not be consciously taken into account, and errors will happen
+naturally as part of the typing process. These speeds are based on test data
+from.
+
+The researcher will then manually perform finger-key identification for all key
+presses present in the video. The annotated data will then be divided into
+training and test data at a ratio of 60:40. The finger-key identification
+submodule will then perform the finger-key identification for the same videos.
+The accuracy of the submodule will then be obtained by verifying if its
+identification is as expected, based on the manual identification.
+
+Metric
+
+There will be two total metrics obtained pertaining to finger and key mapping.
+The first will be per test sequence, and the second will be per key.
+
+Per Test Sequence
+The metric to be calculated per test sequence is Finger Placement Accuracy (FP
+ACC). This metric will compute the percentage of accurate key presses pressed
+with the correct finger over the length of the typing test sequence. Inputting
+the wrong character, even if pressed with the correct finger will reduce FP ACC
+since FP ACC measures accurate key presses, and incorrect characters will
+be considered as inaccurate key presses.
+
+The equation for calculating FP ACC is as follows:
+
+
+
+Where  refers to the number of accurate key presses pressed with the
+correct finger and  refers to the length of the text.
+
+Per Key
+This metric will compute the Historical Finger Placement Accuracy (HFP ACC) for
+a certain key. This will include the times the user pressed the wrong key when
+asked for a certain character, the same as in FP ACC. This will allow the user
+to easily verify which keys need attention and retraining if there is a high
+frequency of error.
+
+The equation for calculating a key's HFP ACC is as follows:
+
+
+
+Where  refers to the number of accurate key presses pressed with the
+correct finger for a certain character, identified as . 
+refers to the number of times the character has appeared in all test sequences
+for the user.
+
+[heading=bibintoc,title=References]
+
+
+Key-Color Values Map
+
+Hex Color Code&1lCorresponding Key 
+ 
+
+	2rContinued on next column 
+ 
+
+	
+	2rConcluded 
+ 
+ll
+	FF0000 &             
+
+	FF9900 & 1                 
+
+	FFE600 & 2                 
+
+	BDFF00 & 3                 
+
+	8FFF00 & 4                 
+
+	33FF00 & 5                 
+
+	00FF66 & 6                 
+
+	00FFC2 & 7                 
+
+	00E0FF & 8                 
+
+	00A3FF & 9                 
+
+	0066FF & 0                 
+
+	000AFF & -                 
+
+	5200FF & +                 
+
+	BD00FF & Backspace         
+
+
+	E00000 & Tab               
+
+	D68000 & Q	 
+
+	E1CB00 & W	 
+
+	A0D900 & E	 
+
+	7EE000 & R	 
+
+	2BD900 & T	 
+
+	00D856 & Y	 
+
+	00C395 & U	 
+
+	00B7D0 & I	 
+
+	0088D4 & O	 
+
+	004FC5 & P	 
+
+	0008D3 & [	 
+
+	3F00C5 & ]	 
+
+	8600B5 & 	 
+
+
+	C30000 & CapsLock          
+
+	A76400 & A	 
+
+	B2A100 & S	 
+
+	7CA800 & D	 
+
+	65B400 & F	 
+
+	1F9D00 & G	 
+
+	008B38 & H	 
+
+	018B6A & J	 
+
+	008294 & K	 
+
+	005E93 & L	 
+
+	003482 & :	 
+
+	0007AA & "	 
+
+	23006D & Enter	 
+
+
+	960000 & LeftShift         
+
+	683E00 & Z	 
+
+	827500 & X	 
+
+	4D6800 & C	 
+
+	3F7100 & V	 
+
+	125800 & B	 
+
+	00421A & N	 
+
+	005440 & M	 
+
+	004B55 & ,	 
+
+	00466D & .	 
+
+	002050 & /	 
+
+	000580 & RightShift	 
+
+
+	550000 & LeftControl       
+
+	2D0000 & LeftSuper         
+
+	3A2300 & LeftAlt           
+
+	3E3700 & Spacebar	 
+
+	003238 & RightAlt	 
+
+	001C2C & RightMeta 	 
+
+	000349 & RightSuper	 
+
+	18004D & RightControl 	 
+
+
+Typing Test Sequences
+
+	What of it, if some old hunks of a sea-captain orders me to get a broom and sweep down the decks?
+
+Front-End Screens
+
+			Page showing historical statistics of the user
+	
+
+			Introduction to the platform during first open
+	
+
+			Step 1 of the tour of the platform
+	
+
+			Step 2 of the tour of the platform
+	
+
+			Step 3 of the tour of the platform
+	
