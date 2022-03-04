@@ -1,12 +1,12 @@
-from cv2 import cv2
+from cv2 import cv2 as cv
 import numpy as np
 
 SHOW_DEBUG_IMAGES: bool = True
-USE_DEBUG_IMAGE: bool = True
+USE_DEBUG_IMAGE: bool = False
 
 
 def getKeyboardImage() -> np.ndarray | None:
-    cam = cv2.VideoCapture(0)
+    cam = cv.VideoCapture(0)
 
     while True:
         ret, frame = cam.read()
@@ -14,121 +14,150 @@ def getKeyboardImage() -> np.ndarray | None:
         if not ret:
             return None
 
-        cv2.imshow("keyboard", frame)
-        key = cv2.waitKey(1)
+        cv.imshow("keyboard", frame)
+        key = cv.waitKey(1)
 
         if key % 256 == 155:
-            cv2.destroyWindow("keyboard")
+            cv.destroyWindow("keyboard")
             return frame
 
 
 def applySobelFilter(frame: np.ndarray) -> np.ndarray:
-    grayscaleFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    grayscaleFrame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
 
-    blurredFrame = cv2.GaussianBlur(grayscaleFrame, (3, 3), 0)
+    bilateralFilteredFrame = cv.bilateralFilter(grayscaleFrame, 11, 17, 17)
 
-    sobelX = cv2.Sobel(
-        src=blurredFrame,
-        ddepth=cv2.CV_64F,
+    sobelX = cv.Sobel(
+        src=bilateralFilteredFrame,
+        ddepth=cv.CV_64F,
         dx=1,
         dy=0,
         ksize=3,
-        borderType=cv2.BORDER_DEFAULT,
+        borderType=cv.BORDER_DEFAULT,
     )
 
-    sobelY = cv2.Sobel(
-        src=blurredFrame,
-        ddepth=cv2.CV_64F,
+    sobelY = cv.Sobel(
+        src=bilateralFilteredFrame,
+        ddepth=cv.CV_64F,
         dx=0,
         dy=1,
         ksize=3,
-        borderType=cv2.BORDER_DEFAULT,
+        borderType=cv.BORDER_DEFAULT,
     )
 
-    absSobelX = cv2.convertScaleAbs(sobelX)
-    absSobelY = cv2.convertScaleAbs(sobelY)
+    absSobelX = cv.convertScaleAbs(sobelX)
+    absSobelY = cv.convertScaleAbs(sobelY)
 
-    finalSobel = cv2.addWeighted(absSobelX, 0.5, absSobelY, 0.5, 0)
+    finalSobel = cv.addWeighted(absSobelX, 0.5, absSobelY, 0.5, 0)
 
-    # Apply Adaptive Thresholding
-    _, threshedFrame = cv2.threshold(
-        finalSobel, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU
+    _, threshedFrame = cv.threshold(
+        finalSobel, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU
     )
 
     if SHOW_DEBUG_IMAGES:
-        cv2.imshow("sobel", finalSobel)
-        cv2.imshow("threshed-sobel", threshedFrame)
-        cv2.waitKey(0)
-        cv2.destroyWindow("sobel")
+        cv.imshow("sobel", finalSobel)
+        cv.imshow("threshed-sobel", threshedFrame)
+        cv.waitKey(0)
+        cv.destroyWindow("sobel")
+        cv.destroyWindow("threshed-sobel")
 
     return threshedFrame
 
 
-# def applyThreshold(frame: np.ndarray) -> np.ndarray:
-#     grayscaleFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-#     bilateralFilteredFrame = cv2.bilateralFilter(grayscaleFrame, 11, 17, 17)
-
-#     # Apply Adaptive Thresholding
-#     _, threshedFrame = cv2.threshold(
-#         bilateralFilteredFrame, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU
-#     )
-
-#     if SHOW_DEBUG_IMAGES:
-#         cv2.imshow("bilateral filter", bilateralFilteredFrame)
-#         cv2.imshow("threshed frame", threshedFrame)
-#         cv2.waitKey(0)
-#         cv2.destroyWindow("bilateral filter")
-#         cv2.destroyWindow("threshed frame")
-
-#     return threshedFrame
-
-
 def findContours(frame: np.ndarray) -> tuple[np.ndarray]:
-    if SHOW_DEBUG_IMAGES:
-        cv2.imshow("findContoursEnter", frame)
-
-    contours, _ = cv2.findContours(frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv.findContours(frame, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
     if SHOW_DEBUG_IMAGES:
-        contourFrame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
-        cv2.drawContours(contourFrame, contours, -1, (0, 255, 0), 3)
-        cv2.imshow("contours", contourFrame)
-        cv2.waitKey(0)
-        cv2.destroyWindow("contours")
+        contourFrame = cv.cvtColor(frame, cv.COLOR_GRAY2BGR)
+        cv.drawContours(contourFrame, contours, -1, (0, 255, 0), 3)
+        cv.imshow("contours", contourFrame)
+        cv.waitKey(0)
+        cv.destroyWindow("contours")
 
     return contours
 
 
 def getLargestContour(contours: tuple[np.ndarray]) -> np.ndarray:
-    sortedContours = sorted(contours, key=cv2.contourArea, reverse=True)
+    sortedContours = sorted(contours, key=cv.contourArea, reverse=True)
 
-    epsilon = 0.01 * cv2.arcLength(sortedContours[0], True)
-    approximation = cv2.approxPolyDP(sortedContours[0], epsilon, True)
+    epsilon = 0.01 * cv.arcLength(sortedContours[0], True)
+    approximation = cv.approxPolyDP(sortedContours[0], epsilon, True)
 
     return approximation
 
 
-def displayContours(frame: np.ndarray, contour: np.ndarray):
+def displayContoursAndBoundingBox(frame: np.ndarray, contour: np.ndarray):
     if SHOW_DEBUG_IMAGES:
-        contourFrame = cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
-        cv2.drawContours(contourFrame, [contour], 0, (0, 255, 0), 2)
+        contourFrame = cv.cvtColor(frame, cv.COLOR_GRAY2BGR)
+        cv.drawContours(contourFrame, [contour], 0, (0, 255, 0), 2)
         for point in contour:
-            contourFrame = cv2.circle(
+            contourFrame = cv.circle(
                 contourFrame,
                 point[0],
                 radius=4,
                 color=(0, 0, 255),
-                thickness=cv2.FILLED,
+                thickness=cv.FILLED,
             )
+        cv.imshow("largest contour", contourFrame)
+        cv.waitKey(0)
+        cv.destroyWindow("largest contour")
 
-        cv2.imshow("largest contour", contourFrame)
-        cv2.waitKey(0)
-        cv2.destroyWindow("largest contour")
+
+def transformImageMap(contour: np.ndarray, imageShape: tuple) -> np.ndarray:
+    imageMap = cv.imread("image-map.png")
+    height: int
+    width: int
+    height, width, _ = imageMap.shape
+
+    # Points are ordered to transform the image map to the position each edge
+    # should be in
+    initialPoints = np.array(
+        [[width, height], [0, height], [0, 0], [width, 0]], np.float32
+    )
+
+    # Reshape to be the same as initial points
+    contourPoints = np.reshape(contour, (4, 2))
+
+    # Sort contour points to be clockwise, as the initial points expect the
+    # contour points to be clockwise. If not, the transformation will fail
+    contourPoints = np.float32(sortContourPoints(contourPoints))
+
+    transform = cv.getPerspectiveTransform(initialPoints, contourPoints)
+
+    shapeHeight, shapeWidth, _ = imageShape
+
+    modifiedImageMap = cv.warpPerspective(
+        imageMap, transform, (shapeWidth, shapeHeight)
+    )
+
+    if SHOW_DEBUG_IMAGES:
+        cv.imshow("image map", modifiedImageMap)
+        cv.imshow("modified image map", modifiedImageMap)
+        cv.waitKey(0)
+        cv.destroyWindow("image map")
+        cv.destroyWindow("modified image map")
+
+    return modifiedImageMap
+
+
+def sortContourPoints(contour: np.ndarray) -> np.ndarray:
+    indices = np.lexsort((contour[:, 1], contour[:, 0]))
+    contour = contour[indices]
+
+    left = contour[:2]
+    leftIndices = left[:, 1].argsort()
+    left = left[leftIndices]
+
+    right = contour[2:]
+    rightIndices = right[:, 1].argsort()
+    right = right[rightIndices]
+
+    return np.array([left[0], right[0], right[1], left[1]])
 
 
 def main():
     if USE_DEBUG_IMAGE:
-        keyboardImage = cv2.imread("test.jpg", 1)
+        keyboardImage = cv.imread("test.jpg", 1)
     else:
         keyboardImage = getKeyboardImage()
 
@@ -139,7 +168,9 @@ def main():
     contours = findContours(sobelFilterFrame)
     largestContour = getLargestContour(contours)
 
-    displayContours(sobelFilterFrame, largestContour)
+    displayContoursAndBoundingBox(sobelFilterFrame, largestContour)
+
+    imageMap = transformImageMap(largestContour, keyboardImage.shape)
 
 
 if __name__ == "__main__":
