@@ -9,7 +9,6 @@
 \setlength{\parskip}{\baselineskip}
 \doublespacing{}
 
-
 % Bibliography
 \usepackage[american]{babel}
 \usepackage[style=apa, citestyle=apa, backend=biber]{biblatex}
@@ -91,10 +90,6 @@
 	long=Historical Finger Placement Accuracy
 }
 
-
-
-
-
 % Chapter Formatting
 \usepackage{titlesec}
 \titleformat{\chapter}[display]
@@ -109,7 +104,7 @@
 % Links
 \usepackage{hyperref}
 \hypersetup{
-	pdftitle={Development of a touch typing trainer with an emphasis on finger-key identification},
+	pdftitle={Development of a finger-key identification submodule for a touch typing trainer},
 	pdfstartview={FitH},
 	colorlinks=true,
 	linkcolor=black,
@@ -122,16 +117,20 @@
 \usepackage{gensymb}
 \usepackage{amsmath}
 
-%Flowchart
+% Flowchart
 \usepackage{tikz}
 \usetikzlibrary{shapes,positioning,calc}
 
-%Tables
+% Tables
 \usepackage{booktabs}
 \usepackage{supertabular}
 
 % Adjust Figure Spacing
 \setlength\intextsep{1cm}
+
+% Add Gantt Chart
+\usepackage{pdfpages}
+\usepackage{pdflscape}
 
 %%% LT-SKIP-END
 
@@ -148,7 +147,7 @@
 	\includegraphics[width=0.2\textwidth]{dcs.png}
 	\par\vspace{1cm}
 
-	\textsc{Development of a touch typing trainer\\with an emphasis on finger-key identification }
+	\textsc{Development of a finger-key identification submodule\\for a touch typing trainer}
 	\par\vspace{0.5cm}
 
 	\hrulefill{}
@@ -241,6 +240,22 @@ finger tracking is OpenCV by~\cite{opencv}. This is a tool that simplifies
 computer vision and image processing. Machine learning can also be used with
 OpenCV.\@
 
+\section{Research Questions}
+\begin{enumerate}
+	\item What algorithm or technique using computer vision is capable of
+	      identifying which keys are being pressed by which fingers during keyboard
+	      typing?
+	\item What setup and configuration of a single optical camera can be used to
+	      capture images during keyboard typing for real-time finger-key identification
+	      using the algorithm identified in 1?
+	\item How to design and develop a touch typing trainer using the algorithm in 1
+	      and camera setup and configuration in 2?
+	\item How accurate is the touch typing trainer in identifying which finger is
+	      used to press which key?
+	\item What new keyboard typing metric can be developed in order to consider both
+	      the key and finger used to press as parameters?
+\end{enumerate}
+
 \section{Research Objectives}
 
 \subsection{General Objectives}
@@ -278,6 +293,13 @@ common layout in the United States. However, it is also used in numerous
 English-speaking countries such as the Philippines, Malaysia, and India
 \parencite{apple-layout}.
 
+The setup that will be captured will be simplified and fixed for the development
+and testing of the finger-key identification submodule. This includes the
+keyboard, surface it is placed on, and lighting of the entire area. Furthermore,
+the setup will not be tested by other respondents, but by the researchers only
+--- as the focus is on the development and testing of the finger-key
+identification submodule and not on the touch typing trainer and its effects on
+typing.
 
 The program will expect the that user has all ten digits and has no hand,
 finger, or wrist deformities. In addition, only the placement of the hands,
@@ -303,8 +325,8 @@ pointed downwards facing the keyboard and the hand.
 This research is beneficial for all users of physical keyboards. These include a
 vast majority of the population as there are a lot of professions that heavily
 rely on keyboards. Examples include developers, physicians, educators, and
-accountants. By having better ergonomics while typing, wrist injuries can be
-prevented, and typing speed may be increased
+accountants. By having better ergonomics while typing --- by touch typing
+correctly --- wrist injuries can be prevented, and typing speed may be increased
 
 This research also helps educators, especially early educators teaching beginner
 typists. By automatically checking for ergonomics, posture, and correct
@@ -1238,6 +1260,11 @@ corresponds with the key press. In addition, the specific hand will also be
 returned as one of two strings, \texttt{Left} and \texttt{Right}, since
 this information is also bundled together with the landmarks.
 
+As such, the expected output of the submodule is the hand and the finger used to
+press the key. This allows for a more flexible utilization of the data as it
+carries greater context, compared to just returning if the finger used was
+correct or not.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]{hand-landmarks.png}
@@ -1552,6 +1579,11 @@ for the user.
 	\caption{Step 3 of the tour of the platform}
 	\centering
 \end{figure}
+
+\chapter{Gantt Chart}
+\begin{landscape}
+	\includepdf[pages=-,landscape,scale=0.8,pagecommand={}]{images/gantt-chart.pdf}
+\end{landscape}
 
 \newpage
 \printbibliography[heading=bibintoc,title={References}]{}
