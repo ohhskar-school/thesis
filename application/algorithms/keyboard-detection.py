@@ -2,7 +2,7 @@ from cv2 import cv2 as cv
 import numpy as np
 
 DEBUG_SHOW_IMAGES: bool = True
-DEBUG_USE_WEBCAM: bool = True
+DEBUG_USE_WEBCAM: bool = False
 
 
 def getKeyboardImage() -> np.ndarray | None:
@@ -15,6 +15,7 @@ def getKeyboardImage() -> np.ndarray | None:
             return None
 
         cv.imshow("keyboard", frame)
+
         key = cv.waitKey(1)
 
         if key % 256 == 155:
@@ -159,9 +160,13 @@ def getImageMap():
         cv.namedWindow("debug")
 
     if DEBUG_USE_WEBCAM:
-        keyboardImage = cv.imread("fail.jpg", 1)
-    else:
         keyboardImage = getKeyboardImage()
+    else:
+        keyboardImage = cv.imread("test.jpg", 1)
+
+        if DEBUG_SHOW_IMAGES:
+            cv.imshow("debug", keyboardImage)
+            cv.waitKey(0)
 
     if keyboardImage is None:
         return
