@@ -164,8 +164,8 @@ def collect(filename: str):
 
 
 def getFrames():
-    cap = cv.VideoCapture("test-data/" + sys.argv[1] + ".mp4")
-    cap.set(cv.CAP_PROP_POS_FRAMES, 297)
+    cap = cv.VideoCapture(sys.argv[1] + ".mp4")
+    cap.set(cv.CAP_PROP_POS_FRAMES, 153)
     ret, frame = cap.read()
 
     if not ret:
@@ -191,6 +191,7 @@ def splitData():
 
 
 if __name__ == "__main__":
-    splitData()
+    getFrames()
+    # splitData()
     # time.sleep(1)
     # collect("test-data/" + sys.argv[1])
