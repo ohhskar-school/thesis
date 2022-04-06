@@ -2,16 +2,18 @@
 
 from cv2 import cv2 as cv
 import numpy as np
+import time
 
 from common import (
     findContours,
     approximateLargestContour,
     sortContourPoints,
     DEBUG_displayContours,
-    DEBUG_SHOW_IMAGES,
+    DEBUG,
 )
 from keyboard_map import keyDict
 from keyboard_detection import getImageMap
+from finger_detection import classifyPressedFinger
 
 
 def filterVirtualMap(virtualMap: np.ndarray, key: list[int]) -> np.ndarray:
@@ -29,7 +31,7 @@ def filterVirtualMap(virtualMap: np.ndarray, key: list[int]) -> np.ndarray:
 
     # virtualMap = np.where(virtualMap != key, [0, 0, 0], virtualMap).astype(np.uint8)
 
-    if DEBUG_SHOW_IMAGES:
+    if DEBUG:
         cv.imshow("debug", virtualMap)
         print(key)
 
@@ -49,22 +51,46 @@ def getROIContourPoints(virtualMap: np.ndarray, key: list[int]) -> np.ndarray:
 
     DEBUG_displayContours(grayMap, largestContour)
 
+    largestContour = np.reshape(largestContour, (4, 2))
     return sortContourPoints(largestContour)
 
 
 def main():
-    if DEBUG_SHOW_IMAGES:
+    start = time.time()
+
+    if DEBUG:
         cv.namedWindow("debug")
 
-    virtualMap = getImageMap()
+    # Step 1
+    keyboardImage = cv.imread("keyboard.jpg")
+    virtualMap = getImageMap(keyboardImage)
 
     if virtualMap is None:
         return
 
-    getROIContourPoints(virtualMap, keyDict["Q"])
+    contourPoints = getROIContourPoints(virtualMap, keyDict["Spacebar"])
 
-    if DEBUG_SHOW_IMAGES:
+    # Step 2
+    handImage = cv.imread("hand.jpg")
+
+    if DEBUG:
+        cv.imshow("debug", handImage)
+        cv.waitKey(0)
+
+    result = classifyPressedFinger(handImage, contourPoints)
+
+    if result is None:
+        return
+
+    (handedness, landmarkName) = result
+
+    print(result)
+
+    if DEBUG:
+        print(result)
         cv.destroyAllWindows()
+
+    print("Execution time: ", time.time() - start)
 
 
 if __name__ == "__main__":

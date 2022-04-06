@@ -3,14 +3,13 @@ import numpy as np
 from cv2 import cv2 as cv
 
 
-DEBUG_SHOW_IMAGES = True
-DEBUG_USE_WEBCAM = False
+DEBUG = False
 
 
 def findContours(frame: np.ndarray) -> tuple[np.ndarray]:
     contours, _ = cv.findContours(frame, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
 
-    if DEBUG_SHOW_IMAGES:
+    if DEBUG:
         contourFrame = cv.cvtColor(frame, cv.COLOR_GRAY2BGR)
         cv.drawContours(contourFrame, contours, -1, (0, 255, 0), 2)
         cv.imshow("debug", contourFrame)
@@ -52,9 +51,9 @@ def sortContourPoints(contour: np.ndarray) -> np.ndarray:
 
 
 def DEBUG_displayContours(frame: np.ndarray, contour: np.ndarray):
-    if DEBUG_SHOW_IMAGES:
+    if DEBUG:
         contourFrame = cv.cvtColor(frame, cv.COLOR_GRAY2BGR)
-        cv.drawContours(contourFrame, [contour], 0, (0, 255, 0), 2)
+        cv.drawContours(contourFrame, [contour], 0, (0, 255, 0), 1)
         for point in contour:
             contourFrame = cv.circle(
                 contourFrame,

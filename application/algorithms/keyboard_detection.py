@@ -6,8 +6,7 @@ from common import (
     approximateLargestContour,
     sortContourPoints,
     DEBUG_displayContours,
-    DEBUG_SHOW_IMAGES,
-    DEBUG_USE_WEBCAM,
+    DEBUG,
 )
 
 
@@ -65,7 +64,7 @@ def getEdgeFrame(frame: np.ndarray) -> np.ndarray:
         finalSobel, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU
     )
 
-    if DEBUG_SHOW_IMAGES:
+    if DEBUG:
         cv.imshow("debug", threshedFrame)
         cv.waitKey(0)
 
@@ -97,44 +96,31 @@ def transformImageMap(contour: np.ndarray, imageShape: tuple) -> np.ndarray:
         imageMap, transform, (shapeWidth, shapeHeight)
     )
 
-    if DEBUG_SHOW_IMAGES:
+    if DEBUG:
         cv.imshow("debug", modifiedImageMap)
         cv.waitKey(0)
 
     return modifiedImageMap
 
 
-# TODO: Refactor function to receive image and export image map. Create common
-# function in common.py to get keyboard images
-def getImageMap():
-    if DEBUG_SHOW_IMAGES:
+def getImageMap(image: np.ndarray) -> np.ndarray:
+    if DEBUG:
         cv.namedWindow("debug")
 
-    if DEBUG_USE_WEBCAM:
-        keyboardImage = getKeyboardImage()
-    else:
-        keyboardImage = cv.imread("fail.jpg", 1)
-
-        if DEBUG_SHOW_IMAGES:
-            cv.imshow("debug", keyboardImage)
-            cv.waitKey(0)
-
-    if keyboardImage is None:
-        return
-
-    edgeFrame = getEdgeFrame(keyboardImage)
+    edgeFrame = getEdgeFrame(image)
     contours = findContours(edgeFrame)
     largestContour = approximateLargestContour(contours)
 
     DEBUG_displayContours(edgeFrame, largestContour)
 
-    imageMap = transformImageMap(largestContour, keyboardImage.shape)
+    imageMap = transformImageMap(largestContour, image.shape)
 
-    if DEBUG_SHOW_IMAGES:
+    if DEBUG:
         cv.destroyAllWindows()
 
     return imageMap
 
 
 if __name__ == "__main__":
-    getImageMap()
+    image = cv.imread("keyboard.jpg")
+    getImageMap(image)

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import sys
-import time
 import random
 from cv2 import cv2 as cv
 
@@ -165,12 +164,13 @@ def collect(filename: str):
 
 def getFrames():
     cap = cv.VideoCapture(sys.argv[1] + ".mp4")
-    cap.set(cv.CAP_PROP_POS_FRAMES, 153)
+    cap.set(cv.CAP_PROP_POS_FRAMES, 5)
     ret, frame = cap.read()
 
     if not ret:
         return None
 
+    cv.imwrite("keyboard.jpg", frame)
     cv.imshow("frame", frame)
 
     cv.waitKey(0)
