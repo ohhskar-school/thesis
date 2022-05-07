@@ -24,7 +24,7 @@ def classifyPressedFinger(
         results = hands.process(cv.cvtColor(image, cv.COLOR_BGR2RGB))
 
         if not results.multi_hand_landmarks:
-            return None
+            raise Exception("finger_detection: no landmarks found")
 
         # Get all possible landmarks that fit witihin the ROI. This is because
         # some landmarks such as INDEX_FINGER_PIP may fall within the ROI, and

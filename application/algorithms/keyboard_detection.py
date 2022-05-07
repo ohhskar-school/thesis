@@ -75,6 +75,10 @@ def transformImageMap(contour: np.ndarray, imageShape: tuple) -> np.ndarray:
     imageMap = cv.imread("images/image-map.png")
     height, width, _ = imageMap.shape
 
+    if DEBUG:
+        cv.imshow("debug", imageMap)
+        cv.waitKey(0)
+
     # Points are ordered to transform the image map to the position each edge
     # should be in
     initialPoints = np.array(
@@ -83,6 +87,11 @@ def transformImageMap(contour: np.ndarray, imageShape: tuple) -> np.ndarray:
 
     # Reshape to be the same as initial points
     contourPoints = np.reshape(contour, (4, 2))
+
+    if len(contourPoints) != 4:
+        raise Exception(
+            "keyboard_detection: contour points does not match expected amount"
+        )
 
     # Sort contour points to be clockwise, as the initial points expect the
     # contour points to be clockwise. If not, the mapping would fail.

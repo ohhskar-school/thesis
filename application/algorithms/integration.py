@@ -3,6 +3,9 @@
 from cv2 import cv2 as cv
 import numpy as np
 
+import time
+from copy import deepcopy
+
 from common import (
     findContours,
     approximateLargestContour,
@@ -20,29 +23,34 @@ def filterVirtualMap(virtualMap: np.ndarray, key: list[int]) -> np.ndarray:
     # Flip key, as they are stored in RGB, but the image is in BGR
     key = [key[-1], key[1], key[0]]
 
+    filteredVirtualMap = deepcopy(virtualMap)
+
     # Create mask where all other colors are blacked out .all is used here as
     # np.where(virtualMap != key, ...) will consider other pixel values where
     # only 1 channel is the same. i.e. pixel [100, 0, 0] will not be blacked out
     # if the key is [100, 243, 0] as the blue channel of the pixel matches the
     # key
-    mask = np.invert((virtualMap == key).all(axis=2))
+    mask = np.invert((filteredVirtualMap == key).all(axis=2))
 
-    virtualMap[mask] = [0, 0, 0]
+    filteredVirtualMap[mask] = [0, 0, 0]
 
     # virtualMap = np.where(virtualMap != key, [0, 0, 0], virtualMap).astype(np.uint8)
 
     if DEBUG:
-        cv.imshow("debug", virtualMap)
-        print(key)
+        cv.imshow("debug", filteredVirtualMap)
 
         cv.waitKey(0)
 
-    return virtualMap
+    return filteredVirtualMap
 
 
-# TODO: Pre calculate contour points for all keys
-def getROIContourPoints(virtualMap: np.ndarray, key: list[int]) -> np.ndarray:
+def getKeyContourPoints(virtualMap: np.ndarray, key: list[int]) -> np.ndarray:
     filteredMap = filterVirtualMap(virtualMap, key)
+
+    if DEBUG:
+        cv.imshow("debug", filteredMap)
+
+        cv.waitKey(0)
 
     grayMap = cv.cvtColor(filteredMap, cv.COLOR_BGR2GRAY)
 
@@ -52,10 +60,20 @@ def getROIContourPoints(virtualMap: np.ndarray, key: list[int]) -> np.ndarray:
     DEBUG_displayContours(grayMap, largestContour)
 
     largestContour = np.reshape(largestContour, (4, 2))
+
     return sortContourPoints(largestContour)
 
 
+def getAllContourPoints(virtualMap: np.ndarray) -> dict[str, np.ndarray]:
+    return {
+        key: getKeyContourPoints(virtualMap, color) for key, color in keyDict.items()
+    }
+
+
 def main(keyboardImage: np.ndarray, handImage: np.ndarray):
+
+    # start = time.time()
+
     if DEBUG:
         cv.namedWindow("debug")
 
@@ -65,7 +83,11 @@ def main(keyboardImage: np.ndarray, handImage: np.ndarray):
     if virtualMap is None:
         return
 
-    contourPoints = getROIContourPoints(virtualMap, keyDict["Spacebar"])
+    allContourPoints = getAllContourPoints(virtualMap)
+
+    contourPoints = allContourPoints["Spacebar"]
+
+    # elapsed = time.time() - start
 
     # Step 2
     if DEBUG:
@@ -74,14 +96,18 @@ def main(keyboardImage: np.ndarray, handImage: np.ndarray):
 
     result = classifyPressedFinger(handImage, contourPoints)
 
-    if result is None:
-        return
+    # total = time.time() - start
+    # classifying = total - elapsed
 
-    (handedness, landmarkName) = result
+    # print("Init Time: " + str(elapsed))
+    # print("Classifying Time: " + str(classifying))
+    # print("Total Time: " + str(total))
 
     if DEBUG:
         print(result)
         cv.destroyAllWindows()
+
+    return result
 
 
 if __name__ == "__main__":
