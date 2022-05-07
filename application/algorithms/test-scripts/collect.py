@@ -146,9 +146,7 @@ def collect(filename: str):
             print(chr(key % 256))
 
             textFile.write(
-                "{frameNum}: {key}\n".format(
-                    frameNum=frameNum, key=asciiDict[key % 256]
-                )
+                "{frameNum}:{key}\n".format(frameNum=frameNum, key=asciiDict[key % 256])
             )
 
         frameNum += 1
