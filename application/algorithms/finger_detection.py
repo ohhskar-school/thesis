@@ -44,25 +44,6 @@ def classifyPressedFinger(
             else:
                 handedness = "Left"
 
-            if DEBUG:
-                print(
-                    f"Index finger tip coordinates: (",
-                    f"{hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].x * image_width}, "
-                    f"{hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].y * image_height})",
-                )
-                annotated_image = image.copy()
-
-                mp_drawing.draw_landmarks(
-                    annotated_image,
-                    hand_landmarks,
-                    mp_hands.HAND_CONNECTIONS,
-                    mp_drawing_styles.get_default_hand_landmarks_style(),
-                    mp_drawing_styles.get_default_hand_connections_style(),
-                )
-
-                cv.imshow("debug", annotated_image)
-                cv.waitKey(0)
-
             for landmarkIndex, landmark in enumerate(hand_landmarks.landmark):
                 x = round(landmark.x * image_width)
                 y = round(landmark.y * image_height)
@@ -108,6 +89,25 @@ def classifyPressedFinger(
                     print(x, y)
                 possibleMatches.append((handedness, landmarkName))
 
+            if DEBUG:
+                print(
+                    f"Index finger tip coordinates: (",
+                    f"{hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].x * image_width}, "
+                    f"{hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP].y * image_height})",
+                )
+                annotated_image = image.copy()
+
+                mp_drawing.draw_landmarks(
+                    annotated_image,
+                    hand_landmarks,
+                    mp_hands.HAND_CONNECTIONS,
+                    mp_drawing_styles.get_default_hand_landmarks_style(),
+                    mp_drawing_styles.get_default_hand_connections_style(),
+                )
+
+                cv.imshow("debug", annotated_image)
+                cv.waitKey(0)
+
         # Get all fingertip landmarks
         tipLandmarkMatches = [
             identifier
@@ -118,12 +118,14 @@ def classifyPressedFinger(
         if DEBUG:
             print(possibleMatches)
             print(tipLandmarkMatches)
+            cv.waitKey(0)
 
         if len(tipLandmarkMatches) > 0:
             return tipLandmarkMatches[0]
 
-        if len(possibleMatches) > 0:
-            return possibleMatches[0]
+        # Don't consider fallback. Later if naay instances lang
+        # if len(possibleMatches) > 0:
+        #     return possibleMatches[0]
 
         # No fingertip is inside the roi
         return None

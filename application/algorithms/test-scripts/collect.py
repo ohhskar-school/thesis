@@ -170,7 +170,6 @@ def getFrames():
     if not ret:
         return None
 
-    cv.imwrite("keyboard.jpg", frame)
     cv.imshow("frame", frame)
 
     cv.waitKey(0)

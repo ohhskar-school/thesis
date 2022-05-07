@@ -72,7 +72,7 @@ def getEdgeFrame(frame: np.ndarray) -> np.ndarray:
 
 
 def transformImageMap(contour: np.ndarray, imageShape: tuple) -> np.ndarray:
-    imageMap = cv.imread("image-map.png")
+    imageMap = cv.imread("images/image-map.png")
     height, width, _ = imageMap.shape
 
     # Points are ordered to transform the image map to the position each edge
@@ -122,5 +122,5 @@ def getImageMap(image: np.ndarray) -> np.ndarray:
 
 
 if __name__ == "__main__":
-    image = cv.imread("keyboard.jpg")
+    image = cv.imread("images/keyboard.jpg")
     getImageMap(image)

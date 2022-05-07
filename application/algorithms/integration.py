@@ -2,7 +2,6 @@
 
 from cv2 import cv2 as cv
 import numpy as np
-import time
 
 from common import (
     findContours,
@@ -11,6 +10,7 @@ from common import (
     DEBUG_displayContours,
     DEBUG,
 )
+
 from keyboard_map import keyDict
 from keyboard_detection import getImageMap
 from finger_detection import classifyPressedFinger
@@ -55,14 +55,11 @@ def getROIContourPoints(virtualMap: np.ndarray, key: list[int]) -> np.ndarray:
     return sortContourPoints(largestContour)
 
 
-def main():
-    start = time.time()
-
+def main(keyboardImage: np.ndarray, handImage: np.ndarray):
     if DEBUG:
         cv.namedWindow("debug")
 
     # Step 1
-    keyboardImage = cv.imread("keyboard.jpg")
     virtualMap = getImageMap(keyboardImage)
 
     if virtualMap is None:
@@ -71,8 +68,6 @@ def main():
     contourPoints = getROIContourPoints(virtualMap, keyDict["Spacebar"])
 
     # Step 2
-    handImage = cv.imread("hand.jpg")
-
     if DEBUG:
         cv.imshow("debug", handImage)
         cv.waitKey(0)
@@ -84,14 +79,12 @@ def main():
 
     (handedness, landmarkName) = result
 
-    print(result)
-
     if DEBUG:
         print(result)
         cv.destroyAllWindows()
 
-    print("Execution time: ", time.time() - start)
-
 
 if __name__ == "__main__":
-    main()
+    keyboardImage = cv.imread("images/keyboard.jpg")
+    handImage = cv.imread("images/hand.jpg")
+    main(keyboardImage, handImage)
