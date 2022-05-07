@@ -40,9 +40,9 @@ def classifyPressedFinger(
             # horizontally, much like taking a selfie. However, this wont work
             # for our case
             if handedness == "Left":
-                handedness = "Right"
+                handedness = "RIGHT"
             else:
-                handedness = "Left"
+                handedness = "LEFT"
 
             for landmarkIndex, landmark in enumerate(hand_landmarks.landmark):
                 x = round(landmark.x * image_width)

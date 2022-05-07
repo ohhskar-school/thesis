@@ -2,14 +2,15 @@
 
 from cv2 import cv2 as cv
 import numpy as np
-
-import time
 from copy import deepcopy
+
+# import time
 
 from common import (
     findContours,
     approximateLargestContour,
     sortContourPoints,
+    convertResultToStr,
     DEBUG_displayContours,
     DEBUG,
 )
@@ -95,6 +96,9 @@ def main(keyboardImage: np.ndarray, handImage: np.ndarray):
         cv.waitKey(0)
 
     result = classifyPressedFinger(handImage, contourPoints)
+
+    if result is not None:
+        print(convertResultToStr(result))
 
     # total = time.time() - start
     # classifying = total - elapsed

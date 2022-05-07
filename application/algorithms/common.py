@@ -64,3 +64,7 @@ def DEBUG_displayContours(frame: np.ndarray, contour: np.ndarray):
             )
         cv.imshow("debug", contourFrame)
         cv.waitKey(0)
+
+
+def convertResultToStr(result: tuple[str, str]) -> str:
+    return result[0] + "_" + result[1].split("_")[0]
