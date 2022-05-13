@@ -20,13 +20,13 @@ keypressDict = {
 
 
 def main():
-    (_, _, filenames) = next(walk("../dataset/training"))
+    (_, _, filenames) = next(walk("../dataset/test"))
     files = sorted(
         [file for file in filenames if not "mp4" in file and not "labeled" in file]
     )
 
     for index, file in enumerate(files):
-        fileLocation = f"../dataset/training/{file}"
+        fileLocation = f"../dataset/test/{file}"
         cap = cv.VideoCapture(fileLocation + ".mp4")
 
         newFileContent = []
@@ -36,6 +36,12 @@ def main():
 
         with open(fileLocation) as fp:
             fileContent = [line.rstrip() for line in fp]
+
+        cap.set(cv.CAP_PROP_POS_FRAMES, 10)
+        ret, frame = cap.read()
+        frame = cv.rotate(frame, cv.ROTATE_180)
+
+        cv.imshow("setup", frame)
 
         for keypressIndex, keypress in enumerate(fileContent):
             data = keypress.split(":")
@@ -49,7 +55,7 @@ def main():
             cv.putText(
                 frame,
                 keypress,
-                (10, 25),
+                (250, 100),
                 cv.FONT_HERSHEY_SIMPLEX,
                 0.5,
                 (0, 255, 255),
@@ -71,7 +77,6 @@ def main():
             cv.imshow("debug", frame)
 
             keypressString = ""
-            currentKeypressString = ""
 
             while True:
                 key = cv.waitKey(0)
@@ -80,15 +85,11 @@ def main():
                     cv.destroyAllWindows()
                     return
 
-                currentKeypressString = keypressString
-
                 try:
                     keypressString = keypressDict[key]
+                    break
                 except:
                     keypressString = "ERR"
-
-                if keypressString == currentKeypressString and keypressString != "ERR":
-                    break
 
             newFileContent.append(f"{keypress}:{keypressString}\n")
 
