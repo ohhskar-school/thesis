@@ -13,7 +13,8 @@ def main():
     (_, _, filenames) = next(walk("./dataset/training"))
 
     # Create output folder
-    folder = f"./results/training-{time.time()}/"
+    uuid = f"training-{time.time()}"
+    folder = f"./results/{uuid}"
     mkdir(folder)
 
     files = sorted(
@@ -22,42 +23,56 @@ def main():
 
     # Create log for entire run
     logFileContent = []
+    resultFileContent = [
+        [
+            "file_name",
+            "frame",
+            "key",
+            "finger",
+            "is_correct",
+            "fingertips_detected",
+            "keyboard_detection_time",
+            "finger_classification_time",
+        ]
+    ]
 
     for file in files:
         # Output Files
         logFileContent.append(f"INFO: Start {file}")
-        resultFileContent = [
-            [
-                "is_correct",
-                "fingertips_detected",
-                "keyboard_detection_time",
-                "finger_classification_time",
-                "total_time",
-            ]
-        ]
 
         fileLocation = f"./dataset/training/{file}"
         labeledFile = f"{fileLocation}-labeled"
 
         cap = cv.VideoCapture(fileLocation + ".mp4")
-        cap.set(cv.CAP_PROP_POS_FRAMES, 10)
-        ret, frame = cap.read()
 
         keyboardDetectionTimeStart = time.time()
 
         allContourPoints = {}
-        try:
-            allContourPoints = getContourPointsFromImage(frame)
-        except Exception as e:
+
+        for i in [10, 15, 20]:
+            cap.set(cv.CAP_PROP_POS_FRAMES, i)
+            ret, frame = cap.read()
+            if not ret:
+                logFileContent.append(f"ERROR: Failed to get frame {i} for {file}")
+                break
+
+            try:
+                keyboardDetectionTimeStart = time.time()
+                allContourPoints = getContourPointsFromImage(frame)
+            except Exception as e:
+                logFileContent.append(
+                    f"ERROR: Failed to get contour points for {file} with frame {i}"
+                )
+                logFileContent.append(f"ERROR: {e}")
+                cv.imwrite(f"{folder}/{file}:{i}.png", frame)
+            else:
+                break
+
+        if len(allContourPoints) == 0:
             logFileContent.append(f"ERROR: Failed to get contour points for {file}")
-            logFileContent.append(f"ERROR: {e}")
             continue
 
         keyboardDetectionTimeEnd = time.time() - keyboardDetectionTimeStart
-
-        if not ret:
-            logFileContent.append(f"ERROR: Failed to get frame 10 for {file}")
-            continue
 
         with open(labeledFile) as fp:
             fileContent = [line.rstrip() for line in fp]
@@ -73,7 +88,7 @@ def main():
                 )
                 continue
 
-            contourPoints = allContourPoints[fileContent[1]]
+            contourPoints = allContourPoints[data[1]]
 
             fingerClassificationTimeStart = time.time()
             result = []
@@ -98,29 +113,31 @@ def main():
 
             fingerClassificationTimeEnd = time.time() - fingerClassificationTimeStart
 
-            isCorrect = fileContent[2] in result
+            isCorrect = data[2] in result
 
             resultFileContent.append(
                 [
-                    keypress,
+                    file,
+                    data[0],
+                    data[1],
+                    data[2],
                     str(isCorrect),
                     ",".join(result),
                     str(keyboardDetectionTimeEnd),
                     str(fingerClassificationTimeEnd),
-                    str(keyboardDetectionTimeEnd + fingerClassificationTimeEnd),
                 ]
             )
 
             if not isCorrect:
-                cv.imwrite(f"{folder}{file}{keypress}", frame)
+                cv.imwrite(f"{folder}/{file}:{keypress}.png", frame)
 
-            with open(
-                f"{folder}{file}.csv", "w", encoding="UTF8", newline=""
-            ) as results:
-                writer = csv.writer(results)
-                writer.writerows(resultFileContent)
+    with open(
+        f"{folder}/{uuid}-results.csv", "w", encoding="UTF8", newline=""
+    ) as results:
+        writer = csv.writer(results, quoting=csv.QUOTE_ALL)
+        writer.writerows(resultFileContent)
 
-    with open(f"{folder}log", "w") as logs:
+    with open(f"{folder}/{uuid}-log", "w") as logs:
         logs.writelines([f"{log}\n" for log in logFileContent])
         logs.truncate()
 

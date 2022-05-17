@@ -1,0 +1,42 @@
+INFO: Start fast-02
+ERROR: Failed to get contour points for fast-02 with frame 10
+ERROR: cannot reshape array of size 10 into shape (4,2)
+ERROR: Failed to get contour points for fast-02 with frame 15
+ERROR: cannot reshape array of size 10 into shape (4,2)
+INFO: Start fast-03
+INFO: Start fast-04
+ERROR: Failed to get contour points for fast-04 with frame 10
+ERROR: cannot reshape array of size 10 into shape (4,2)
+ERROR: Failed to get contour points for fast-04 with frame 15
+ERROR: cannot reshape array of size 10 into shape (4,2)
+ERROR: Failed to get contour points for fast-04 with frame 20
+ERROR: cannot reshape array of size 26 into shape (4,2)
+ERROR: Failed to get contour points for fast-04
+INFO: Start fast-05
+INFO: Start fast-08
+ERROR: Failed to get contour points for fast-08 with frame 10
+ERROR: cannot reshape array of size 10 into shape (4,2)
+INFO: Start fast-09
+INFO: Start medium-01
+ERROR: Failed to get contour points for medium-01 with frame 10
+ERROR: cannot reshape array of size 10 into shape (4,2)
+INFO: Start medium-02
+INFO: Start medium-04
+INFO: Start medium-05
+INFO: Start medium-06
+INFO: Start medium-08
+INFO: Start slow-03
+INFO: Start slow-04
+INFO: Start slow-05
+INFO: Start slow-06
+ERROR: Failed to get contour points for slow-06 with frame 10
+ERROR: cannot reshape array of size 10 into shape (4,2)
+INFO: Start slow-08
+ERROR: Failed to get contour points for slow-08 with frame 10
+ERROR: cannot reshape array of size 10 into shape (4,2)
+ERROR: Failed to get contour points for slow-08 with frame 15
+ERROR: cannot reshape array of size 10 into shape (4,2)
+ERROR: Failed to get contour points for slow-08 with frame 20
+ERROR: cannot reshape array of size 10 into shape (4,2)
+ERROR: Failed to get contour points for slow-08
+INFO: Start slow-10
