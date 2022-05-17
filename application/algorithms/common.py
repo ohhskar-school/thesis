@@ -3,7 +3,7 @@ import numpy as np
 from cv2 import cv2 as cv
 
 
-DEBUG = True
+DEBUG = False
 
 
 def findContours(frame: np.ndarray) -> tuple[np.ndarray]:

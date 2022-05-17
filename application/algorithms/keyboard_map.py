@@ -6,7 +6,7 @@ keyDict = {
     "LeftSuper": [45, 0, 0],
     "LeftAlt": [58, 35, 0],
     "Spacebar": [62, 55, 0],
-    "RightAlt": [0, 28, 56],
+    "RightAlt": [0, 28, 44],
     "RightSuper": [0, 3, 73],
     "RightControl": [24, 0, 76],
     "`": [255, 0, 0],
