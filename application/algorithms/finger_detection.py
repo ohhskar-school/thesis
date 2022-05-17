@@ -4,13 +4,11 @@ from cv2 import cv2 as cv
 import mediapipe as mp
 import numpy as np
 
-from common import DEBUG
+from common import DEBUG, convertResultToStr
 
 # Heavily lifted from https://google.github.io/mediapipe/getting_started/python.html.
 # Cited as (Lugaresi et al., n.d.) in the paper
-def classifyPressedFinger(
-    image: np.ndarray, roiPoints: np.ndarray
-) -> tuple[str, str] | None:
+def classifyPressedFinger(image: np.ndarray, roiPoints: np.ndarray) -> list[str]:
 
     mp_drawing = mp.solutions.drawing_utils
     mp_drawing_styles = mp.solutions.drawing_styles
@@ -110,7 +108,7 @@ def classifyPressedFinger(
 
         # Get all fingertip landmarks
         tipLandmarkMatches = [
-            identifier
+            convertResultToStr(identifier)
             for identifier in possibleMatches
             if identifier[1].split("_")[-1] == "TIP"
         ]
@@ -120,12 +118,8 @@ def classifyPressedFinger(
             print(tipLandmarkMatches)
             cv.waitKey(0)
 
-        if len(tipLandmarkMatches) > 0:
-            return tipLandmarkMatches[0]
+        return tipLandmarkMatches
 
         # Don't consider fallback. Later if naay instances lang
         # if len(possibleMatches) > 0:
         #     return possibleMatches[0]
-
-        # No fingertip is inside the roi
-        return None

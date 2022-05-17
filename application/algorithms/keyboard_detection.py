@@ -1,6 +1,9 @@
 from cv2 import cv2 as cv
 import numpy as np
 
+from copy import deepcopy
+
+from keyboard_map import keyDict
 from common import (
     findContours,
     approximateLargestContour,
@@ -128,6 +131,66 @@ def getImageMap(image: np.ndarray) -> np.ndarray:
         cv.destroyAllWindows()
 
     return imageMap
+
+
+def filterVirtualMap(virtualMap: np.ndarray, key: list[int]) -> np.ndarray:
+    # Flip key, as they are stored in RGB, but the image is in BGR
+    key = [key[-1], key[1], key[0]]
+
+    filteredVirtualMap = deepcopy(virtualMap)
+
+    # Create mask where all other colors are blacked out .all is used here as
+    # np.where(virtualMap != key, ...) will consider other pixel values where
+    # only 1 channel is the same. i.e. pixel [100, 0, 0] will not be blacked out
+    # if the key is [100, 243, 0] as the blue channel of the pixel matches the
+    # key
+    mask = np.invert((filteredVirtualMap == key).all(axis=2))
+
+    filteredVirtualMap[mask] = [0, 0, 0]
+
+    # virtualMap = np.where(virtualMap != key, [0, 0, 0], virtualMap).astype(np.uint8)
+
+    if DEBUG:
+        cv.imshow("debug", filteredVirtualMap)
+
+        cv.waitKey(0)
+
+    return filteredVirtualMap
+
+
+def getKeyContourPoints(virtualMap: np.ndarray, key: list[int]) -> np.ndarray:
+    filteredMap = filterVirtualMap(virtualMap, key)
+
+    if DEBUG:
+        cv.imshow("debug", filteredMap)
+
+        cv.waitKey(0)
+
+    grayMap = cv.cvtColor(filteredMap, cv.COLOR_BGR2GRAY)
+
+    contours = findContours(grayMap)
+    largestContour = approximateLargestContour(contours)
+
+    DEBUG_displayContours(grayMap, largestContour)
+
+    largestContour = np.reshape(largestContour, (4, 2))
+
+    return sortContourPoints(largestContour)
+
+
+def getAllContourPoints(virtualMap: np.ndarray) -> dict[str, np.ndarray]:
+    return {
+        key: getKeyContourPoints(virtualMap, color) for key, color in keyDict.items()
+    }
+
+
+def getContourPointsFromImage(keyboardImage: np.ndarray) -> dict[str, np.ndarray]:
+    virtualMap = getImageMap(keyboardImage)
+
+    if virtualMap is None:
+        raise Exception("Virtual map cannot be obtained")
+
+    return getAllContourPoints(virtualMap)
 
 
 if __name__ == "__main__":

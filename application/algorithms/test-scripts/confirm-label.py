@@ -20,13 +20,13 @@ keypressDict = {
 
 
 def main():
-    (_, _, filenames) = next(walk("../dataset/test"))
+    (_, _, filenames) = next(walk("../dataset/training"))
     files = sorted(
         [file for file in filenames if not "mp4" in file and not "labeled" in file]
     )
 
     for index, file in enumerate(files):
-        fileLocation = f"../dataset/test/{file}"
+        fileLocation = f"../dataset/training/{file}"
         cap = cv.VideoCapture(fileLocation + ".mp4")
         labeledFile = f"{fileLocation}-labeled"
 
@@ -34,12 +34,6 @@ def main():
 
         with open(labeledFile) as fp:
             fileContent = [line.rstrip() for line in fp]
-
-        cap.set(cv.CAP_PROP_POS_FRAMES, 10)
-        ret, frame = cap.read()
-        frame = cv.rotate(frame, cv.ROTATE_180)
-
-        cv.imshow("setup", frame)
 
         for keypressIndex, keypress in enumerate(fileContent):
             data = keypress.split(":")
@@ -53,7 +47,7 @@ def main():
             cv.putText(
                 frame,
                 keypress,
-                (10, 25),
+                (200, 150),
                 cv.FONT_HERSHEY_SIMPLEX,
                 0.5,
                 (0, 255, 255),
