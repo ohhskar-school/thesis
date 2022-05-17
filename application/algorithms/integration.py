@@ -5,7 +5,7 @@ import numpy as np
 
 # import time
 
-from common import DEBUG
+from common import DEBUG, DEBUG_displayContours
 
 from keyboard_detection import getContourPointsFromImage
 from finger_detection import classifyPressedFinger
@@ -20,7 +20,7 @@ def main(keyboardImage: np.ndarray, handImage: np.ndarray):
     # Step 1
     allContourPoints = getContourPointsFromImage(keyboardImage)
 
-    contourPoints = allContourPoints["Spacebar"]
+    contourPoints = allContourPoints["Y"]
 
     # elapsed = time.time() - start
 
@@ -49,6 +49,6 @@ def main(keyboardImage: np.ndarray, handImage: np.ndarray):
 
 
 if __name__ == "__main__":
-    keyboardImage = cv.imread("images/keyboard.jpg")
-    handImage = cv.imread("images/hand.jpg")
+    keyboardImage = cv.imread("images/medium-06-10.png")
+    handImage = cv.imread("images/medium-06-418.png")
     main(keyboardImage, handImage)

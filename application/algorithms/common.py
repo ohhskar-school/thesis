@@ -51,7 +51,7 @@ def sortContourPoints(contour: np.ndarray) -> np.ndarray:
 
 
 def scaleContours(contours: np.ndarray) -> np.ndarray:
-    scaleFactor = 10
+    scaleFactor = 7
 
     upperLeft = [contours[0][0] - scaleFactor, contours[0][1] - scaleFactor]
     upperRight = [contours[1][0] + scaleFactor, contours[1][1] - scaleFactor]
@@ -59,6 +59,18 @@ def scaleContours(contours: np.ndarray) -> np.ndarray:
     lowerLeft = [contours[3][0] - scaleFactor, contours[3][1] + scaleFactor]
 
     return np.array([upperLeft, upperRight, lowerRight, lowerLeft])
+
+
+# def scaleContours(contours: np.ndarray) -> np.ndarray:
+#     upperScaleFactor = 10
+#     lowerScaleFactor = 5
+
+#     upperLeft = [contours[0][0] - upperScaleFactor, contours[0][1] - upperScaleFactor]
+#     upperRight = [contours[1][0] + upperScaleFactor, contours[1][1] - upperScaleFactor]
+#     lowerRight = [contours[2][0] + lowerScaleFactor, contours[2][1] + lowerScaleFactor]
+#     lowerLeft = [contours[3][0] - lowerScaleFactor, contours[3][1] + lowerScaleFactor]
+
+#     return np.array([upperLeft, upperRight, lowerRight, lowerLeft])
 
 
 # def scaleContours(contours: np.ndarray) -> np.ndarray:

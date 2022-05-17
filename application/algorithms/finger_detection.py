@@ -4,7 +4,7 @@ from cv2 import cv2 as cv
 import mediapipe as mp
 import numpy as np
 
-from common import DEBUG, convertResultToStr
+from common import DEBUG, DEBUG_displayContours, convertResultToStr
 
 # Heavily lifted from https://google.github.io/mediapipe/getting_started/python.html.
 # Cited as (Lugaresi et al., n.d.) in the paper
@@ -103,7 +103,10 @@ def classifyPressedFinger(image: np.ndarray, roiPoints: np.ndarray) -> list[str]
                     mp_drawing_styles.get_default_hand_connections_style(),
                 )
 
-                cv.imshow("debug", annotated_image)
+                DEBUG_displayContours(
+                    cv.cvtColor(annotated_image, cv.COLOR_BGR2GRAY),
+                    np.reshape(roiPoints, (4, 1, 2)),
+                )
                 cv.waitKey(0)
 
         # Get all fingertip landmarks
