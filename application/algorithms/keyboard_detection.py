@@ -8,6 +8,7 @@ from common import (
     findContours,
     approximateLargestContour,
     sortContourPoints,
+    scaleContours,
     DEBUG_displayContours,
     DEBUG,
 )
@@ -171,11 +172,13 @@ def getKeyContourPoints(virtualMap: np.ndarray, key: list[int]) -> np.ndarray:
     contours = findContours(grayMap)
     largestContour = approximateLargestContour(contours)
 
-    DEBUG_displayContours(grayMap, largestContour)
-
     largestContour = np.reshape(largestContour, (4, 2))
+    sortedContour = sortContourPoints(largestContour)
+    scaledContour = scaleContours(sortedContour)
 
-    return sortContourPoints(largestContour)
+    DEBUG_displayContours(grayMap, np.reshape(scaledContour, (4, 1, 2)))
+
+    return scaledContour
 
 
 def getAllContourPoints(virtualMap: np.ndarray) -> dict[str, np.ndarray]:

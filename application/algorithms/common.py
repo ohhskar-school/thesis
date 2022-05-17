@@ -3,7 +3,7 @@ import numpy as np
 from cv2 import cv2 as cv
 
 
-DEBUG = False
+DEBUG = True
 
 
 def findContours(frame: np.ndarray) -> tuple[np.ndarray]:
@@ -48,6 +48,32 @@ def sortContourPoints(contour: np.ndarray) -> np.ndarray:
 
     # arrange clockwise
     return np.array([left[0], right[0], right[1], left[1]])
+
+
+def scaleContours(contours: np.ndarray) -> np.ndarray:
+    scaleFactor = 10
+
+    upperLeft = [contours[0][0] - scaleFactor, contours[0][1] - scaleFactor]
+    upperRight = [contours[1][0] + scaleFactor, contours[1][1] - scaleFactor]
+    lowerRight = [contours[2][0] + scaleFactor, contours[2][1] + scaleFactor]
+    lowerLeft = [contours[3][0] - scaleFactor, contours[3][1] + scaleFactor]
+
+    return np.array([upperLeft, upperRight, lowerRight, lowerLeft])
+
+
+# def scaleContours(contours: np.ndarray) -> np.ndarray:
+#     M = cv.moments(contours)
+#     cx = int(M["m10"] / M["m00"])
+#     cy = int(M["m01"] / M["m00"])
+
+#     cnt_norm = contours - [cx, cy]
+#     cnt_scaled = cnt_norm * 1.5
+#     cnt_scaled = cnt_scaled + [cx, cy]
+#     cnt_scaled = cnt_scaled.astype(np.int32)
+
+#     print(cnt_scaled.shape)
+
+#     return cnt_scaled
 
 
 def DEBUG_displayContours(frame: np.ndarray, contour: np.ndarray):

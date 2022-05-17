@@ -5,10 +5,7 @@ import numpy as np
 
 # import time
 
-from common import (
-    convertResultToStr,
-    DEBUG,
-)
+from common import DEBUG
 
 from keyboard_detection import getContourPointsFromImage
 from finger_detection import classifyPressedFinger
@@ -35,7 +32,7 @@ def main(keyboardImage: np.ndarray, handImage: np.ndarray):
     result = classifyPressedFinger(handImage, contourPoints)
 
     if result is not None:
-        print(convertResultToStr(result))
+        print(result)
 
     # total = time.time() - start
     # classifying = total - elapsed
