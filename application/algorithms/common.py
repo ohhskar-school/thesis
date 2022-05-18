@@ -3,7 +3,7 @@ import numpy as np
 from cv2 import cv2 as cv
 
 
-DEBUG = False
+DEBUG = True
 
 
 def findContours(frame: np.ndarray) -> tuple[np.ndarray]:
@@ -101,6 +101,7 @@ def DEBUG_displayContours(frame: np.ndarray, contour: np.ndarray):
                 thickness=cv.FILLED,
             )
         cv.imshow("debug", contourFrame)
+        cv.imwrite("./key-contour.png", contourFrame)
         cv.waitKey(0)
 
 

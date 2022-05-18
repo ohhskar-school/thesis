@@ -132,6 +132,8 @@
 \usepackage{pdfpages}
 \usepackage{pdflscape}
 
+\usepackage{caption}
+
 %%% LT-SKIP-END
 
 \begin{document}
@@ -182,8 +184,12 @@
 \printacronyms{}
 \newpage
 
+\listoftables
+\newpage
+
 \listoffigures
 \newpage
+
 
 \tableofcontents
 \newpage
@@ -340,7 +346,7 @@ these injuries will be lessened, and even be prevented from occurring in the
 first place. A specific example of this is by reducing ulnar deviation which
 affects the nerve that is indicative of \ac{cts} \parencite{toosi2015}.
 
-\chapter{Advanced Review of Related Literature}
+\chapter{Review of Related Literature}
 
 \section{Keyboard Typing}
 
@@ -828,38 +834,44 @@ problematic movements and hand positions, these disorders can be prevented.
 \section{Setup}
 \label{section:metho-setup}
 
-The experimental setup and configuration will be composed of three elements: the
-camera, the keyboard, and the environment. Figure~\ref{fig:metho-setup}
-shows the sketch of the complete experimental setup.
+The experimental setup and configuration was composed of three elements: the
+camera, the keyboard, and the environment. Figure~\ref{fig:metho-setup} is an
+image of the experimental setup
+
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth]{setup.png}
-	\caption{Sketch of the experimental setup}
+	\includegraphics[width=0.8\textwidth]{full-setup.jpg}
+	\caption{The experimental setup}
 	\label{fig:metho-setup}
 	\centering
 \end{figure}
 
 \subsection{Camera}
-The camera setup will use a single monocular camera positioned in a top-down
-view. The camera will capture the entirety of the keyboard and the movement of
-the ten fingers. To do so, it will be mounted on top of the monitor and the
-camera will point down towards the table. Figure~\ref{fig:metho-setup-keeb}
-illustrates what the camera will capture once placed in its correct position.
+The setup used a single monocular camera positioned in a top-down view. The
+camera captured the entirety of the keyboard and the movement of the ten
+fingers. To do so, it was mounted on top of the monitor with the camera pointed
+down towards the table.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{camera-placement.jpg}
+	\caption{The camera angled downwards to capture the keyboard}
+	\label{fig:metho-setup-camera-placement}
+\end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{actual-keeb.png}
-	\caption{Keyboard, camera angle, and placement to be used for testing.}
+	\caption{Image captured by the camera in one of the training iterations}
 	\label{fig:metho-setup-keeb}
 \end{figure}
 
-The specific camera to be used will be a Logitech C920.
-Figure~\ref{fig:metho-setup-cam} is a picture of this camera. It is a 3 mega pixel
-webcam that is capable of capturing color video in 1080p/30fps and 720p/30fps
-with a diagonal field of view of 78\degree. This camera has a universal mounting
-clip that will allow the camera to be correctly positioned within the
-experimental setup \parencite{logitech}.
+The specific camera used was a Logitech C920. It is a 3 mega pixel webcam that
+is capable of capturing color video in 1080p/30fps and 720p/30fps with a
+diagonal field of view of 78\degree. This camera has a universal mounting clip
+that allows the camera to be correctly positioned within the experimental setup
+\parencite{logitech}.
 
 \begin{figure}[H]
 	\centering
@@ -872,36 +884,107 @@ experimental setup \parencite{logitech}.
 \subsection{Keyboard}
 \label{section:metho-keeb}
 
-The keyboard will be a 60\% keyboard as shown in
-Figure~\ref{fig:metho-setup-keeb}. This will limit the necessary mapping for the
-algorithm to the alphanumeric portion of the keyboard. This keyboard choice will
-also lessen the area that the camera will need to capture, as this keyboard type
-is considerably smaller compared to a full-size keyboard. The keyboard will have
-keycaps and a case in a light color that will contrast the dark surface that it
-will be placed on. This is to improve initial keyboard detection. In addition,
-the keyboard layout will also be ANSI, due to the availability and widespread
-adoption of the layout in the Philippines.
+The keyboard used was a 60\% keyboard as shown in
+Figure~\ref{fig:metho-setup-keeb}. This limited the necessary mapping for the
+algorithm to the alphanumeric portion of the keyboard. This keyboard choice also
+reduced the area that the camera captured, as this keyboard type is considerably
+smaller compared to a full-size keyboard. The keyboard also had its keycaps and
+case in a light color that contrasted the dark surface it was placed on. It also
+had a dark USB-C cable to blend with the dark surface. These color coordination
+steps improved initial keyboard detection. In addition, the keyboard layout was
+ANSI, due to the availability and widespread adoption of the layout in the
+Philippines.
 
 \subsection{Environment}
-The setup would be placed in would be a well lit environment with a light source
-beside the camera. This light source will evenly light the keyboard and the
-fingers used for typing. The light source to be used will be a common LED desk
-lamp rated at 9 Watts with 700 lumens. This light will be white with a color
+The setup was lit with a lamp besides the camera. This light source evenly lit
+the keyboard and the fingers used for typing. The light source used was a common
+LED bulb rated at 9 Watts with 700 lumens. This light was white with a color
 temperature of 6500k.
 
-In addition, the surface where the keyboard is to be placed on will be solid
-black without any variation of color. This is to improve initial keyboard
-detection.
+In addition, the surface where the keyboard was placed on was solid black
+without any variation of color. This also improved initial keyboard detection.
 
 \section{Algorithm}
 \label{section:metho-algo}
 
-\subsection{Computer Vision based Keyboard Detection, and Mapping}
+\subsection{Computer Vision based Keyboard Detection, and Key Mapping}
 \label{section:metho-algo-keyboard}
 
-A computer vision algorithm will be created as a starting point for detecting,
-and mapping the keyboard within a video. The flowchart of the algorithm is shown
-in Figure~\ref{fig:metho-algo-key-flow}.
+A computer vision algorithm was created as a starting point
+mapping the keys of the keyboard within a video. A rough flowchart of the algorithm
+is shown in Figure~\ref{fig:metho-algo-key-flow}.
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[font=\small,thick]
+		\node[draw,
+			rounded rectangle,
+			minimum width = 2.5cm,
+			minimum height = 1cm,
+			inner sep = 3mm
+		] (start) {START};
+
+		\node[draw,
+			trapezium,
+			trapezium left angle = 65,
+			trapezium right angle = 115,
+			trapezium stretches,
+			below=of start,
+			minimum width=3.5cm,
+			minimum height=1cm,
+			inner sep = 3mm
+		] (input) {Input Frame};
+
+		\node[draw,
+			below=of input,
+			minimum width=3.5cm,
+			minimum height=1cm,
+			inner sep = 3mm
+		] (map) {Get Image Map};
+
+		\node[draw,
+			below=of map,
+			minimum width=3.5cm,
+			minimum height=1cm,
+			inner sep = 3mm
+		] (contours) {Get Key Contour Points};
+
+		\node[draw,
+			trapezium,
+			trapezium left angle = 65,
+			trapezium right angle = 115,
+			trapezium stretches,
+			below=of contours,
+			minimum width=3.5cm,
+			minimum height=1cm,
+			inner sep = 3mm
+		] (output) {Key-Edge Coordinatess Map};
+
+		\node[draw,
+			below=of output,
+			rounded rectangle,
+			minimum width=2.5cm,
+			minimum height=1cm,
+			inner sep = 3mm
+		] (end) {END};
+
+		\draw[-latex] (start) edge (input)
+		(input) edge (map)
+		(map) edge (contours)
+		(contours) edge (output)
+		(output) edge (end);
+
+	\end{tikzpicture}
+	\caption{Flowchart of Keyboard Detection and Mapping Algorithm}
+	\label{fig:metho-algo-key-flow}
+\end{figure}
+
+\newpage
+
+\subsubsection{Get Image Map}
+The first portion of the algorithm creates an image map that is overlaid over
+the detected edges of the keyboard. The flowchart for this function is shown in
+Figure~\ref{fig:metho-algo-key-image-map}.
 
 \begin{figure}[H]
 	\centering
@@ -936,32 +1019,53 @@ in Figure~\ref{fig:metho-algo-key-flow}.
 			minimum width=3.5cm,
 			minimum height=1cm,
 			inner sep = 3mm
-		] (sobel) {Edge Detection using Sobel Filter};
+		] (denoise) {Denoising};
 
 		\node[draw,
-			below=of sobel,
+			below=of denoise,
 			minimum width=3.5cm,
 			minimum height=1cm,
 			inner sep = 3mm
-		] (contours) {Find Contours (Simple)};
+		] (edge) {Edge Detection};
+
+		\node[draw,
+			below=of edge,
+			minimum width=3.5cm,
+			minimum height=1cm,
+			inner sep = 3mm
+		] (thresh) {Thresholding};
+
+		\node[draw,
+			right=of gray,
+			minimum width=3.5cm,
+			minimum height=1cm,
+			inner sep = 3mm
+		] (contours) {Find Contours};
 
 		\node[draw,
 			below=of contours,
 			minimum width=3.5cm,
 			minimum height=1cm,
 			inner sep = 3mm
-		] (map) {Overlay Virtual Keyboard Map using Contour Points};
+		] (sort) {Simplify Contour};
+
+		\node[draw,
+			below=of sort,
+			minimum width=3.5cm,
+			minimum height=1cm,
+			inner sep = 3mm
+		] (transform) {Transform Image Map};
 
 		\node[draw,
 			trapezium,
 			trapezium left angle = 65,
 			trapezium right angle = 115,
 			trapezium stretches,
-			below=of map,
+			below=of transform,
 			minimum width=3.5cm,
 			minimum height=1cm,
 			inner sep = 3mm
-		] (output) {Output Frame};
+		] (output) {Virtual Image Map};
 
 		\node[draw,
 			below=of output,
@@ -971,30 +1075,62 @@ in Figure~\ref{fig:metho-algo-key-flow}.
 			inner sep = 3mm
 		] (end) {END};
 
+		\node[coordinate, right = 0.5cm of thresh] (below) {};
+		\node[coordinate, right = 0.5cm of gray] (top) {};
+
 		\draw[-latex] (start) edge (input)
 		(input) edge (gray)
-		(gray) edge (sobel)
-		(sobel) edge (contours)
-		(contours) edge (map)
-		(map) edge (output)
+		(gray) edge (denoise)
+		(denoise) edge (edge)
+		(edge) edge (thresh)
+		(thresh) -- (below) |- (top) |- (contours)
+		(contours) edge (sort)
+		(sort) edge (transform)
+		(transform) edge (output)
 		(output) edge (end);
 
 	\end{tikzpicture}
-	\caption{Flowchart of Keyboard Detection and Mapping Algorithm}
-	\label{fig:metho-algo-key-flow}
+	\caption{Flowchart of Get Image Map}
+	\label{fig:metho-algo-key-image-map}
 \end{figure}
 
-\subsubsection{Convert to Grayscale}
-The frame will be converted to a 256 level grayscale image. This step will be
-performed because future steps of the algorithm will not require color values to
-work. In addition, the performance of the following steps will be also improved
-as the number of dimensions to be analyzed is reduced.
+\newpage
 
-\subsubsection{Edge Detection using Sobel Filter}
-A Sobel Filter is an edge detection filter that uses a 3$\times$3 kernel that is
-convolved twice. Once horizontally, and another vertically to produce a
-grayscale image of the outlines within the frame. The kernels used by the Sobel
-Filter \parencite{sobel2014} is shown in Figure~\ref{fig:metho-algo-key-sobel}.
+\paragraph{Convert to Grayscale}
+The input frame from the camera was converted to a 256 level grayscale image
+using \texttt{cvtColor} of OpenCV \parencite{opencv-cvtColor}. This step was
+performed because future steps of the algorithm did not require color values to
+work. In addition, this step optimized the algorithm as the number of dimensions
+analyzed was reduced.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{grayscale.png}
+	\caption{Camera capture converted to grayscale}
+	\centering
+\end{figure}
+
+\paragraph{Denoising}
+The algorithm denoised the grayscale image using a bilateral filter as
+implemented by OpenCV \parencite{opencv-bilateral-filter}. This filter takes the
+range of the image into account, rather than just the domain. This resulted in
+an image that is smoothed while preserving its edges
+\parencite{bilateral-filter}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{denoised.png}
+	\caption{Smoothed image with intact edges}
+	\centering
+\end{figure}
+
+
+\paragraph{Edge Detection}
+The algorithm used a Sobel filter for edge detection. This filter uses a
+3$\times$3 kernel that is convolved twice. Once horizontally, and another
+vertically to produce a grayscale image of the outlines within the frame. The
+kernels used by the Sobel filter \parencite{sobel2014} is shown in
+Figure~\ref{fig:metho-algo-key-sobel}.
 
 \begin{figure}[H]
 	\centering
@@ -1003,7 +1139,6 @@ Filter \parencite{sobel2014} is shown in Figure~\ref{fig:metho-algo-key-sobel}.
 			+2 & 0 & -2 \\
 			+1 & 0 & -1
 		\end{bmatrix}$
-	and
 	$\begin{bmatrix}
 			+1 & +2 & +1 \\
 			0  & 0  & 0  \\
@@ -1013,33 +1148,81 @@ Filter \parencite{sobel2014} is shown in Figure~\ref{fig:metho-algo-key-sobel}.
 	\label{fig:metho-algo-key-sobel}
 \end{figure}
 
-The expected result of this step is a black and white image that highlights the
-edges of the keyboard in white.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{sobel.png}
+	\caption{Output of the Sobel filter}
+	\centering
+\end{figure}
 
-\subsubsection{Find Contours (Simple)}
+\paragraph{Thresholding}
+The output of the Sobel filter is a grayscale image of 255 values, with each
+gray pixel indicating edges within the image. There is a need to reduce the
+range of these values to improve the ability of the algorithm to find the
+contours of these edges. To do so, the algorithm utilized Otsu's algorithm to
+perform automated thresholding. Otsu's algorithm determines a single threshold
+that is most optimal for the image \parencite{otsu}. This outputs a
+black-and-white image, with only two values.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{threshed.png}
+	\caption{Threshed image of the edges}
+	\centering
+\end{figure}
+
+
+\paragraph{Find Contours}
 \label{section:metho-algo-key-contours}
 Contours are curves joining all continuous points that have the same color or
-intensity \parencite{opencv-contours}. The OpenCV function \texttt{findContours}
-will be used to find the contours of the outlines of the object found using the
-previous step. This function accepts a contour approximation method as one of
-its arguments. Two methods are provided by OpenCV:\@\texttt{CHAIN\_APPROX\_NONE}
-and \texttt{CHAIN\_APPROX\_SIMPLE}. The former returns all contours in the
-shape, while the latter removes redundant points and returns the least amount of
-points that describes the shape. The algorithm will use the latter, as only the
-extreme edges of the keyboard needs to be detected. This OpenCV function
-implements the algorithm of~\cite{contours} in their paper
-\citetitle{contours}.
+intensity \parencite{opencv-contours}. The OpenCV function
+\texttt{findContours}, with the \texttt{CHAIN\_APPROX\_SIMPLE} contour
+approximation method, was used to find the contours of the outlines of the
+object found using the previous step. This approximation method removed
+redundant points and returned the least amount of points that describes the
+shape. This OpenCV function implements the algorithm of~\cite{contours} in their
+paper \citetitle{contours}.
 
-The expected result of this algorithm is four contour points which are
-positioned on the four edges of the keyboard.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{find-contours.png}
+	\caption{All the contours found in the image}
+	\centering
+\end{figure}
 
-\subsubsection{Overlay Virtual Keyboard Map using Contour Points}
+\paragraph{Simplify Contour}
+However, the points returned by the function can contain more than the four
+extreme points at the edges of the keyboard. In addition, more than one contour
+may be found within the image. As such, the algorithm sorted the contours by
+area, and selected the largest one.
+
+After sorting, the algorithm performed the Douglas-Peucker algorithm for Line
+Simplification \parencite{douglas-peucker}. This reduced the number of points in
+the largest contour to the minimum amount. In ideal cases, the number of points
+would be four, with each point corresponding to the edges of the keyboard.
+However, there were times when other objects would be within the frame, or they
+intersected with the keyboard. This would result in a contour that would be
+defined by more than four points --- which caused the entire algorithm to fail.
+
+The contour points that described the contour were then sorted clockwise. This
+was a necessity since the algorithm of~\cite{contours} does not guarantee that
+the largest contour's points were returned in a clockwise arrangement, which is
+a requirement for the next step
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{get-largest-contour.png}
+	\caption{Simplified contour}
+	\centering
+\end{figure}
+
+
+\paragraph{Transform Image Map}
 The virtual keyboard map is a rectangular image that contains individual
 \ac{roi} for each key in a 60\% \ac{ansi} keyboard. Each key has a corresponding
 color assigned to it and this color fills the region where this key is located
-at. Figure~\ref{fig:metho-algo-key-map} is the virtual keyboard map. Appendix
-Chapter~\ref{appendix:key-map} is a table that shows the hex color code and key
-mapping present in the image map.
+at. Appendix Chapter~\ref{appendix:key-map} is a table that shows the hex color
+code and key mapping present in the image map.
 
 \begin{figure}[H]
 	\centering
@@ -1049,39 +1232,190 @@ mapping present in the image map.
 	\centering
 \end{figure}
 
-The virtual map will then be stretched over the object, with the four contour
-points as the four edges of the virtual keyboard map. The image generated will
-then be returned as the final output of the graph.
-Figure~\ref{fig:metho-algo-key-overlay} illustrates this image, and
-Figure~\ref{fig:metho-algo-key-half} shows how accurate the image map is when
-overlaid over the image.
+The virtual map was stretched over the keyboard using OpenCV's
+\texttt{warpPerspective} function. The function requires a perspective transform
+that was calculated using \texttt{getPerspectiveTransform}. This function takes
+in two arrays with four points each. The input points are the edges of the
+virtual map, ordered clockwise. The output points are the four points of the
+contour, ordered clockwise \parencite{opencv-image-transform}. The resulting
+transform was then used by \texttt{warpPerspective} to apply the transform to
+the virtual map.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{image-map-final.png}
-	\caption{Expected output of the algorithm}
-	\label{fig:metho-algo-key-overlay}
+	\includegraphics[width=0.6\textwidth]{transformed-image-map.png}
+	\caption{Transformed image map}
 	\centering
 \end{figure}
 
-\hfill
+\subsubsection{Get Key Contour Points}
+The second portion of the algorithm pre-computes the contour points of each key
+in the keyboard based on the generated virtual map and the Key-Color Values map.
+The flowchart of this function is shown in
+Figure~\ref{fig:metho-algo-key-contour-points}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth]{image-map-half.png}
-	\caption{Overlaid image map shown at 60\% opacity}
-	\label{fig:metho-algo-key-half}
+	\begin{tikzpicture}[font=\small,thick]
+		\node[draw,
+			rounded rectangle,
+			minimum width = 2.5cm,
+			minimum height = 1cm,
+			inner sep = 3mm
+		] (start) {START};
+
+		\node[draw,
+			trapezium,
+			trapezium left angle = 65,
+			trapezium right angle = 115,
+			trapezium stretches,
+			below = of start,
+			minimum width = 3.5cm,
+			minimum height = 1cm,
+			align = center,
+			inner sep = 3mm
+		] (input) {Virtual Map \\ Key-Color Values Map};
+
+		\node[draw,
+			diamond,
+			aspect = 2,
+			below = of input,
+			minimum width = 4cm,
+			inner sep = 2mm] (for) {for Key, Color in Key-Color Values Map};
+
+		\node[draw,
+			below=of for,
+			minimum width=3.5cm,
+			minimum height=1cm,
+			inner sep = 3mm
+		] (filter) {Filter Virtual Map};
+
+		\node[draw,
+			below=of filter,
+			minimum width=3.5cm,
+			minimum height=1cm,
+			inner sep = 3mm
+		] (contours) {Find and Simplify Contour};
+
+		\node[draw,
+			below=of contours,
+			minimum width=3.5cm,
+			minimum height=1cm,
+			inner sep = 3mm
+		] (scale) {Scale Contours};
+
+		\node[draw,
+			trapezium,
+			trapezium left angle = 65,
+			trapezium right angle = 115,
+			trapezium stretches,
+			below=of scale,
+			minimum width=3.5cm,
+			minimum height=1cm,
+			inner sep = 3mm
+		] (output) {Key-Edge Coordinatess Map};
+
+
+		\node[draw,
+			below=of output,
+			rounded rectangle,
+			minimum width=2.5cm,
+			minimum height=1cm,
+			inner sep = 3mm
+		] (end) {END};
+
+		\node[coordinate, right = 1cm of for] (top-right) {};
+		\node[coordinate, right = 1cm of output] (below-right) {};
+		\node[coordinate, left = 1cm of for] (top-left) {};
+		\node[coordinate, left = 2cm of scale] (below-left) {};
+
+		\draw[-latex] (start) edge (input)
+		(input) edge (for)
+		(for) edge (filter)
+		(for) -- (top-right) -- (below-right) |- (output)
+		(filter) edge (contours)
+		(contours) edge (scale)
+		(scale) -- (below-left) -- (top-left) |- (for)
+		(output) edge (end);
+
+	\end{tikzpicture}
+	\caption{Flowchart of Get Key Contour Points}
+	\label{fig:metho-algo-key-contour-points}
+\end{figure}
+
+\paragraph{Filter Virtual Map}
+The color that corresponds to each key in the virtual map is stored in the
+Key-Color Value Map. This color was used to create a mask for the virtual map
+for a specific key. This mask was obtained by using this snippet of code
+\texttt{(virtualMap == key).all(axis=2)}. This mask was then used to black out
+the rest of the virtual map, leaving only the \ac{roi} of the key in the image.
+
+This specific method was used as the other method that was trialed,
+\texttt{np.where(virtualMap != key)}, did not consider all 3 channels when
+comparing each pixel --- i.e.\ a key assigned with the color value of
+\texttt{[100, 0, 0]} will not be blacked out if the color value of the key to be
+isolated is \texttt{[100, 243, 0]} as the blue channel of the pixel,
+\texttt{100} is equal in both. This would result in other keys remaining in the
+virtual map, even if only one key corresponds to that color.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{filtered-key.png}
+	\caption{Filtered key}
 	\centering
 \end{figure}
+
+\paragraph{Find and Simplify Contours}
+The same method in finding and simplifying the contour of the keyboard was used
+to find and simplify the contour of the \ac{roi} of the key.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{key-contour.png}
+	\caption{Contour points of the \ac{roi}}
+	\centering
+\end{figure}
+
+\paragraph{Scale Contours}
+During testing using training data, a lot of the failures in finger-key
+identification was due to the tight fit of the contour to the key. The contour
+on its own did not give enough buffer for the placement of the finger. This
+buffer was needed as, in some instances, the finger used to press the key was
+not exactly on top of the key, but rather to its side. The algorithm accounts
+for this situation by adding a buffer. This was achieved through scaling the
+contour points by seven pixels on each side. This value was obtained after
+testing other possible values. A buffer of five pixels did not have a lot of
+effect in reducing the number of failures. A buffer of ten pixels did reduce the
+number of failures, but it also greatly increased the algorithm's uncertainty in
+determining the finger --- uncertainty is defined as detecting two or more
+fingers within one \ac{roi}. Seven was a good middle ground in decreasing
+failures, without greatly increasing uncertainty. More information about this
+can be found in the Results and Discussion at Section~\ref{section:results}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{scaled-contour.png}
+	\caption{Contour points of the \ac{roi}}
+	\centering
+\end{figure}
+
+\paragraph{Key-Edge Coordinatess Map}
+After all the keys have passed through the loop, a Key-Edge Coordinates Map was
+generated. Each key now has four points that serve as the coordinates of the
+edge of its \ac{roi}.
+
+The coordinate system that the contour points are based on had its origin at the
+top left, starting at 0, 0. Going to the right increased the value of the
+x-axis, and going to the bottom increased the value of the y-axis. This results
+in a coordinate system that only has positive values with each value
+corresponding to a pixel.
+
 
 \subsection{Computer Vision based Finger Detection, and Tracking}
 \label{section:metho-algo-finger}
-A computer vision algorithm will be chosen as a starting point for detecting,
-and tracking fingers within a video. The specific algorithm used for finger
-detection and tracking will be the solution offered by MediaPipe dubbed
-MediaPipe Hands. This algorithm is composed of two ML models working in
-conjunction to be able to detect the different parts of the hands and track them
-accurately.
+MediaPipe Hands was used as the finger detection and tracking solution. This
+algorithm is composed of two ML models working in conjunction to be able to
+detect the different parts of the hands and track them accurately.
 
 \subsubsection{Palm Detection Model}
 The first model, the Palm Detection Model detects the initial hand locations
@@ -1110,19 +1444,17 @@ hand pose representation \parencite{mediapipe-hands}.
 
 \subsection{Integration for finger-key identification and mapping}
 
-The two previously chosen algorithms will be combined to accomplish finger-key
-identification and mapping. Finger-key identification refers to identifying
-which finger is used to press which key. As an example, the key Q was pressed
-with the pinky finger of the left hand.
+The two previously chosen algorithms was combined to accomplish finger-key
+identification and mapping.
 
-The integration of the algorithm is a two-step process. The first step is to get
-the mapping of the keyboard using the algorithm shown in
+The integration of the algorithm was a two-step process. The first step was to
+get the Key-Edge Coordinates Map shown in
 Section~\ref{section:metho-algo-keyboard}.
 
-The second step runs whenever a key press has been detected. This step uses the
-mapping of the keyboard in conjunction with the finger tracking algorithm
-selected in Section~\ref{section:metho-algo-finger}. The flowchart of the
-algorithm is shown in Figure~\ref{fig:metho-algo-integration}
+The second step runs whenever a key press has been detected. This step used the
+Key-Edge Coordinates Map in conjunction with the finger tracking algorithm selected
+in Section~\ref{section:metho-algo-finger}. The flowchart of the algorithm is
+shown in Figure~\ref{fig:metho-algo-integration}
 
 \begin{figure}[H]
 	\centering
@@ -1158,22 +1490,14 @@ algorithm is shown in Figure~\ref{fig:metho-algo-integration}
 			minimum height = 1cm,
 			align = center,
 			inner sep = 3mm
-		] (map) {Virtual Keyboard Map \\ Finger Tracking Data};
+		] (map) {Key-Edge Coordinates Map \\ Finger Tracking Data};
 
 		\node[draw,
-			below = of map,
-			minimum width = 3.5cm,
-			minimum height = 1cm,
-			inner sep = 3mm
-		] (find-roi) {Find \ac{roi} of the pressed key in Virtual Keyboard Map};
-
-		\node[draw,
-			below=of find-roi,
+			below=of map,
 			minimum width = 3.5cm,
 			minimum height = 1cm,
 			inner sep = 3mm
 		] (find-finger) {Find which fingertip is on that \ac{roi}};
-
 
 		\node[draw,
 			trapezium,
@@ -1195,8 +1519,7 @@ algorithm is shown in Figure~\ref{fig:metho-algo-integration}
 		] (end) {END};
 
 		\draw[-latex] (start) edge (if-packet)
-		(map) edge (find-roi)
-		(find-roi) edge (find-finger)
+		(map) edge (find-finger)
 		(find-finger) edge (return)
 		(return) edge (end);
 
@@ -1208,30 +1531,14 @@ algorithm is shown in Figure~\ref{fig:metho-algo-integration}
 	\label{fig:metho-algo-integration}
 \end{figure}
 
-\subsubsection{Find \ac{roi} of the pressed key in Virtual Keyboard Map}
-Since there is a known color-key mapping based on the Virtual Keyboard Map, the
-algorithm will find the correct color to search for based on the received key
-press packet. This color is isolated from the Virtual Keyboard Map, and the
-\ac{roi} and its coordinates are obtained. The edges of this singular \ac{roi}
-will then be obtained by finding its contours. The specific implementation of
-this is explained in Section~\ref{section:metho-algo-key-contours}.
-
-The coordinate system will have its origin at the top left, starting at 0, 0.
-Going to the right increases the value of the x-axis, and going to the bottom
-increases the value of the y-axis. This will result in a coordinate system that
-only has positive values with each value corresponding to a pixel.
-
-The expected output of this is four sets of pairs. Each pair corresponds to an
-edge of the single \ac{roi}.
-
 \subsubsection{Find which fingertip is on that \ac{roi}}
-The Finger Tracking Data will contain the pixel positions of each landmark of
-the hand. For this step, the algorithm will find the landmark which is
-positioned within the single \ac{roi} obtained from the previous step.
-This will be done using a series of checks.
+The Finger Tracking Data contained the pixel positions of each landmark of the
+hand. For this step, the algorithm finds the landmark which is positioned within
+the single \ac{roi} obtained from the previous step. This was done using a
+series of checks.
 
-Each landmark's coordinates will be compared to the coordinates of the edges of
-the \ac{roi}. A landmark will be determined as positioned within the \ac{roi} if all the
+Each landmark's coordinates was compared to the coordinates of the edges of the
+\ac{roi}. A landmark was determined as positioned within the \ac{roi} if all the
 following conditions are true:
 \begin{enumerate}
 	\item In the X axis, the landmark's coordinates is greater than one or both of
@@ -1244,21 +1551,29 @@ following conditions are true:
 	      the two coordinates found of the bottom side of the \ac{roi}
 \end{enumerate}
 
-These conditions maximize the total area of the \ac{roi} and is not strict about
-exact accuracy. In essence, these conditions will create a perfectly rectangular
-box that contains the quadrilateral formed by the four points from the previous
-step.
+These conditions maximized the total area of the \ac{roi}, and it is not strict
+about exact accuracy. In essence, these conditions creates a perfectly
+rectangular box that contained the quadrilateral formed by the four points from
+the coordinates.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{detected-finger.png}
+	\caption{Finger tip within an \ac{roi}}
+	\centering
+\end{figure}
 
 \subsubsection{Return which fingertip}
-The landmark will then be used to determine which specific finger corresponds to
-the key press. Figure~\ref{fig:metho-algo-integration-landmarks} shows each
-possible landmark that may be returned from the previous step. This step will
-then return the name of the landmark, up until the first underscore. As an
-example, if the landmark found is \texttt{MIDDLE\_FINGER\_TIP}, this step will
-return \texttt{MIDDLE} denoting that the middle finger is the finger that
-corresponds with the key press. In addition, the specific hand will also be
-returned as one of two strings, \texttt{Left} and \texttt{Right}, since
-this information is also bundled together with the landmarks.
+The landmark was then used to determine which specific finger corresponds to the
+key press. Figure~\ref{fig:metho-algo-integration-landmarks} shows each possible
+landmark that may be returned from the previous step. This step returned the
+name of the landmark, up until the first underscore. As an example, if the
+landmark found is \texttt{MIDDLE\_FINGER\_TIP}, this step will return
+\texttt{MIDDLE} denoting that the middle finger is the finger that corresponds
+with the key press. In addition, the specific hand will also be returned as one
+of two strings, \texttt{LEFT} and \texttt{RIGHT}, since this information is also
+bundled together with the landmarks. The two strings were then concatenated with
+an underscore. An example return value is \texttt{RIGHT\_RING}.
 
 As such, the expected output of the submodule is the hand and the finger used to
 press the key. This allows for a more flexible utilization of the data as it
@@ -1275,148 +1590,253 @@ correct or not.
 
 \subsection{Implementation}
 \label{section:metho-algo-implementation}
-The previously discussed algorithms will be implemented using Python. The
-Keyboard Detection, and Mapping Algorithm in
-Section~\ref{section:metho-algo-keyboard} will be implemented as a separate
-submodule in Python using OpenCV.\@The Finger Detection, and Tracking Solution
-in Section~\ref{section:metho-algo-finger} will be consumed using the prebuilt
-Python package offered by the MediaPipe team. Finally, the integration of the
-two will be done as another separate submodule in Python.
+The previously discussed algorithms was implemented using Python. The Keyboard
+Detection, and Mapping Algorithm in Section~\ref{section:metho-algo-keyboard}
+was implemented as a separate submodule in Python using OpenCV. The Finger
+Detection, and Tracking Solution in Section~\ref{section:metho-algo-finger} was
+consumed using the prebuilt Python package offered by the MediaPipe team.
+Finally, the integration of the two will be done as another separate submodule
+in Python.
 
-\section{Trainer}
+\section{Training and Testing}
 
 \subsection{Typing Test Sequences}
-Typing test sequences are strings that will be used in testing the user in their
-ability to type. The test sequences that will be used in the trainer will come
-from text found in the public domain obtained from Project Gutenberg and the
-Internet Archive. Sentences will be isolated from these text and used as test
-sequences if they fit the criteria.
+Typing test sequences are strings that was used in testing the user in their
+ability to type. The test sequences that was used came from text found in the
+public domain obtained from Project Gutenberg and the Internet Archive.
+Sentences were isolated from these text and used as test sequences if they fit
+the criteria.
 
-The criteria for choosing test sequences is as follows: (1) $\approx80\%$ of the
+The criteria for choosing test sequences were as follows: (1) $\approx80\%$ of the
 characters in the keyboard is present in a test sequence. (2) The number of
 words in a test sequence do not exceed 25. (3) Numbers and punctuations should
 be present in at least $\approx30\%$ of the total test sequences.
 
-There will be a total of 10 test sequences that will be gathered. An example
-test sequence is ``What of it, if some old hunks of a sea-captain orders me to
-get a broom and sweep down the decks?'' from Moby Dick by~\cite{moby-dick}. The
-9 other test sequences can be found in Appendix
+There was a total of 10 test sequences that was gathered. An example test
+sequence is ``What of it, if some old hunks of a sea-captain orders me to get a
+broom and sweep down the decks?'' from Moby Dick by~\cite{moby-dick}. The 9
+other test sequences can be found in Appendix
 Chapter~\ref{appendix:test-sequences}.
 
-\subsection{UX/UI design and Front-end development for the touch typing trainer}
-\subsubsection{Design}
-This design will be based on other type tests such as Monkeytype
-\parencite{bartnik2021}, and Keybr \parencite{keybr}, with additional components
-for showing real-time finger-key identification and mapping.
-Figure~\ref{fig:ui-test} and~\ref{fig:ui-stat} illustrates the two main pages of
-the design. Additional screens, such as historical statistics, in-platform
-tutorial, and a written guide are shown in the appendix.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{ui-test.png}
-	\caption{Test screen of the front-end design}
-	\label{fig:ui-test}
-	\centering
-\end{figure}
-
-Figure~\ref{fig:ui-test} has four main components. From the top, the first
-component is the navigation bar. This directs the user to the different pages
-within the website. The second component in the upper left displays the number
-of remaining words to be typed. This is 16 in the example. Below that is the
-test sequence. This shows the user what characters to type, and highlights
-mistakes in two distinct colors. Red if the character pressed was incorrect and
-purple if the character typed was correct, but the finger used to type it is
-wrong. The last main component in this screen is the keyboard that illustrates
-the correct finger positioning, with each finger corresponding to a different
-color.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{ui-stats.png}
-	\caption{Statistics screen of the front-end design}
-	\label{fig:ui-stat}
-	\centering
-\end{figure}
-
-Figure~\ref{fig:ui-stat} has two main components. The first component at the top
-shows the three major statistics for the typing test: Words per minute,
-Accuracy, and Finger Placement Accuracy. Finger Placement Accuracy will be
-explained in Section~\ref{section:metric}. The component below the statistics is a
-graph plotting the major statistics of the user in time. This includes when the
-user made the mistake and when the user slowed down, or increased their speed.
-
-\subsubsection{Implementation}
-The design will be created in Figma and the front-end will be web based. The
-framework the front-end will be developed in will be Svelte, due to its
-community resources, performance, and the researcher's familiarity with the
-framework. The front-end will serve as a display for the information and the
-interface which the user interacts and inputs information into the trainer. No
-calculation will be done within the front-end.
-
-\subsection{Back-end development of a touch typing trainer using the program created
-	in~\ref{section:metho-algo} and the experimental setup identified in~\ref{section:metho-setup}}
-
-The back-end will handle all the computation for the trainer---mainly
-finger-key identification. The backend will also handle authentication and data
-storage.
-
-The back-end will expose a REST API.\@This is a type of application programming
-interface (API) that conforms to the REST architectural style. One key
-characteristic of this style is its statelessness and cacheable data
-\parencite{rest}. This will be implemented using Django, a Python REST API
-framework.
-
-\subsubsection{Finger-key Identification}
-The submodule that integrates all the algorithms will be called within the
-framework. The framework will then respond to requests for finger-key
-identification using this submodule. This will allow the back-end to expose its
-finger-key identification abilities and allow the front-end to use this data for
-the trainer.
-
-\subsubsection{Authentication}
-The core authentication system will rely on \ac{jwt}. According to~\cite{jwt},
-``JSON Web Token (JWT) is a compact, URL-safe means of representing claims to be
-transferred between two parties.'' This allows for a user to claim that they are
-that specific user securely as the claim is cryptographically signed. For the
-backend of the trainer, the \ac{jwt} will be signed using a secret, and it will
-be encoded in HMAC SHA256.
-
-\subsubsection{Data Storage}
-The trainer will store all the data in a relational database using
-PostgreSQL.\@This specific technology was chosen due to its maturity, community,
-and industry recommendations and the researchers' familiarity with the
-technology.
-
-\subsection{Testing of finger-key identification and mapping accuracy}
-
-There will be 3 groups of 10 videos to be captured by the researcher, for a
+\subsection{Data Gathering}
+\subsubsection{Video Capture}
+There were 3 groups of 10 videos that were captured by the researcher, for a
 total of 30 videos. Each group corresponds to three predetermined speeds of
-typing: slow (15wpm), average (35wpm), and fast (80wpm). These speeds are based
-on test data from~\cite{keybr}. The researcher will type the 10 typing test
-sequences at these predetermined speeds. During typing, errors will not be
-consciously taken into account, and errors will happen naturally as part of the
+typing: slow (15wpm), average (35wpm), and fast (80wpm). These speeds were based
+on test data from~\cite{keybr}. The researcher typed the 10 typing test
+sequences at these predetermined speeds. During typing, errors were not
+consciously taken into account, and errors happened naturally as part of the
 typing process.
 
-The researcher will then manually perform finger-key identification for all key
-presses present in the video. The annotated data will then be divided into
-training and test data at a ratio of 60:40. The finger-key identification
-submodule will then perform the finger-key identification for the same videos.
-The accuracy of the submodule will then be obtained by verifying if its
-identification is as expected based on the manual annotation.
+A Python script was created to facilitate this process. The script captured a
+video of the researcher as the researcher was typing the test sequences.
+Whenever the researcher pressed a key, the corresponding frame count was
+captured, and the key pressed was recorded in conjunction. This was stored in
+the format \texttt{FRAME\_NO:KEY\_PRESSED}, and each keypress was then stored as
+a line in a file.
+
+\subsubsection{Keypress Labelling}
+The researcher then manually perform finger-key identification for all key
+presses present in the video. This was also done through a Python script. The
+script parsed the file associated with a video. The frame number found at each
+line was then shown, and the associated data with the frame was superimposed
+over it. The researcher then pressed keys that corresponded with the finger used
+to press the key. This was then again stored in the format
+\texttt{FRAME\_NO:KEY\_PRESSED:FINGER\_USED}, and each keypress was then stored
+as a line in a file.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{labelling.png}
+	\caption{Screen showing the labelling process}
+	\centering
+\end{figure}
+
+
+\subsubsection{Test-Training Split}
+The annotated data was then divided into training and test data at a ratio of
+60:40.
+
+\subsection{Training}
+A script was created to test the accuracy of the submodule. This script opened
+each video, and the associated labeled file. The script then parsed the labeled
+file, and opened the frame for each keypress. The finger-key identification
+submodule was then run, using the data needed for the submodule: the key
+pressed. The result of the submodule was then compared with the manual
+annotation of the keypress. The resulting data from the test was then stored in
+a \texttt{.csv} file with the following content:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ p{0.3\textwidth} p{0.6\textwidth} }
+		\hline
+		Column Name                           & Definition                                             \\
+		\hline
+		\texttt{file\_name}                   & Name of the file                                       \\
+		\texttt{frame}                        & Frame number                                           \\
+		\texttt{key}                          & Key pressed                                            \\
+		\texttt{finger}                       & Manual annotation of the finger used to press the key  \\
+		\texttt{is\_correct}                  & If the submodule was correct                           \\
+		\texttt{fingertips\_detected}         & The fingertips detected by the submodule               \\
+		\texttt{keyboard\_detection\_time}    & Time spent in creating the Key-Edge Coordinates Map    \\
+		\texttt{finger\_classification\_time} & Time spent in classifying which finger pressed the key \\
+	\end{tabular}
+	\caption{\label{tab:csv-output}CSV File Contents}
+\end{table}
+
+Adjustments were then made to the algorithm after each training pass to improve
+its performance. Some runs had improvements in its statistics without doing any
+adjustments. These were runs that showed errors in the manual annotation and
+were corrected afterwards.
+
+\subsection{Analysis}
+The resulting \texttt{.csv} file was imported into Google Sheets and key
+statistics were obtained based on the data. These statistics can be found on
+Table~\ref{tab:acquired-stats}. These key statistics informed what to adjust in
+the algorithm and its overall performance.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ p{0.3\textwidth} p{0.6\textwidth} }
+		\hline
+		Identifications                                                                                                                       \\
+		\hline
+		Success                                     & Number of successful finger-key identifications                                         \\
+		Failed                                      & Number of failed finger-key identifications                                             \\
+		Success Percentage                          & Percentage of successful finger-key identifications                                     \\
+		Failed Percentage                           & Percentage of failed finger-key identifications                                         \\
+		\\[0.25cm]
+		\hline
+		Failure Types                                                                                                                         \\
+		\hline
+		Mismatched Identification                   & Submodule output did not match manual annotation                                        \\
+		No Identification                           & Submodule did not detect finger tips in \ac{roi}                                        \\
+		\\[0.25cm]
+		\hline
+		Uncertain Successes                                                                                                                   \\
+		\hline
+		Total                                       & Total uncertain successes, defined as detecting two or more fingers within one \ac{roi} \\
+		Spacebar                                    & All uncertain successes that were on the spacebar                                       \\
+		Spacebar Percentage                         & Percentage of spacebar uncertain success over all uncertain successes                   \\
+		Non-spacebar                                & All other uncertain successes                                                           \\
+		Non-spacebar Percentage                     & Percentage of non-spacebar uncertain success over all uncertain successes               \\
+		Non-spacebar over total \newline Percentage & Percentage of non-spacebar uncertain success over all total keypresses                  \\
+		\\[0.25cm]
+		\hline
+		Average Running Time                                                                                                                  \\
+		\hline
+		Keyboard Detection Time                     & Average keyboard detection time of all videos                                           \\
+		Finger Identification Time                  & Average finger identification time of all key presses                                   \\
+	\end{tabular}
+	\caption{\label{tab:acquired-stats}Acquired statistics}
+\end{table}
+
+\subsection{Testing}
+The same script was run through the test data. The same format of output was
+gathered, and the same key statistics were recorded.
+
+
+
+%% \section{Trainer}
+
+%% \subsection{UX/UI design and Front-end development for the touch typing trainer}
+%% \subsubsection{Design}
+%% This design will be based on other type tests such as Monkeytype
+%% \parencite{bartnik2021}, and Keybr \parencite{keybr}, with additional components
+%% for showing real-time finger-key identification and mapping.
+%% Figure~\ref{fig:ui-test} and~\ref{fig:ui-stat} illustrates the two main pages of
+%% the design. Additional screens, such as historical statistics, in-platform
+%% tutorial, and a written guide are shown in the appendix.
+
+%% \begin{figure}[H]
+%% 	\centering
+%% 	\includegraphics[width=0.8\textwidth]{ui-test.png}
+%% 	\caption{Test screen of the front-end design}
+%% 	\label{fig:ui-test}
+%% 	\centering
+%% \end{figure}
+
+%% Figure~\ref{fig:ui-test} has four main components. From the top, the first
+%% component is the navigation bar. This directs the user to the different pages
+%% within the website. The second component in the upper left displays the number
+%% of remaining words to be typed. This is 16 in the example. Below that is the
+%% test sequence. This shows the user what characters to type, and highlights
+%% mistakes in two distinct colors. Red if the character pressed was incorrect and
+%% purple if the character typed was correct, but the finger used to type it is
+%% wrong. The last main component in this screen is the keyboard that illustrates
+%% the correct finger positioning, with each finger corresponding to a different
+%% color.
+
+%% \begin{figure}[H]
+%% 	\centering
+%% 	\includegraphics[width=0.8\textwidth]{ui-stats.png}
+%% 	\caption{Statistics screen of the front-end design}
+%% 	\label{fig:ui-stat}
+%% 	\centering
+%% \end{figure}
+
+%% Figure~\ref{fig:ui-stat} has two main components. The first component at the top
+%% shows the three major statistics for the typing test: Words per minute,
+%% Accuracy, and Finger Placement Accuracy. Finger Placement Accuracy will be
+%% explained in Section~\ref{section:metric}. The component below the statistics is a
+%% graph plotting the major statistics of the user in time. This includes when the
+%% user made the mistake and when the user slowed down, or increased their speed.
+
+%% \subsubsection{Implementation}
+%% The design will be created in Figma and the front-end will be web based. The
+%% framework the front-end will be developed in will be Svelte, due to its
+%% community resources, performance, and the researcher's familiarity with the
+%% framework. The front-end will serve as a display for the information and the
+%% interface which the user interacts and inputs information into the trainer. No
+%% calculation will be done within the front-end.
+
+%% \subsection{Back-end development of a touch typing trainer using the program created
+%% 	in~\ref{section:metho-algo} and the experimental setup identified in~\ref{section:metho-setup}}
+
+%% The back-end will handle all the computation for the trainer---mainly
+%% finger-key identification. The backend will also handle authentication and data
+%% storage.
+
+%% The back-end will expose a REST API.\@This is a type of application programming
+%% interface (API) that conforms to the REST architectural style. One key
+%% characteristic of this style is its statelessness and cacheable data
+%% \parencite{rest}. This will be implemented using Django, a Python REST API
+%% framework.
+
+%% \subsubsection{Finger-key Identification}
+%% The submodule that integrates all the algorithms will be called within the
+%% framework. The framework will then respond to requests for finger-key
+%% identification using this submodule. This will allow the back-end to expose its
+%% finger-key identification abilities and allow the front-end to use this data for
+%% the trainer.
+
+%% \subsubsection{Authentication}
+%% The core authentication system will rely on \ac{jwt}. According to~\cite{jwt},
+%% ``JSON Web Token (JWT) is a compact, URL-safe means of representing claims to be
+%% transferred between two parties.'' This allows for a user to claim that they are
+%% that specific user securely as the claim is cryptographically signed. For the
+%% backend of the trainer, the \ac{jwt} will be signed using a secret, and it will
+%% be encoded in HMAC SHA256.
+
+%% \subsubsection{Data Storage}
+%% The trainer will store all the data in a relational database using
+%% PostgreSQL.\@This specific technology was chosen due to its maturity, community,
+%% and industry recommendations and the researchers' familiarity with the
+%% technology.
+
 
 \section{Metric}
 \label{section:metric}
 
-There will be two total metrics obtained pertaining to finger and key mapping.
-The first will be per test sequence, and the second will be per key.
+There was a two total metrics obtained pertaining to finger and key mapping.
+The first was per test sequence, and the second was per key.
 
 \subsection{Per Test Sequence}
-The metric to be calculated per test sequence is \ac{fpacc}. This metric will
-compute the percentage of accurate keys pressed with the correct finger over the
+The metric which calculates per test sequence is \ac{fpacc}. This metric
+computes the percentage of accurate keys pressed with the correct finger over the
 length of the typing test sequence. Inputting the wrong character, even if
-pressed with the correct finger will reduce \ac{fpacc} since \ac{fpacc} measures
-\emph{accurate key presses}, and incorrect characters will be considered as
+pressed with the correct finger, reduces \ac{fpacc} since \ac{fpacc} measures
+\emph{accurate key presses}, and incorrect characters areconsidered as
 inaccurate key presses.
 
 The equation for calculating \ac{fpacc} is as follows:
@@ -1429,10 +1849,10 @@ Where $|F|$ refers to the number of accurate keys pressed with the
 correct finger and $|T|$ refers to the length of the text.
 
 \subsection{Per Key}
-This metric will compute the \ac{hfpacc} for a certain key. This metric will
-take the times the user pressed the wrong key when asked for a certain key into
-account, the same as in \ac{fpacc}.\@This will allow the user to easily verify
-which keys need attention and retraining if there is a high frequency of error.
+This metric computes the \ac{hfpacc} for a certain key. This metric takes the
+times the user pressed the wrong key when asked for a certain key into account,
+the same as in \ac{fpacc}.\@This allows the user to easily verify which keys
+need attention and retraining if there is a high frequency of error.
 
 The equation for calculating a key's \ac{hfpacc} is as follows:
 
@@ -1444,6 +1864,11 @@ Where $|F_{char}|$ refers to the number of accurate keys pressed with the
 correct finger for a certain character, identified as $char$. $|C_{char}|$
 refers to the number of times the character has appeared in all test sequences
 for the user.
+
+\chapter{Results and Discussion}
+\chapter{Conclusion}
+\chapter{Future Work}
+
 
 \newpage
 \appendix

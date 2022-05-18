@@ -35,8 +35,16 @@ def getKeyboardImage() -> np.ndarray | None:
 def getEdgeFrame(frame: np.ndarray) -> np.ndarray:
     grayscaleFrame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
 
+    if DEBUG:
+        cv.imshow("debug", grayscaleFrame)
+        cv.waitKey(0)
+
     # Denoise while maintaining edges
     bilateralFilteredFrame = cv.bilateralFilter(grayscaleFrame, 11, 17, 17)
+
+    if DEBUG:
+        cv.imshow("debug", bilateralFilteredFrame)
+        cv.waitKey(0)
 
     # Perform Sobel Filtering
     sobelX = cv.Sobel(
@@ -61,6 +69,10 @@ def getEdgeFrame(frame: np.ndarray) -> np.ndarray:
     absSobelY = cv.convertScaleAbs(sobelY)
 
     finalSobel = cv.addWeighted(absSobelX, 0.5, absSobelY, 0.5, 0)
+
+    if DEBUG:
+        cv.imshow("debug", finalSobel)
+        cv.waitKey(0)
 
     # Use Otsu's Threshold to get better defined edges while not using arbitrary
     # values
@@ -170,7 +182,10 @@ def getKeyContourPoints(virtualMap: np.ndarray, key: list[int]) -> np.ndarray:
     grayMap = cv.cvtColor(filteredMap, cv.COLOR_BGR2GRAY)
 
     contours = findContours(grayMap)
+
     largestContour = approximateLargestContour(contours)
+
+    DEBUG_displayContours(grayMap, np.reshape(largestContour, (4, 1, 2)))
 
     largestContour = np.reshape(largestContour, (4, 2))
     sortedContour = sortContourPoints(largestContour)
