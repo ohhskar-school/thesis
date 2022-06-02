@@ -20,9 +20,6 @@
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
 
-% Table of Content
-\setcounter{tocdepth}{2}
-
 % Code Formatting
 \usepackage{minted}
 \usemintedstyle{pastie}
@@ -98,13 +95,14 @@
 {0em}
 {\vspace{-1.5ex}}
 
+
 % Colors
 \usepackage[dvipsnames]{xcolor}
 
 % Links
-\usepackage{hyperref}
+\usepackage[linktoc=all]{hyperref}
 \hypersetup{
-	pdftitle={Development of a finger-key identification submodule for a touch typing trainer},
+	pdftitle={Development of a Finger-Key Identification Module for a Touch Typing Trainer},
 	pdfstartview={FitH},
 	colorlinks=true,
 	linkcolor=black,
@@ -121,6 +119,11 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes,positioning,calc}
 
+% Graphs
+\usepackage{pgfplots}
+\usepgfplotslibrary{external}
+\pgfplotsset{width=1\textwidth,compat=1.9}
+
 % Tables
 \usepackage{booktabs}
 \usepackage{supertabular}
@@ -132,7 +135,24 @@
 \usepackage{pdfpages}
 \usepackage{pdflscape}
 
-\usepackage{caption}
+% Center table with controlled width
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% List of Equations
+\usepackage[titles]{tocloft}
+\newcommand{\listequationsname}{List of Equations}
+\newlistof{equations}{equ}{\listequationsname}
+\newcommand{\labelequations}[1]{%
+	\addcontentsline{equ}{equations}{\numberline{\theequation}#1}\par}
+\setlength{\cftequationsindent}{1.5em}
+\setlength{\cftequationsnumwidth}{2.3em}
+
+\addto\captionsamerican{% Replace "english" with the language you use
+	\renewcommand{\contentsname}%
+	{Table of Contents}%
+}
 
 %%% LT-SKIP-END
 
@@ -149,7 +169,7 @@
 	\includegraphics[width=0.2\textwidth]{dcs.png}
 	\par\vspace{1cm}
 
-	\textsc{Development of a finger-key identification submodule\\for a touch typing trainer}
+	\textsc{Development of a Finger-Key Identification Module\\for a Touch Typing Trainer}
 	\par\vspace{0.5cm}
 
 	\hrulefill{}
@@ -174,22 +194,154 @@
 	Adviser
 	\par\vspace{0.5cm}
 
-	February 2022
+	June 2022
 	\vfill
 	\hspace{0pt}
 \end{titlepage}
 
 \newpage
 
+\begin{center}
+
+	\hspace{0pt}
+	\vfill
+
+	\includegraphics[width=0.2\textwidth]{upc.png}
+	\includegraphics[width=0.2\textwidth]{dcs.png}
+	\par\vspace{0.25cm}
+
+	\textbf{\uppercase{University of the Philippines Cebu}}\\
+	College of Science\\
+	Department of Computer Science
+
+	\par\vspace{1cm}
+
+	\textbf{\uppercase{Development of a finger-key identification module\\for a touch typing trainer}}
+
+	\par\vspace{1cm}
+
+	\textbf{Permission is given for the following people to have access to this thesis:}
+
+	\par\vspace{0.25cm}
+
+	\begin{tabular}{ | P{0.8\textwidth} | P{0.1\textwidth} | }
+		\hline
+		Available to the general public                                 & Yes \\
+		\hline
+		Available only after consultation with author or thesis adviser & Yes \\
+		\hline
+		Available to those bound by confidentiality agreement           & Yes \\
+		\hline
+	\end{tabular}
+	\par\vspace{1cm}
+
+
+	\line(1,0){0.6\textwidth}\\
+	Oscar Vian L. Valles\\
+	Student
+	\par\vspace{0.5cm}
+
+	\line(1,0){0.6\textwidth}\\
+	Dhong Fhel K. Gom-os\\
+	Special Problem Adviser
+
+	\vfill
+	\hspace{0pt}
+
+\end{center}
+
+\newpage
+
+\noindent
+This thesis entitled ``\textbf{\uppercase{Development of a finger-key
+		identification \\module for a touch typing trainer}}'' prepared and
+submitted by \\\uppercase{Oscar Vian L. Valles} is approved by:
+
+\par\vspace{2cm}
+
+\begin{center}
+	\begin{minipage}[t]{0.45\textwidth}
+		\centering
+		\line(1,0){0.9\textwidth}\\
+		Prof. Aileen Joan O. Vicente\\
+		Panel Member
+
+		\par\vspace{0.5cm}
+		\line(1,0){0.9\textwidth}\\
+		Date
+	\end{minipage}
+	\begin{minipage}[t]{0.45\textwidth}
+		\centering
+		\line(1,0){0.9\textwidth}\\
+		Prof. Aileen Joan O. Vicente\\
+		Panel Member
+
+		\par\vspace{0.5cm}
+		\line(1,0){0.9\textwidth}\\
+		Date
+	\end{minipage}
+
+	\par\vspace{2cm}
+
+	\line(1,0){0.405\textwidth}\\
+	Prof. Aileen Joan O. Vicente\\
+	Panel Chair
+
+	\par\vspace{0.5cm}
+	\line(1,0){0.405\textwidth}\\
+	Date
+
+	\par\vspace{2cm}
+
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\line(1,0){0.9\textwidth}\\
+		Prof. Aileen Joan O. Vicente\\
+		Chair, Department of Computer Science
+
+		\par\vspace{0.5cm}
+		\line(1,0){0.9\textwidth}\\
+		Date
+	\end{minipage}
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\line(1,0){0.9\textwidth}\\
+		Prof. Nelia S. Ereno\\
+		Dean, College of Science
+
+		\par\vspace{0.5cm}
+		\line(1,0){0.9\textwidth}\\
+		Date
+	\end{minipage}
+\end{center}
+
+\newpage
+
+\pagenumbering{roman}
+\addcontentsline{toc}{chapter}{Abstract}
+\begin{center}
+	\LARGE\textbf{Abstract}
+\end{center}
+
+
+\newpage
+
+\addcontentsline{toc}{chapter}{Acronyms}
 \printacronyms{}
 \newpage
 
+\addcontentsline{toc}{chapter}{List of Tables}
 \listoftables
 \newpage
 
+\addcontentsline{toc}{chapter}{List of Figures}
 \listoffigures
 \newpage
 
+\addcontentsline{toc}{chapter}{List of Equations}
+\listofequations
+
+\newpage
 
 \tableofcontents
 \newpage
@@ -234,56 +386,47 @@ backspace. However, it is impractical for an educator to check each student if
 they are not performing these movements as these may only show for a small
 period which may not be caught in time.
 
-Thus, there is a need for automatically detecting which finger is used during
-typing. One way to do this is through finger and hand tracking. One solution for
-tracking is by using image processing and machine learning. An example of this
-is MediaPipe by~\cite{mediapipe}.
-
-MediaPipe allows for various applications for machine learning in the field of
-image processing. This includes, hand tracking, pose estimation, object
-detection, and others. Another example of a library that allows for hand and
-finger tracking is OpenCV by~\cite{opencv}. This is a tool that simplifies
-computer vision and image processing. Machine learning can also be used with
-OpenCV.\@
+Thus, there is a need for automatically identifying which finger is used to
+press which key during typing --- hereby defined as finger-key identification.
 
 \section{Research Questions}
 \begin{enumerate}
 	\item What algorithm or technique using computer vision is capable of
-	      identifying which keys are being pressed by which fingers during keyboard
-	      typing?
+	      finger-key identification.
 	\item What setup and configuration of a single optical camera can be used to
-	      capture images during keyboard typing for real-time finger-key identification
+	      capture images during keyboard typing for time finger-key identification
 	      using the algorithm identified in 1?
-	\item How to design and develop a touch typing trainer using the algorithm in 1
-	      and camera setup and configuration in 2?
-	\item How accurate is the touch typing trainer in identifying which finger is
-	      used to press which key?
-	\item What new keyboard typing metric can be developed in order to consider both
-	      the key and finger used to press as parameters?
+	\item How to design and develop a finger-key identification module using
+	      the algorithm in 1 and camera setup and configuration in 2?
+	\item How accurate is the module developed in 3 in finger-key identification?
+	\item Is the module developed in 3 fast enough to run in real-time?
+	\item What new keyboard typing metric to develop that considers both the key and
+	      finger used to press as parameters?
 \end{enumerate}
 
 \section{Research Objectives}
 
 \subsection{General Objectives}
-To create a touch typing trainer that detects poor finger placement and hand
-position to help develop better typing habits and healthier typing ergonomics.
+To create a finger-key identification module that accurately identifies what
+finger was used to press a key at a point in time to help develop better typing
+habits and healthier typing ergonomics.
 
 \subsection{Specific Objectives}
 \begin{enumerate}
 	\item Develop an algorithm or technique using computer vision that is capable
-	      of identifying which keys are being pressed by which fingers during keyboard
-	      typing --- i.e.\ finger-key identification.
+	      of finger-key identification.
 	\item Identify the setup and configuration of a single optical camera that can
-	      be used to capture images during keyboard typing for real-time finger-key
+	      be used to capture images during keyboard typing for finger-key
 	      identification using the algorithm identified in 1
-	\item Design and develop a touch typing trainer using the algorithm in 1 and
-	      camera setup and configuration in 2
-	\item Determine the accuracy of the touch typing trainer in finger-key
+	\item Design and develop a module using the algorithm in 1 and camera setup
+	      and configuration in 2
+	\item Determine the accuracy of the module developed in 3 in finger-key
 	      identification
+	\item Determine if the module developed in 3 is fast-enough to run in
+	      real-time
 	\item Develop a new keyboard typing metric that uses both the key and
 	      finger used to press as parameters
 \end{enumerate}
-
 
 \section{Scope and Limitation}
 This research will focus on typing on a 60\% keyboard. Figure~\ref{fig:60}
@@ -300,11 +443,11 @@ English-speaking countries such as the Philippines, Malaysia, and India
 \parencite{apple-layout}.
 
 The setup that will be captured will be simplified and fixed for the development
-and testing of the finger-key identification submodule. This includes the
+and testing of the finger-key identification module. This includes the
 keyboard, surface it is placed on, and lighting of the entire area. Furthermore,
 the setup will not be tested by other respondents, but by the researchers only
 --- as the focus is on the development and testing of the finger-key
-identification submodule and not on the touch typing trainer and its effects on
+identification module and not on the touch typing trainer and its effects on
 typing.
 
 The program will expect the that user has all ten digits and has no hand,
@@ -320,8 +463,8 @@ pointed downwards facing the keyboard and the hand.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{60.jpg}
-	\caption{A 60\% keyboard in \ac{ansi} layout. Reprinted from \fullcite{60}}
+	\includegraphics[width=0.7\textwidth]{60.png}
+	\caption{A 60\% keyboard in \ac{ansi} layout.}
 	\label{fig:60}
 	\centering
 \end{figure}
@@ -329,20 +472,19 @@ pointed downwards facing the keyboard and the hand.
 
 \section{Significance of the Research}
 This research is beneficial for all users of physical keyboards. These include a
-vast majority of the population as there are a lot of professions that heavily
-rely on keyboards. Examples include developers, physicians, educators, and
+majority of the population as there are a lot of professions that heavily rely
+on keyboards. Examples include developers, physicians, educators, and
 accountants. By having better ergonomics while typing --- by touch typing
 correctly --- wrist injuries can be prevented, and typing speed may be increased
 
 This research also helps educators, especially early educators teaching beginner
-typists. By automatically checking for ergonomics, posture, and correct
-technique, the burden of checking each student is lessened, and directed
-interventions for bad habits can be easily created as students with these bad
-habits are easily identified
+typists. By automatically checking for correct technique, the burden of checking
+each student is reduced, and directed interventions for bad habits can be
+easily created as students with these bad habits are easily identified
 
-This research has a direct impact on people that has hand or wrist injuries that
-are caused by poor typing habits. By correcting these poor habits, pain from
-these injuries will be lessened, and even be prevented from occurring in the
+This research has a direct impact on people that have hand or wrist injuries
+that are caused by poor typing habits. By correcting these poor habits, pain
+from these injuries will be reduced, and even be prevented from occurring in the
 first place. A specific example of this is by reducing ulnar deviation which
 affects the nerve that is indicative of \ac{cts} \parencite{toosi2015}.
 
@@ -353,8 +495,6 @@ affects the nerve that is indicative of \ac{cts} \parencite{toosi2015}.
 Keyboard typing is the process of using a keyboard to input characters in a
 system. In the context of this paper, keyboard typing will refer to the act of
 using a physical keyboard to input characters in a computer system.
-
-% Insert more about keyboard typing here %
 
 \subsection{Keyboard Layouts and Form Factors}
 
@@ -482,7 +622,9 @@ measures speed is \ac{wpm}. \ac{wpm} as defined by \citeauthor{arif2009} is:
 
 \begin{equation}
 	WPM = \frac{|T| - 1}{S} \cdot 60 \cdot \frac{1}{5}
+	\label{equ:wpm}
 \end{equation}
+\labelequations{Words per Minute}
 
 Where, $|T|$ is the length of the text, $S$ is the time in seconds spent writing
 the text. This time starts directly after the first character has been pressed,
@@ -504,6 +646,7 @@ Accuracy, as defined by \citeauthor{bartnik2021}, is:
 \begin{equation}
 	ACC = \frac{|C|}{|T|} \cdot 100\%
 \end{equation}
+\labelequations{Accuracy}
 
 Where $|C|$ is the number of correct characters and $|T|$ is the length of the
 text.
@@ -543,6 +686,16 @@ locating the keys \parencite{logan2016}.
 	\centering
 \end{figure}
 
+\subsubsection{Average Typing Speed}
+
+Average typing speed using a keyboard with QWERTY layout, based on test data
+from \cite{keybr}, is $\approx37.5$ \ac{wpm}. This average is taken from all of
+the test results they have gathered from all of their users.
+\cite{arif2009} also performed a survey with 12 participants using
+multiple typing methods. They got an average \ac{wpm} of 75.85 with a standard
+deviation of 15.61 when their participants used a physical QWERTY layout. This
+average \ac{wpm} was also the highest among the other typing methods the
+researchers studied.
 
 \section{Keyboard Typing in Education}
 
@@ -895,6 +1048,27 @@ steps improved initial keyboard detection. In addition, the keyboard layout was
 ANSI, due to the availability and widespread adoption of the layout in the
 Philippines.
 
+\subsection{Computer}
+The computer used to run the algorithm is a desktop computer with the following
+specification:
+
+\begin{table}[H]
+	\small
+	\centering
+	\begin{tabular}{ p{0.3\textwidth} p{0.6\textwidth} }
+		\toprule
+		Component & Specification                          \\
+		\midrule
+		CPU       & AMD Ryzen 5 3600                       \\
+		GPU       & AMD Radeon RX 5600 XT                  \\
+		RAM       & G.Skill Trident Z Neo RGB 16GB 3200mhz \\
+		Storage   & Samsung SSD 850 EVO                    \\
+		OS        & Arch Linux                             \\
+		\bottomrule
+	\end{tabular}
+	\caption{\label{tab:table-specs}Computer Specifications}
+\end{table}
+
 \subsection{Environment}
 The setup was lit with a lamp besides the camera. This light source evenly lit
 the keyboard and the fingers used for typing. The light source used was a common
@@ -958,7 +1132,7 @@ is shown in Figure~\ref{fig:metho-algo-key-flow}.
 			minimum width=3.5cm,
 			minimum height=1cm,
 			inner sep = 3mm
-		] (output) {Key-Edge Coordinatess Map};
+		] (output) {Key-Edge Coordinates Map};
 
 		\node[draw,
 			below=of output,
@@ -1389,8 +1563,7 @@ effect in reducing the number of failures. A buffer of ten pixels did reduce the
 number of failures, but it also greatly increased the algorithm's uncertainty in
 determining the finger --- uncertainty is defined as detecting two or more
 fingers within one \ac{roi}. Seven was a good middle ground in decreasing
-failures, without greatly increasing uncertainty. More information about this
-can be found in the Results and Discussion at Section~\ref{section:results}
+failures, without greatly increasing uncertainty.
 
 \begin{figure}[H]
 	\centering
@@ -1559,7 +1732,7 @@ the coordinates.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{detected-finger.png}
-	\caption{Finger tip within an \ac{roi}}
+	\caption{Fingertip within an \ac{roi}}
 	\centering
 \end{figure}
 
@@ -1575,7 +1748,7 @@ of two strings, \texttt{LEFT} and \texttt{RIGHT}, since this information is also
 bundled together with the landmarks. The two strings were then concatenated with
 an underscore. An example return value is \texttt{RIGHT\_RING}.
 
-As such, the expected output of the submodule is the hand and the finger used to
+As such, the expected output of the module is the hand and the finger used to
 press the key. This allows for a more flexible utilization of the data as it
 carries greater context, compared to just returning if the finger used was
 correct or not.
@@ -1592,10 +1765,10 @@ correct or not.
 \label{section:metho-algo-implementation}
 The previously discussed algorithms was implemented using Python. The Keyboard
 Detection, and Mapping Algorithm in Section~\ref{section:metho-algo-keyboard}
-was implemented as a separate submodule in Python using OpenCV. The Finger
+was implemented as a separate module in Python using OpenCV. The Finger
 Detection, and Tracking Solution in Section~\ref{section:metho-algo-finger} was
 consumed using the prebuilt Python package offered by the MediaPipe team.
-Finally, the integration of the two will be done as another separate submodule
+Finally, the integration of the two will be done as another separate module
 in Python.
 
 \section{Training and Testing}
@@ -1635,6 +1808,13 @@ captured, and the key pressed was recorded in conjunction. This was stored in
 the format \texttt{FRAME\_NO:KEY\_PRESSED}, and each keypress was then stored as
 a line in a file.
 
+One caveat of the camera used was it's autofocus capabilities. This meant that
+there was a set amount of time during the start of the recording where the
+camera captured blurry images of the keyboard. This necessitates around three
+seconds for the autofocus to complete and focus on the keyboard. There was one
+video capture where the whole test sequence was scrapped as the researcher
+started typing even if the camera was not focused.
+
 \subsubsection{Keypress Labelling}
 The researcher then manually perform finger-key identification for all key
 presses present in the video. This was also done through a Python script. The
@@ -1658,36 +1838,43 @@ The annotated data was then divided into training and test data at a ratio of
 60:40.
 
 \subsection{Training}
-A script was created to test the accuracy of the submodule. This script opened
-each video, and the associated labeled file. The script then parsed the labeled
-file, and opened the frame for each keypress. The finger-key identification
-submodule was then run, using the data needed for the submodule: the key
-pressed. The result of the submodule was then compared with the manual
-annotation of the keypress. The resulting data from the test was then stored in
-a \texttt{.csv} file with the following content:
+A script was created to test the accuracy of the module. This script opened each
+video, and the associated labeled file. There were three frames taken for each
+video to perform step one of the module: frames ten, fifteen, and twenty. The
+first frame that returned a Key-Edge Coordinates Map after going through step
+one of the module was used. The rest of the frames were not passed through the
+module and were discarded.
+
+The script then parsed the labeled file, and opened the frame for each keypress.
+The second algorithm of the module was then run, using the data needed for the
+algorithm: the key pressed. The result of the module was then compared with the
+manual labelling of the keypress. The resulting data from the test was then
+stored in a \texttt{.csv} file with the following content:
 
 \begin{table}[H]
+	\small
 	\centering
 	\begin{tabular}{ p{0.3\textwidth} p{0.6\textwidth} }
-		\hline
+		\toprule
 		Column Name                           & Definition                                             \\
-		\hline
+		\midrule
 		\texttt{file\_name}                   & Name of the file                                       \\
 		\texttt{frame}                        & Frame number                                           \\
 		\texttt{key}                          & Key pressed                                            \\
-		\texttt{finger}                       & Manual annotation of the finger used to press the key  \\
-		\texttt{is\_correct}                  & If the submodule was correct                           \\
-		\texttt{fingertips\_detected}         & The fingertips detected by the submodule               \\
+		\texttt{finger}                       & Manual labelling of the finger used to press the key   \\
+		\texttt{is\_correct}                  & If the module was correct                              \\
+		\texttt{fingertips\_detected}         & The fingertips detected by the module                  \\
 		\texttt{keyboard\_detection\_time}    & Time spent in creating the Key-Edge Coordinates Map    \\
 		\texttt{finger\_classification\_time} & Time spent in classifying which finger pressed the key \\
+		\bottomrule
 	\end{tabular}
 	\caption{\label{tab:csv-output}CSV File Contents}
 \end{table}
 
 Adjustments were then made to the algorithm after each training pass to improve
 its performance. Some runs had improvements in its statistics without doing any
-adjustments. These were runs that showed errors in the manual annotation and
-were corrected afterwards.
+adjustments. These were runs that showed errors in the manual labelling and
+were corrected afterward.
 
 \subsection{Analysis}
 The resulting \texttt{.csv} file was imported into Google Sheets and key
@@ -1696,37 +1883,40 @@ Table~\ref{tab:acquired-stats}. These key statistics informed what to adjust in
 the algorithm and its overall performance.
 
 \begin{table}[H]
+	\small
 	\centering
 	\begin{tabular}{ p{0.3\textwidth} p{0.6\textwidth} }
-		\hline
-		Identifications                                                                                                                       \\
-		\hline
-		Success                                     & Number of successful finger-key identifications                                         \\
-		Failed                                      & Number of failed finger-key identifications                                             \\
-		Success Percentage                          & Percentage of successful finger-key identifications                                     \\
-		Failed Percentage                           & Percentage of failed finger-key identifications                                         \\
+		\toprule
+		Identifications                                                                                                                    \\
+		\midrule
+		Successes                                & Number of successful finger-key identifications                                         \\
+		Failures                                 & Number of failed finger-key identifications                                             \\
+		Success Percentage                       & Percentage of successful finger-key identifications                                     \\
+		Failure Percentage                       & Percentage of failed finger-key identifications
 		\\[0.25cm]
-		\hline
-		Failure Types                                                                                                                         \\
-		\hline
-		Mismatched Identification                   & Submodule output did not match manual annotation                                        \\
-		No Identification                           & Submodule did not detect finger tips in \ac{roi}                                        \\
+		\midrule
+		Failure Types                                                                                                                      \\
+		\midrule
+		Mismatched Identification                & Module output did not match manual labelling                                            \\
+		No Identification                        & Module did not detect fingertips in \ac{roi}
 		\\[0.25cm]
-		\hline
-		Uncertain Successes                                                                                                                   \\
-		\hline
-		Total                                       & Total uncertain successes, defined as detecting two or more fingers within one \ac{roi} \\
-		Spacebar                                    & All uncertain successes that were on the spacebar                                       \\
-		Spacebar Percentage                         & Percentage of spacebar uncertain success over all uncertain successes                   \\
-		Non-spacebar                                & All other uncertain successes                                                           \\
-		Non-spacebar Percentage                     & Percentage of non-spacebar uncertain success over all uncertain successes               \\
-		Non-spacebar over total \newline Percentage & Percentage of non-spacebar uncertain success over all total keypresses                  \\
+		\midrule
+		Uncertain Successes                                                                                                                \\
+		\midrule
+		Total                                    & Total uncertain successes, defined as detecting two or more fingers within one \ac{roi} \\
+		Spacebar                                 & All uncertain successes that were on the spacebar                                       \\
+		Spacebar Percentage                      & Percentage of spacebar uncertain successes over all uncertain successes                 \\
+		Spacebar Percentage (Total)              & Percentage of spacebar uncertain successes over total keypresses                        \\
+		Non-spacebar                             & All other uncertain successes                                                           \\
+		Non-spacebar Percentage                  & Percentage of non-spacebar uncertain successes over all uncertain successes             \\
+		Non-spacebar Percentage \newline (Total) & Percentage of non-spacebar uncertain successes over total keypresses
 		\\[0.25cm]
-		\hline
-		Average Running Time                                                                                                                  \\
-		\hline
-		Keyboard Detection Time                     & Average keyboard detection time of all videos                                           \\
-		Finger Identification Time                  & Average finger identification time of all key presses                                   \\
+		\midrule
+		Average Running Time                                                                                                               \\
+		\midrule
+		Keyboard Detection Time                  & Average keyboard detection time of all videos                                           \\
+		Finger Identification Time               & Average finger identification time of all key presses                                   \\
+		\bottomrule
 	\end{tabular}
 	\caption{\label{tab:acquired-stats}Acquired statistics}
 \end{table}
@@ -1734,6 +1924,7 @@ the algorithm and its overall performance.
 \subsection{Testing}
 The same script was run through the test data. The same format of output was
 gathered, and the same key statistics were recorded.
+
 
 
 
@@ -1804,9 +1995,9 @@ gathered, and the same key statistics were recorded.
 %% framework.
 
 %% \subsubsection{Finger-key Identification}
-%% The submodule that integrates all the algorithms will be called within the
+%% The module that integrates all the algorithms will be called within the
 %% framework. The framework will then respond to requests for finger-key
-%% identification using this submodule. This will allow the back-end to expose its
+%% identification using this module. This will allow the back-end to expose its
 %% finger-key identification abilities and allow the front-end to use this data for
 %% the trainer.
 
@@ -1825,7 +2016,7 @@ gathered, and the same key statistics were recorded.
 %% technology.
 
 
-\section{Metric}
+\section{Metrics}
 \label{section:metric}
 
 There was a two total metrics obtained pertaining to finger and key mapping.
@@ -1836,7 +2027,7 @@ The metric which calculates per test sequence is \ac{fpacc}. This metric
 computes the percentage of accurate keys pressed with the correct finger over the
 length of the typing test sequence. Inputting the wrong character, even if
 pressed with the correct finger, reduces \ac{fpacc} since \ac{fpacc} measures
-\emph{accurate key presses}, and incorrect characters areconsidered as
+\emph{accurate key presses}, and incorrect characters are considered as
 inaccurate key presses.
 
 The equation for calculating \ac{fpacc} is as follows:
@@ -1844,6 +2035,8 @@ The equation for calculating \ac{fpacc} is as follows:
 \begin{equation}
 	FP ACC = \frac{|F|}{|T|} \cdot 100\%
 \end{equation}
+\labelequations{Finger Placement Accuracy}
+
 
 Where $|F|$ refers to the number of accurate keys pressed with the
 correct finger and $|T|$ refers to the length of the text.
@@ -1851,7 +2044,7 @@ correct finger and $|T|$ refers to the length of the text.
 \subsection{Per Key}
 This metric computes the \ac{hfpacc} for a certain key. This metric takes the
 times the user pressed the wrong key when asked for a certain key into account,
-the same as in \ac{fpacc}.\@This allows the user to easily verify which keys
+the same as in \ac{fpacc}. This allows the user to easily verify which keys
 need attention and retraining if there is a high frequency of error.
 
 The equation for calculating a key's \ac{hfpacc} is as follows:
@@ -1859,6 +2052,7 @@ The equation for calculating a key's \ac{hfpacc} is as follows:
 \begin{equation}
 	HFP ACC = \frac{|F_{char}|}{|C_{char}|} \cdot 100\%
 \end{equation}
+\labelequations{Historical Finger Placement Accuracy}
 
 Where $|F_{char}|$ refers to the number of accurate keys pressed with the
 correct finger for a certain character, identified as $char$. $|C_{char}|$
@@ -1866,9 +2060,483 @@ refers to the number of times the character has appeared in all test sequences
 for the user.
 
 \chapter{Results and Discussion}
-\chapter{Conclusion}
-\chapter{Future Work}
+\label{section:rd}
 
+\section{Accuracy}
+Accuracy, in the context of the finger-key identification module calculates the
+percentage of successful finger-key identifications that the module has
+performed. In this case, success is defined as having the expected finger, based
+on the manual labelling, equal the return value of the module. Accuracy is
+calculated as
+
+\begin{equation}
+	ACC = \frac{|S|}{|T|}
+\end{equation}
+\labelequations{Finger-Key Identification Module Accuracy}
+
+Where $|S|$ is the number of successful finger-key identifications, and $|T|$ is
+the total number of keypresses for all typing test sequences. This is also
+referred to as the success percentage.
+
+\subsection{Training Results}
+There were a total of seven training iterations. These training iterations
+served as a way to improve the performance of the module by adjusting its
+parameters.
+
+\subsubsection{Identifications}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+				ybar stacked,
+				bar width=30pt,
+				xlabel={Training Iteration},
+				ylabel={Percentage over total keypresses},
+				xmin=1, xmax=7,
+				ymin=86, ymax=100,
+				xtick={1,2,3,4,5,6,7},
+				ytick={86, 86, 88, 90, 92, 94, 96, 98, 100},
+				enlargelimits=0.15,
+				area legend,
+				tick label style={font=\footnotesize},
+				legend style={font=\footnotesize},
+				label style={font=\footnotesize},
+				every axis legend/.append style={cells={anchor=west}},
+				ymajorgrids=true,
+			]
+
+			\addplot[
+				CornflowerBlue,
+				fill=CornflowerBlue,
+			]
+			coordinates {
+					(1, 88.47) (2, 88.95) (3, 98.51) (4, 99.55) (5, 98.47) (6, 99.17) (7, 99.49)
+				};
+			\addplot[
+				Salmon,
+				fill=Salmon,
+			]
+			coordinates {
+					(1, 11.46) (2, 10.98) (3, 1.42) (4, 0.38) (5, 1.46) (6, 0.76) (7, 0.45)
+				};
+			\legend{Successes, Failures}
+
+
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Identification results of the training iterations}
+	\label{fig:rd-training-identification}
+\end{figure}
+
+Over the seven training iterations, there was an increase in success percentage.
+Consequently, there was also a decrease in failure percentage. There was a total
+of 1475 total keypresses for iterations one to three, and 1571 total keypresses
+for iteration four to seven.
+
+The increase in total keypresses starting from iteration four was due to adding
+multiple tries to the training routine in obtaining the Key-Edge Coordinates
+Map. Iterations one through three only tried frame 10 as the source frame for
+the module while iterations four through seven tried frame 10, 15, and 20.
+
+There was a need to try different frames since the camera was not consistent in
+its ability to focus on the keyboard for each video. In some videos video, the
+camera was not focused on the keyboard on frame 10, but it was able to focus on
+frame 15. As a result, the total number of available keypresses to test
+increased.
+
+The 0.48\% jump between iteration one and two can be attributed to correcting
+erroneous finger-key identifications that was obtained from manual labelling.
+The 9.56\% jump in success percentage between iteration two and three was due to
+adding buffers around the \ac{roi} by scaling the contours by 10 pixels on each
+side. Iteration four's increase was due to fixing the image map. There were
+certain keys that had incorrect color values assigned in the Key-Color Values
+Map, and some keys were of incorrect shape. Iterations five to seven were
+performed to test different values and shapes for scaling the \ac{roi}.
+
+\subsubsection{Uncertain Successes}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+				ybar stacked,
+				bar width=30pt,
+				xlabel={Training Iteration},
+				ylabel={Percentage over total keypresses},
+				xmin=1, xmax=7,
+				ymin=0, ymax=30,
+				xtick={1,2,3,4,5,6,7},
+				ytick={0,5,10,15,20,25,30},
+				enlargelimits=0.15,
+				area legend,
+				tick label style={font=\footnotesize},
+				legend style={font=\footnotesize},
+				label style={font=\footnotesize},
+				every axis legend/.append style={cells={anchor=west}},
+				ymajorgrids=true,
+			]
+
+			\addplot[
+				CornflowerBlue,
+				fill=CornflowerBlue
+			]
+			coordinates {
+					(1, 5.69) (2, 5.69) (3, 12.61) (4, 12.86) (5, 9.32) (6, 10.76) (7, 12.86)
+				};
+			\addplot[
+				Salmon,
+				fill=Salmon,
+			]
+			coordinates {
+					(1, 0.61) (2, 0.61) (3, 17.15) (4, 17.06) (5, 3.95) (6, 6.49) (7, 9.68)
+				};
+			\legend{Spacebar, Non-spacebar}
+
+
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Uncertain Successes of the training iterations}
+	\label{fig:rd-training-uncertain-successes}
+\end{figure}
+
+Uncertain Successes are instances where the finger-key identification module was
+able to detect two or more fingertips within the \ac{roi} of the key. As such,
+the module is uncertain which of the multiple fingertips actually pressed the
+key. However, it is still classified as a success since the expected finger from
+the manual labelling exists within the array of fingertips returned by the
+module.
+
+\paragraph{Spacebar}
+In a 60\% keyboard, the spacebar is the longest key on the keyboard. In
+addition, this key is right below the non-dominant hand's thumb default resting
+position when the hand's posture follows the proper touch typing posture. As
+such, it was to be expected that a majority of the uncertain successes were
+because of the spacebar. However, this was not the case for iterations three and
+four. This was because the buffer for the \ac{roi} was too big and this caused
+the module to detect more than one fingertip within that \ac{roi}.
+
+\paragraph{Non-spacebar}
+
+There were cases where the module had uncertain successes that were not over the
+spacebar. In almost practically all cases, these were over the alphanumeric
+keys. This uncertain successes stem from the increased buffer of the \ac{roi}.
+This type of uncertain successes carry more weight compared to spacebar
+uncertain successes since the keys where these uncertain successes come from are
+the smallest keys in the keyboard. This means that the chances that a person
+actually has two or more fingers over the keys is rare, compared to the
+spacebar.
+
+
+\subsubsection{Uncertain Successes vs Success Percentage}
+\label{section:rd-uncertain vs success}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+				xlabel={Training Iteration},
+				ylabel={Percentage over total keypresses},
+				xmin=1, xmax=7,
+				ymin=0, ymax=100,
+				xtick={1,2,3,4,5,6,7},
+				ytick={0,20,40,60,80,100},
+				tick label style={font=\footnotesize},
+				legend style={font=\footnotesize},
+				label style={font=\footnotesize},
+				enlargelimits=0.15,
+				ymajorgrids=true,
+				xmajorgrids=true,
+				nodes near coords,
+				every node near coord/.append style={font=\footnotesize},
+				every axis legend/.append style={at={(0.98, 0.02)}, anchor=south east, cells={anchor=west}}
+			]
+
+			\addplot[
+				color=CornflowerBlue,
+				mark=square,
+			]
+			coordinates {
+					(1, 88.47) (2, 88.95) (3, 98.51) (4, 99.55) (5, 98.47) (6, 99.17) (7, 99.49)
+				};
+			\addplot[
+				color=Salmon,
+				mark=square,
+			]
+			coordinates {
+					(1, 6.31) (2, 6.31) (3, 29.76) (4, 29.92) (5, 13.18) (6, 17.25) (7, 22.53)
+				};
+
+			\legend{Successes, Uncertain Successes}
+
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Uncertain Successes of the training iterations}
+	\label{fig:rd-training-uncertain-successes}
+\end{figure}
+
+
+Tuning the algorithm required managing both uncertain successes and the success
+percentage and making compromises between one or the other. The goal of the
+training process was to maximize the success percentage, while limiting the
+number of uncertain successes.
+
+It can be noted that in iterations one and two, the success rate was lower
+compared to the other iterations. However, the percentage of uncertain successes
+was also the lowest. Iteration three was the first iteration that created a
+buffer around each key, however this buffer of 10 pixels was too aggressive,
+with the uncertain successes spiking upwards to nearly 30\%. Iteration five
+reduced the buffer size in half to five pixels. This did not affect success rate
+that much, with only a reduction of 1.07\%. This also greatly decreased the
+uncertain success percentage by 16.74\%. The sixth iteration met halfway between
+iteration four and five, by adding a buffer of seven pixels. This increased the
+success rate back to 99.17\% without greatly increasing the number of uncertain
+successes. In comparison with the fourth iteration, the sixth iteration had its
+success rate decrease by 0.38\%, but its percentage of uncertain successes
+decreased by 12.67\%. A seventh iteration was trialed where the increase in
+buffer was asymmetrical. For each key, the points nearer the user were increased
+by 10 pixels, while the points farther away were increased by five pixels only.
+This slightly increased the success rate by 0.32\%. However, the percentage of
+uncertain successes also increased by 5.28\%.
+
+Based on these results, the final selected parameters for the module was the
+parameters set in iteration six, with the buffer set to seven pixels as it was a
+good middle ground between success rate, and uncertain successes.
+
+
+\subsubsection{Failure Types}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+				ybar stacked,
+				bar width=30pt,
+				xlabel={Training Iteration},
+				ylabel={Percentage over total keypresses},
+				xmin=1, xmax=7,
+				ymin=0, ymax=15,
+				xtick={1,2,3,4,5,6,7},
+				ytick={0,3,6,9,12,15},
+				enlargelimits=0.15,
+				area legend,
+				tick label style={font=\footnotesize},
+				legend style={font=\footnotesize},
+				label style={font=\footnotesize},
+				every axis legend/.append style={cells={anchor=west}},
+				ymajorgrids=true,
+			]
+
+			\addplot[
+				CornflowerBlue,
+				fill=CornflowerBlue
+			]
+			coordinates {
+					(1, 0.47) (2, 0) (3, 0.14) (4, 0) (5, 0) (6, 0) (7, 0)
+				};
+			\addplot[
+				Salmon,
+				fill=Salmon,
+			]
+			coordinates {
+					(1, 10.98) (2, 10.98) (3, 1.29) (4, 0.38) (5, 1.46) (6, 0.76) (7, 0.45)
+				};
+			\legend{Mismatched Detection, No Detection}
+
+
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Uncertain Successes of the training iterations}
+	\label{fig:rd-training-uncertain-successes}
+\end{figure}
+
+\paragraph{Mismatched Identification}
+These are failures where the module did not return the expected fingertip based
+on the manual labelling. This type of failure only manifested in iterations one
+and three. The failures in iteration one, after double-checking the video, were
+due to an error during manual labelling. In iteration three, these errors were
+due to an incorrect image map and Key-Color Values map. The information for some
+keys were not consistent between both.
+
+Based on this information and from the gathered data, This failure type is
+non-existent for the module in real-life conditions.
+
+\paragraph{No Identification}
+These are failures where the module did not detect any fingertips within the
+\ac{roi}. These made up all the failures from the test results. These types of
+failures occurred because the fingertips used to press the key were not directly
+above the key, but rather offset to its side. Scaling the \ac{roi} would reduce
+the number of no identification failures, but it would also increase the number
+of uncertain successes. See Section~\ref{section:rd-uncertain vs success},
+Uncertain Successes vs Success Percentage for more information.
+
+\subsubsection{Occlusion}
+The module was also successful in finger-key identification, even if both the
+key and finger was occluded. Figure~\ref{fig:rd-occluded} is one frame where
+this occurred. The module was successful in identifying that the Left Thumb was
+used to press the Left Shift.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{occluded.png}
+	\caption{Occluded finger and key}
+	\label{fig:rd-occluded}
+\end{figure}
+
+\subsection{Test Results}
+\begin{table}[H]
+	\small
+	\centering
+	\begin{tabular}{ p{0.4\textwidth} R{0.2\textwidth} }
+		\toprule
+		Category                        & Value   \\
+		\midrule
+		Total Keypresses                & 942     \\[0.25cm]
+		\midrule
+		Identifications                           \\
+		\midrule
+		Successes                       & 937     \\
+		Failures                        & 4       \\
+		Success Percentage / Accuracy   & 99.47\% \\
+		Failure Percentage              & 0.42\%  \\[0.25cm]
+		\midrule
+		Failure Types                             \\
+		\midrule
+		Mismatched Identification       & 0       \\
+		No Identification               & 4       \\[0.25cm]
+		\midrule
+		Uncertain Successes                       \\
+		\midrule
+		Total                           & 133     \\
+		Spacebar                        & 72      \\
+		Spacebar Percentage             & 54.14\% \\
+		Spacebar Percentage (Total)     & 7.64\%  \\
+		Non-spacebar                    & 61      \\
+		Non-spacebar Percentage         & 45.86\% \\
+		Non-spacebar Percentage (Total) & 6.48\%  \\
+		\bottomrule
+	\end{tabular}
+	\caption{\label{tab:rd-accuracy}Accuracy Results of the Module with Test Data}
+\end{table}
+
+The results were satisfactory after running the module with the parameters from
+the sixth training iteration on the test data. There was another run with the
+same test data and the same parameters, however these results were omitted since
+this run had inconclusive results as there was a single identification that was
+incorrectly labeled during manual finger-key identification.
+
+\section{Speed}
+
+Based on the definition of \ac{wpm}
+from \cite{arif2009} as seen in Equation~\ref{equ:wpm}, it can be extrapolated that calculating Characters per
+Second is:
+
+\begin{equation}
+	CPS = \frac{WPM}{60} \cdot 5
+\end{equation}
+\labelequations{Characters per Second}
+
+The average \ac{wpm} when typing using the QWERTY layout, according to test
+data from \citeauthor{keybr} is $\approx37.5$ \ac{wpm}. As such, we can
+calculate that the average Characters per Second when typing using the QWERTY
+layout is 3.125. This means that each character, on average, requires 0.32
+seconds to type. This sets the maximum time spent for finger-key identification
+for a single character. Any more than this would result in noticeable slowdown
+during typing.
+
+\subsection{Results}
+
+\subsubsection{Training Iterations}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+				xlabel={Training Iteration},
+				ylabel={Seconds},
+				xmin=1, xmax=7,
+				ymin=0, ymax=1,
+				xtick={1,2,3,4,5,6,7},
+				ytick={0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0},
+				tick label style={font=\footnotesize},
+				legend style={font=\footnotesize},
+				label style={font=\footnotesize},
+				enlargelimits=0.15,
+				ymajorgrids=true,
+				xmajorgrids=true,
+				nodes near coords,
+				every node near coord/.append style={font=\footnotesize},
+				every axis legend/.append style={cells={anchor=west}}
+			]
+
+			\addplot[
+				color=CornflowerBlue,
+				mark=square,
+			]
+			coordinates {
+					(1, 0.9123) (2, 0.8225) (3, 0.8144) (4, 0.8211) (5, 0.8258) (6, 0.8366) (7, 0.8118)
+				};
+			\addplot[
+				color=Salmon,
+				mark=square,
+			]
+			coordinates {
+					(1, 0.0895) (2, 0.0903) (3, 0.0823) (4, 0.0835) (5, 0.0845) (6, 0.0828) (7, 0.0797)
+
+				};
+			\legend{Avg. Keyboard Detection Time, Avg. Finger Identification Time}
+
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Uncertain Successes of the training iterations}
+	\label{fig:rd-training-uncertain-successes}
+\end{figure}
+
+Training iterations had an average keyboard detection time of $0.8620\pm0.0502s$
+and average finger identification time of $0.0863\pm0.0040s$. Over the course of
+the training, there was no noticeable difference between running time over the
+same dataset. However, The first training iteration had issues with gathering
+the speed of the module, as the average keyboard detection time included other
+operations that was not part of getting the Key-Edge Coordinates Map. Removing
+this iteration, the average keyboard detection time becomes more consistent,
+with it being $0.8295\pm0.0070s$.
+
+\subsubsection{Test Results}
+
+\begin{table}[H]
+	\small
+	\centering
+	\begin{tabular}{ p{0.4\textwidth} R{0.2\textwidth} }
+		\toprule
+		Category                        & Seconds \\
+		\midrule
+		Avg. Keyboard Detection Time    & 0.838   \\
+		Avg. Finger Identification Time & 0.083   \\
+		\bottomrule
+	\end{tabular}
+	\caption{\label{tab:rd-speed}Speed Results of the Module with Test Data}
+\end{table}
+
+\subsection{Average Keyboard Detection Time}
+This is the time that was measured as the module generated the Key-Edge
+Coordinates Map. This corresponds with the first step of the module. It is to be
+noted that this time does not affect keyboard typing and is not limited by the
+0.32 threshold as the user is not yet typing at this point.
+
+\subsection{Average Finger Identification Time}
+This is the time spent in finger-key identification for a single key. As such,
+this time should be below 0.32 seconds for the module to be capable of
+performing finger-key identification in real-time without noticeable slowdown
+from the perspective of the user.
+
+The average finger identification time that the module got, 0.08389272103s was
+well below 0.32 seconds. This can be attributed to the speed of the MediaPipe
+library, and the pre-calculation of the edge coordinates.
+
+\chapter{Conclusion}
+
+
+\chapter{Future Work}
 
 \newpage
 \appendix
@@ -1884,6 +2552,7 @@ for the user.
 	\\\midrule
 	\multicolumn{2}{r}{{Concluded}} \\ \bottomrule}
 \centering
+\small
 \begin{supertabular}{ll}
 	\#FF0000 & $\sim$            \\
 	\#FF9900 & 1                 \\
@@ -1955,7 +2624,7 @@ for the user.
 \onecolumn
 \chapter{Typing Test Sequences}
 \label{appendix:test-sequences}
-
+\normalsize
 \begin{enumerate}
 	\item ``What of it, if some old hunks of a sea-captain orders me to get a broom and sweep down the decks?'' \parencite{moby-dick}
 	\item ``I sat down on an old wooden settle, carved all over like a bench on the Battery.'' \parencite{moby-dick}

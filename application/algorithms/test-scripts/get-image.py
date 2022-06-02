@@ -4,9 +4,9 @@ from cv2 import cv2 as cv
 
 
 def main():
-    file = "fast-02"
-    keyboardFrame = 20
-    fingerFrame = 380
+    file = "medium-04"
+    keyboardFrame = 10
+    fingerFrame = 437
     fileLocation = f"../dataset/training/{file}"
 
     cap = cv.VideoCapture(f"{fileLocation}.mp4")

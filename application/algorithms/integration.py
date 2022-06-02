@@ -20,7 +20,7 @@ def main(keyboardImage: np.ndarray, handImage: np.ndarray):
     # Step 1
     allContourPoints = getContourPointsFromImage(keyboardImage)
 
-    contourPoints = allContourPoints["B"]
+    contourPoints = allContourPoints["LeftShift"]
 
     # elapsed = time.time() - start
 
@@ -49,6 +49,6 @@ def main(keyboardImage: np.ndarray, handImage: np.ndarray):
 
 
 if __name__ == "__main__":
-    keyboardImage = cv.imread("images/fast-02-20.png")
-    handImage = cv.imread("images/fast-02-380.png")
+    keyboardImage = cv.imread("images/medium-04-10.png")
+    handImage = cv.imread("images/medium-04-437.png")
     main(keyboardImage, handImage)
