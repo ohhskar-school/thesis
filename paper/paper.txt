@@ -13,8 +13,6 @@ references.bib
  ./images/ 
 
 
-
-
 pastie
 
 #1
@@ -26,6 +24,7 @@ pastie
 iso
 	short=ISO,
 	long=International Organization for Standardization
+
 
 
 ansi
@@ -63,6 +62,27 @@ cts
 	long=Carpal Tunnel Syndrome
 
 
+jwt
+	short=JWT,
+	long=JSON Web Tokens
+
+
+fpacc
+	short=FP ACC,
+	long=Finger Placement Accuracy
+
+
+hfpacc
+	short=HFP ACC,
+	long=Historical Finger Placement Accuracy
+
+
+cps
+	short=CPS,
+	long=Characters per Second
+
+
+
 
 [display]
 
@@ -85,8 +105,30 @@ Chapter
 
 
 
+
 shapes,positioning,calc
 
+
+external
+width=1,compat=1.9
+
+
+
+
+
+
+
+
+P[1]>p#1
+R[1]>
+0ptm#1
+
+
+equationsequ
+
+
+
+	
 
 
 
@@ -99,12 +141,13 @@ gobble
 	
 			1cm
 
-	Development of a touch typing trainer
-with an emphasis on finger-key identification 
+	Development of a Finger-Key Identification Module
+for a Touch Typing Trainer
 	0.5cm
 
-		0.25cm
-	A Special Project Proposal Presented to the
+	
+	0.25cm
+	A Special Project Presented to the
 
 	Faculty of the Department of Computer Science,
 
@@ -118,7 +161,8 @@ with an emphasis on finger-key identification
 	Bachelor of Science in Computer Science
 
 	0.25cm
-		0.5cm
+	
+	0.5cm
 
 	Oscar Vian L. Valles
 
@@ -130,8 +174,116 @@ with an emphasis on finger-key identification
 	Adviser
 	0.5cm
 
-	February 2022
+	June 2022
 		
+
+
+
+
+	
+	
+			0.25cm
+
+	University of the Philippines Cebu
+
+	College of Science
+
+	Department of Computer Science
+
+	1cm
+
+	Development of a Finger-Key Identification Module
+for a Touch Typing Trainer
+
+	1cm
+
+	Permission is given for the following people to have access to this thesis:
+
+	0.25cm
+
+	
+	1cm
+
+
+	(1,0)0.6
+
+	Oscar Vian L. Valles
+
+	Student
+	0.5cm
+
+	(1,0)0.6
+
+	Dhong Fhel K. Gom-os
+
+	Special Problem Adviser
+
+		
+
+
+
+
+	APPROVAL SHEET
+
+0.5cm
+The faculty of the University of the Philippines Cebu, College of Science,
+Department of Computer Science approves this Special Problem entitled:
+0.5cm
+
+
+	Development of a Finger-Key Identification Module
+for a Touch Typing Trainer
+	0.5cm
+	by
+	Oscar Vian L. Valles
+
+	2cm
+
+			(1,0)0.9
+
+	Dhong Fhel K. Gom-os
+
+	Special Problem Adviser
+
+	0.5cm
+	(1,0)0.9
+
+	Date Signed
+				(1,0)0.9
+
+	Prof. Aileen Joan O. Vicente
+
+	Chair, Department of Computer Science
+
+	0.5cm
+	(1,0)0.9
+
+	Date Signed
+	
+	2cm
+
+	(1,0)0.405
+
+	Prof. Nelia S. Ereno
+
+	Dean, College of Science
+
+	0.5cm
+	(1,0)0.405
+
+	Date Signed
+
+	2cm
+
+
+roman
+
+	Abstract
+
+
+
+
+
 
 
 
@@ -148,7 +300,7 @@ touch typing, including Monkeytype, TypeRacer, and Keybr. These typing tests
 list out words that are then typed out. The entered keys are then compared to
 check if the user has typed the expected letter. At the end of the test, the
 time taken is calculated, and certain metrics are given. These metrics include
-wpm and accuracy bartnik2021.
+wpm and Accuracy bartnik2021.
 
 However, this method of examination leaves out a crucial part of typing —
 ergonomics. Ergonomic typing prevents a lot of health issues in the future like
@@ -177,39 +329,45 @@ backspace. However, it is impractical for an educator to check each student if
 they are not performing these movements as these may only show for a small
 period which may not be caught in time.
 
-Thus, there is a need for automatically detecting which finger is used during
-typing. One way to do this is through finger and hand tracking. One solution for
-tracking is by using image processing and machine learning. An example of this
-is MediaPipe by .
+Thus, there is a need for automatically identifying which finger is used to
+press which key during typing - hereby defined as finger-key identification.
 
-MediaPipe allows for various applications for machine learning in the field of
-image processing. This includes, hand tracking, pose estimation, object
-detection, and others. Another example of a library that allows for hand and
-finger tracking is OpenCV by . This is a tool that simplifies
-computer vision and image processing. Machine learning can also be used with
-OpenCV.
+Research Questions
+
+	What algorithm or technique using computer vision is capable of
+	      finger-key identification.
+	What setup and configuration of a single optical camera can be used to
+	      capture images during keyboard typing for time finger-key identification
+	      using the algorithm identified in 1?
+	How to design and develop a finger-key identification module using
+	      the algorithm in 1 and camera setup and configuration in 2?
+	How accurate is the module developed in 3 in finger-key identification?
+	Is the module developed in 3 fast enough to run in real-time?
+	What new keyboard typing metric to develop that considers both the key and
+	      finger used to press as parameters?
 
 Research Objectives
 
 General Objectives
-To create a touch typing trainer that detects poor finger placement and hand
-position to help develop better typing habits and healthier typing ergonomics.
+To create a finger-key identification module that accurately identifies what
+finger was used to press a key at a point in time to help develop better typing
+habits and healthier typing ergonomics.
 
 Specific Objectives
 
 	Develop an algorithm or technique using computer vision that is capable
-	      of identifying which keys are being pressed by which fingers during keyboard
-	      typing - i.e. finger-key identification.
+	      of finger-key identification.
 	Identify the setup and configuration of a single optical camera that can
-	      be used to capture images during keyboard typing for real-time finger-key
+	      be used to capture images during keyboard typing for finger-key
 	      identification using the algorithm identified in 1
-	Design and develop a touch typing trainer using the algorithm in 1 and
-	      camera setup and configuration in 2
-	Determine the accuracy of the touch typing trainer in finger-key
+	Design and develop a module using the algorithm in 1 and camera setup
+	      and configuration in 2
+	Determine the accuracy of the module developed in 3 in finger-key
 	      identification
+	Determine if the module developed in 3 is fast-enough to run in
+	      real-time
 	Develop a new keyboard typing metric that uses both the key and
 	      finger used to press as parameters
-
 
 Scope and Limitation
 This research will focus on typing on a 60% keyboard. Figure illustrates this type of keyboard. This type of keyboard only has the
@@ -224,6 +382,13 @@ common layout in the United States. However, it is also used in numerous
 English-speaking countries such as the Philippines, Malaysia, and India
 apple-layout.
 
+The setup that will be captured will be simplified and fixed for the development
+and testing of the finger-key identification module. This includes the
+keyboard, surface it is placed on, and lighting of the entire area. Furthermore,
+the setup will not be tested by other respondents, but by the researchers only
+- as the focus is on the development and testing of the finger-key
+identification module and not on the touch typing trainer and its effects on
+typing.
 
 The program will expect the that user has all ten digits and has no hand,
 finger, or wrist deformities. In addition, only the placement of the hands,
@@ -237,37 +402,34 @@ single 720p webcam that is capturing in 30 frames per second. The camera will be
 pointed downwards facing the keyboard and the hand.
 
 
-			A 60% keyboard in ansi layout. Reprinted from 60
+			A 60% keyboard in ansi layout.
 		
 
 Significance of the Research
 This research is beneficial for all users of physical keyboards. These include a
-vast majority of the population as there are a lot of professions that heavily
-rely on keyboards. Examples include developers, physicians, educators,
-accountants. By having better ergonomics while typing, wrist injuries can be
-prevented, and typing speed may be increased
+majority of the population as there are a lot of professions that heavily rely
+on keyboards. Examples include developers, physicians, educators, and
+accountants. By having better ergonomics while typing - by touch typing
+correctly - wrist injuries can be prevented, and typing speed may be increased
 
 This research also helps educators, especially early educators teaching beginner
-typists. By automatically checking for ergonomics, posture, and correct
-technique, the burden of checking each student is lessened, and directed
-interventions for bad habits can be easily created as students with these bad
-habits are easily identified
+typists. By automatically checking for correct technique, the burden of checking
+each student is reduced, and directed interventions for bad habits can be
+easily created as students with these bad habits are easily identified
 
-This research has a direct impact on people that has hand or wrist injuries that
-are caused by poor typing habits. By correcting these poor habits, pain from
-these injuries will be lessened, and even be prevented from occurring in the
+This research has a direct impact on people that have hand or wrist injuries
+that are caused by poor typing habits. By correcting these poor habits, pain
+from these injuries will be reduced, and even be prevented from occurring in the
 first place. A specific example of this is by reducing ulnar deviation which
 affects the nerve that is indicative of cts toosi2015.
 
-Advanced Review of Related Literature
+Review of Related Literature
 
 Keyboard Typing
 
 Keyboard typing is the process of using a keyboard to input characters in a
 system. In the context of this paper, keyboard typing will refer to the act of
 using a physical keyboard to input characters in a computer system.
-
-
 
 Keyboard Layouts and Form Factors
 
@@ -380,12 +542,13 @@ for the same typist due to their difference in conducting the assessment.
 
 Speed
 Speed, also called as entry rate by, measures the number
-of characters entered in a specific time frame. The most common metric that
+of characters entered within a specific time frame. The most common metric that
 measures speed is wpm. wpm as defined by is:
 
 
+Words per Minute
 
-where,  is the length of the text,  is the time in seconds spent writing
+Where,  is the length of the text,  is the time in seconds spent writing
 the text. This time starts directly after the first character has been pressed,
 and ends when the last letter has been entered. As such,  is subtracted from
 , as the time spent to find and press the first character cannot be
@@ -394,7 +557,7 @@ accurately determined. However, some typing assessments do not subtract  from
 normalizes the metric for the average length of words.
 
 
-Other metrics also measure speed but they aren't as commonly used as wpm.
+Other metrics also measure speed, but they aren't as commonly used as wpm.
 These include Characters per Minute, Gestures per Second, Adjusted Words per
 Minute, and Keystrokes per Second
 
@@ -403,8 +566,9 @@ Accuracy measures the number of correctly pressed characters in an input string.
 Accuracy, as defined by, is:
 
 
+Accuracy
 
-where  is the number of correct characters and  is the length of the
+Where  is the number of correct characters and  is the length of the
 text.
 
 The inverse of accuracy is error rate, where the number of incorrectly pressed
@@ -416,7 +580,7 @@ Limitations of the Metrics
 These metrics are all based on the inputted characters by the user. These
 metrics do not take into account other aspects of keyboard typing such as
 posture, hand and wrist positions, and finger placement. Consequently, these
-metrics do not give a full picture of the performance of the person typing and
+metrics do not give a full picture of the performance of the person typing, and
 they only provide a cursory view of how a person types.
 
 Keyboard Typing Methodology
@@ -437,6 +601,22 @@ locating the keys logan2016.
 
 			Standard QWERTY mapping for ansi. Reprinted from logan2016
 		
+Typing Speed Statistics
+
+Median typing speed using a keyboard with QWERTY layout, based on test data
+from, is  wpm. This median is taken from all the test results they have gathered from all of their users.
+
+ released a dataset showing the speed of 12678 members of the
+Monkeytype community with the speed role. The dataset shows the fastest time
+that these members have achieved on 60 second tests. The median of the dataset
+lies in the 100-109 wpm range, with 52.74% of the community having top
+speeds slower than 100 wpm.
+
+ also performed a survey with 12 participants using
+multiple typing methods. They got an average wpm of 75.85 with a standard
+deviation of 15.61 when their participants used a physical QWERTY layout. This
+average wpm was also the highest among the other typing methods the
+researchers studied.
 
 Keyboard Typing in Education
 
@@ -563,7 +743,7 @@ unclear if this swelling leads to long-term nerve injury.
 Finger and Wrist Kinematics
 The way people move their hands, wrists, and fingers differ between each person.
 This can be attributed to the different typing styles each person has. One key
-difference between people is the angle of the 5th digit.
+difference between people is the angle of the fifth digit.
 
 However, there are some common movements and positions regardless of typing
 style: flexion, or the curving of the fingers, across the fingers, is decreasing
@@ -571,7 +751,7 @@ across the hand, with the 2nd digit having the least flexion. This may be due to
 the instinct to reduce pronation of the hand, which in turn increases the
 distance of the 2nd digit to the keyboard. In addition, some people isolate or
 extend one of their thumbs, usually the one not used for pressing a key. This is
-also true for some people that do not use their 5th digit during typing
+also true for some people that do not use their fifth digit during typing
 baker2007.
 
 The movement and angle of the wrists also depend on the typing style of the
@@ -584,12 +764,12 @@ For those that reach their keys by stretching their fingers, there is an
 increased probability that the wrists and fingers adapt non-neutral postures.
 These include wrist extension, ulnar deviation, and pronation, which may cause
 musculoskeletal disorders of the upper extremity ( as cited in
-)
+ )
 
 Finger and Hand Tracking
 Finger and Hand tracking is a method of tracking fingers and hands in 3D space
 using motion capture systems or computer vision. This technique allows computers
-to perform actions and analyses on the motions and positions of these body
+to perform actions and analyzes on the motions and positions of these body
 parts.
 
 
@@ -660,7 +840,7 @@ MediaPipe
 MediaPipe is an open-source computer vision framework that allows developers to
 create a perception pipeline. This perception pipeline is a directed graph of
 calculators. Data passes through the graph as packets and a group of packets
-constitute a data stream. As the data passes through the pipeline, the
+constitutes a data stream. As the data passes through the pipeline, the
 calculators, produce the desired output.
 
 This framework allows for performant object detection, hand and finger tracking,
@@ -721,149 +901,289 @@ Methodology
 
 Setup
 
-The experimental setup and configuration will be composed of three elements: the
-camera, the keyboard, and the environment. Figure shows the sketch of the complete experimental setup.
+The experimental setup and configuration was composed of three elements: the
+camera, the keyboard, and the environment. Figure  is an
+image of the experimental setup
 
 
-			Sketch of the experimental setup
+
+			The experimental setup
 		
 Camera
-The camera setup will use a single monocular camera positioned in a top-down
-view. The camera will capture the entirety of the keyboard and the movement of
-the ten fingers. To do so, it will be mounted on top of the monitor and the
-camera will point down towards the table. Figure illustrates what the camera will capture once placed in its correct position.
+The setup used a single monocular camera positioned in a top-down view. The
+camera captured the entirety of the keyboard and the movement of the ten
+fingers. To do so, it was mounted on top of the monitor with the camera pointed
+down towards the table. Figure illustrates how the camera was mounted over the monitor and
+Figure  is a picture taken with the camera at this
+position.
 
 
-			Keyboard, camera angle, and placement to be used for testing.
+			The camera angled downwards to capture the keyboard
 	
-The specific camera to be used will be a Logitech C920.
-Figure  is a picture of this camera. It is a 3 mega pixel
-webcam that is capable of capturing color video in 1080p/30fps and 720p/30fps
-with a diagonal field of view of 78. This camera has a universal mounting
-clip that will allow the camera to be correctly positioned within the
-experimental setup logitech.
 
+			Image captured by the camera in one of the training iterations
+	
+The specific camera used was a Logitech C920. It is a 3 mega pixel webcam that
+is capable of capturing color video in 1080p/30fps and 720p/30fps with a
+diagonal field of view of 78. This camera has a universal mounting clip
+that allows the camera to be correctly positioned within the experimental setup
+logitech.
 
-			Logitech C920. Reprinted from logitech
-		
 Keyboard
 
-The keyboard will be a 60% keyboard as shown in
-Figure . This will limit the necessary mapping for the
-algorithm to the alphanumeric portion of the keyboard. This keyboard choice will
-also lessen the area that the camera will need to capture, as this keyboard type
-is considerably smaller compared to a full-size keyboard. The keyboard will have
-key caps and a case in a light color that will contrast the dark surface that it
-will be placed on. This is to improve initial keyboard detection. In addition,
-the keyboard layout will also be ANSI, due to the availability and widespread
-adoption of the layout in the Philippines.
+The keyboard used was a 60% keyboard as shown in
+Figure . This limited the necessary mapping for the
+algorithm to the alphanumeric portion of the keyboard. This keyboard choice also
+reduced the area that the camera captured, as this keyboard type is considerably
+smaller compared to a full-size keyboard. The keyboard also had its keycaps and
+case in a light color that contrasted the dark surface it was placed on. It also
+had a dark USB-C cable to blend with the dark surface. These color coordination
+steps improved initial keyboard detection. In addition, the keyboard layout was
+ANSI, due to the availability and widespread adoption of the layout in the
+Philippines.
+
+Computer
+The computer used to run the algorithm is a desktop computer with the following
+specification:
+
+
+			
+	Computer Specifications
 
 Environment
-The environment the setup would be placed in would be a well lit environment
-with a light source beside the camera. This light source will evenly light the
-keyboard and the fingers used for typing. The light source to be used will be a
-common LED desk lamp rated at 9 Watts with 700 lumens. This light will be white
-with a color temperature of 6500k.
+The setup was lit with a lamp besides the camera. This light source evenly lit
+the keyboard and the fingers used for typing. The light source used was a common
+LED bulb rated at 9 Watts with 700 lumens. This light was white with a color
+temperature of 6500k.
 
-In addition, the surface where the keyboard is to be placed on will be solid
-black without any variation of color. This is to improve initial keyboard
-detection.
+In addition, the surface where the keyboard was placed on was solid black
+without any variation of color. This also improved initial keyboard detection.
 
 Algorithm
 
-Computer Vision based Keyboard Detection, and Mapping
+Computer Vision based Keyboard Detection, and Key Mapping
 
-A computer vision algorithm will be created as a starting point for detecting,
-and mapping the keyboard within a video. The flowchart of the algorithm is shown
-in Figure .
+A computer vision algorithm was created as a starting point
+mapping the keys of the keyboard within a video. A rough flowchart of the algorithm
+is shown in Figure .
 
 
 		
 	Flowchart of Keyboard Detection and Mapping Algorithm
 	
-Convert to Grayscale
-The frame will be converted to a 256 level grayscale image. This step will be
-performed because future steps of the algorithm will not require color values to
-work. In addition, the performance of the following steps will be also improved
-as the number of dimensions to be analyzed is reduced.
 
-Edge Detection using Sobel Filter
-A Sobel Filter is an edge detection filter that uses a 33 kernel that is
-convolved twice. Once horizontally, and another vertically to produce a
-grayscale image of the outlines within the frame. The kernels used by the Sobel
-Filter sobel2014 is shown in Figure .
+Get Image Map
+The first portion of the algorithm creates an image map that is overlaid over
+the detected edges of the keyboard. The flowchart for this function is shown in
+Figure .
 
 
 		
-	and
+	Flowchart of Get Image Map
+	
+
+Convert to Grayscale
+The input frame from the camera was converted to a 256 level grayscale image
+using cvtColor of OpenCV opencv-cvtColor. This step was
+performed because future steps of the algorithm did not require color values to
+work. In addition, this step optimized the algorithm as the number of dimensions
+analyzed was reduced. Figure  is the output of this
+step.
+
+
+			Camera capture converted to grayscale
+		
+Denoising
+The algorithm denoised the grayscale image using a bilateral filter as
+implemented by OpenCV opencv-bilateral-filter. This filter takes the
+range of the image into account, rather than just the domain. This resulted in
+an image that is smoothed while preserving its edges
+bilateral-filter. Figure  is the output
+of this step.
+
+
+			Smoothed image with intact edges
+		
+
+Edge Detection
+The algorithm used a Sobel filter for edge detection. This filter uses a
+33 kernel that is convolved twice. Once horizontally, and another
+vertically to produce a grayscale image of the outlines within the frame. The
+kernels used by the Sobel filter sobel2014 is shown in
+Figure  and Figure  is
+the output of this step.
+
+
+		
 	
 	Sobel Operator Kernels. Reproduced from sobel2014
 	
-The expected result of this step is a black and white image that highlights the
-edges of the keyboard in white.
 
-Find Contours (Simple)
+			Output of the Sobel filter
+		
+Thresholding
+The output of the Sobel filter is a grayscale image of 255 values, with each
+gray pixel indicating edges within the image. There is a need to reduce the
+range of these values to improve the ability of the algorithm to find the
+contours of these edges. To do so, the algorithm utilized Otsu's algorithm to
+perform automated thresholding. Otsu's algorithm determines a single threshold
+that is most optimal for the image otsu. This outputs a
+black-and-white image, with only two values. Figure is the resulting output of this step.
+
+
+			Threshed image of the edges
+		
+
+Find Contours
 Contours are curves joining all continuous points that have the same color or
-intensity opencv-contours. In this algorithm the OpenCV function
-findContours will be used to find the contours of the outlines of the
-object found using the previous step. This function accepts a contour
-approximation method as one of its arguments. Two methods are provided by
-OpenCV, CHAINAPPROXNONE and CHAINAPPORXSIMPLE. The
-former returns all contours in the shape, while the latter removes redundant
-points and returns the least amount of points that describes the shape. The
-algorithm will use the latter, as only the extreme edges of the keyboard needs
-to be detected. This OpenCV function implements the algorithm of
- in their paper "contourstitle".
+intensity opencv-contours. The OpenCV function
+findContours, with the CHAINAPPROXSIMPLE contour
+approximation method, was used to find the contours of the outlines of the
+object found using the previous step. This approximation method removed
+redundant points and returned the least amount of points that describes the
+shape. This OpenCV function implements the algorithm of  in their
+paper. Figure  shows the contours
+found in the threshed image.
 
-The expected result of this algorithm is four contour points which are
-positioned on the four edges of the keyboard.
 
-Overlay Virtual Keyboard Map using Contour Points
+			All the contours found in the image
+		
+Simplify Contour
+However, the points returned by the function can contain more than the four
+extreme points at the edges of the keyboard. In addition, more than one contour
+may be found within the image. As such, the algorithm sorted the contours by
+area, and selected the largest one.
+
+After sorting, the algorithm performed the Douglas-Peucker algorithm for Line
+Simplification douglas-peucker. This reduced the number of points in
+the largest contour to the minimum amount. In ideal cases, the number of points
+would be four, with each point corresponding to the edges of the keyboard.
+However, there were times when other objects would be within the frame, or they
+intersected with the keyboard. This would result in a contour that would be
+defined by more than four points - which caused the entire algorithm to fail.
+
+The contour points that described the contour were then sorted clockwise. This
+was a necessity since the algorithm of  does not guarantee that
+the largest contour's points were returned in a clockwise arrangement, which is
+a requirement for the next step. Figure shows the four contour points found at the edges of the keyboard within the
+image.
+
+
+			Simplified contour
+		
+
+Transform Image Map
 The virtual keyboard map is a rectangular image that contains individual
 roi for each key in a 60% ansi keyboard. Each key has a corresponding
 color assigned to it and this color fills the region where this key is located
-at. Figure  is the virtual keyboard map. Appendix
+at. Figure  is the initial image map and Appendix
 Chapter  is a table that shows the hex color code and key
 mapping present in the image map.
 
 
 			Initial Image Map
 		
-The virtual map will then be stretched over the object, with the four contour
-points as the four edges of the virtual keyboard map. The image generated will
-then be returned as the final output of the graph.
-Figure  illustrates this image, and
-Figure  shows how accurate the image map is when
-overlaid over the image.
+The virtual map was stretched over the keyboard using OpenCV's
+warpPerspective function. The function requires a perspective transform
+that was calculated using getPerspectiveTransform. This function takes
+in two arrays with four points each. The input points are the edges of the
+virtual map, ordered clockwise. The output points are the four points of the
+contour, ordered clockwise opencv-image-transform. The resulting
+transform was then used by warpPerspective to apply the transform to
+the virtual map. Figure  is the image obtained
+after warping the image map.
 
 
-			Expected output of the algorithm
+			Transformed image map
 		
+Get Key Contour Points
+The second portion of the algorithm pre-computes the contour points of each key
+in the keyboard based on the generated virtual map and the Key-Color Values map.
+The flowchart of this function is shown in
+Figure 
 
-
-			Overlaid image map shown at 60% opacity
 		
+	Flowchart of Get Key Contour Points
+	
+Filter Virtual Map
+The color that corresponds to each key in the virtual map is stored in the
+Key-Color Value Map. This color was used to create a mask for the virtual map
+for a specific key. This mask was obtained by using this snippet of code
+(virtualMap == key).all(axis=2). This mask was then used to black out
+the rest of the virtual map, leaving only the roi of the key in the image.
+
+This specific method was used as the other method that was trialed,
+np.where(virtualMap != key), did not consider all 3 channels when
+comparing each pixel - i.e. a key assigned with the color value of
+[100, 0, 0] will not be blacked out if the color value of the key to be
+isolated is [100, 243, 0] as the blue channel of the pixel,
+100 is equal in both. This would result in other keys remaining in the
+virtual map, even if only one key corresponds to that color.
+Figure  shows the image where the Left Control key
+was isolated.
+
+
+			Filtered key
+		
+Find and Simplify Contours
+The same method in finding and simplifying the contour of the keyboard was used
+to find and simplify the contour of the roi of the key.
+Figure  illustrates the four edges of the
+isolated key.
+
+
+			Contour points of the roi
+		
+Scale Contours
+During testing using training data, a lot of the failures in finger-key
+identification was due to the tight fit of the contour to the key. The contour
+on its own did not give enough buffer for the placement of the finger. This
+buffer was needed as, in some instances, the finger used to press the key was
+not exactly on top of the key, but rather to its side. The algorithm accounts
+for this situation by adding a buffer. This was achieved through scaling the
+contour points by seven pixels on each side.
+Figure  shows the increased buffer in relation to
+the key. This value was obtained after testing other possible values. A buffer
+of five pixels did not have a lot of effect in reducing the number of failures.
+A buffer of ten pixels did reduce the number of failures, but it also greatly
+increased the algorithm's uncertainty in determining the finger - uncertainty
+is defined as detecting two or more fingers within one roi. Seven was a
+good middle ground in decreasing failures, without greatly increasing
+uncertainty.
+
+
+			Contour points of the roi
+		
+Key-Edge Coordinates Map
+After all the keys have passed through the loop, a Key-Edge Coordinates Map was
+generated. Each key now has four points that serve as the coordinates of the
+edge of its roi.
+
+The coordinate system that the contour points are based on had its origin at the
+top left, starting at 0, 0. Going to the right increased the value of the
+x-axis, and going to the bottom increased the value of the y-axis. This results
+in a coordinate system that only has positive values with each value
+corresponding to a pixel.
+
+
 Computer Vision based Finger Detection, and Tracking
-A computer vision algorithm will be chosen as a starting point for detecting,
-and tracking fingers within a video. The specific algorithm used for finger
-detection and tracking will be the solution offered by MediaPipe dubbed
-MediaPipe Hands. This algorithm is composed of two ML models working in
-conjunction to be able to detect the different parts of the hands and track them
-accurately.
+MediaPipe Hands was used as the finger detection and tracking solution. This
+algorithm is composed of two ML models working in conjunction to be able to
+detect the different parts of the hands and track them accurately.
 
 Palm Detection Model
 The first model, the Palm Detection Model detects the initial hand locations
-using a single shot detector model based on the paper by. This model
+using a single shot detector model based on the paper by . This model
 achieves an average precision of 95.7% in palm detection
 mediapipe-hands.
 
-MediaPipe Hands detects the palms first, instead of the whole hands with one
-model because the hands lack high contrast patterns. This reduces the model's
-ability to detect the hand with accuracy. In addition, detecting a palm is
-simpler compared to detecting hands with articulated fingers since estimating a
-bounding box around a rigid objects, i.e. a palm, is much simpler. Furthermore,
-a palm can be modeled using only square anchors reducing the number of anchors
-by a factor of 3-5 mediapipe-hands.
+MediaPipe Hands detects the palms first, instead of whole hands with one model
+because hands lack high contrast patterns. This reduces the model's ability to
+detect hands with accuracy. In addition, detecting a palm is simpler compared
+to detecting hands with articulated fingers since estimating a bounding box
+around a rigid object, i.e. a palm, is much simpler. Furthermore, a palm can be
+modeled using only square anchors reducing the number of anchors by a factor of
+3-5 mediapipe-hands.
 
 Hand Landmark Model
 After the palms have been detected and an appropriate anchor has been
@@ -878,48 +1198,38 @@ hand pose representation mediapipe-hands.
 
 Integration for finger-key identification and mapping
 
-The two previously chosen algorithms will be combined to accomplish finger-key
-identification and mapping. Finger-key identification refers to identifying
-which finger is used to press which key. As an example, the key Q was pressed
-with the pinky finger of the left hand.
+The two previously chosen algorithms was combined to accomplish finger-key
+identification and mapping.
 
-The integration of the algorithm is a two step process. The first step is to get
-the mapping of the keyboard using the algorithm shown in
+The integration of the algorithm was a two-step process. The first step was to
+get the Key-Edge Coordinates Map shown in
 Section .
 
-The second step is a continuous loop where the mapping of the keyboard is used
-in conjunction with the finger tracking algorithm chosen in
-Section . The flowchart of the algorithm is shown
-in Figure 
+The second step runs whenever a key press has been detected. This step used the
+Key-Edge Coordinates Map in conjunction with the finger tracking algorithm selected
+in Section . The flowchart of the algorithm is
+shown in Figure 
 
 		
+	rectangle connector/.style=
+	-latex,
+	to path=() - ++(6cm,0pt) - () ,
+	pos=0.5
+	,
+	
+	
 	Flowchart of the overall flow
 	
-Find roi of the pressend key in Virtual Keyboard Map
-Since there is a known color-key mapping based on the Virtual Keyboard Map, the
-algorithm will find the correct color to search for based on the received
-keypress packet. This color is isolated from the Virtual Keyboard Map, and the
-roi and its coordinates are obtained. The edges of this roi will
-then be obtained by finding its contours. The specific implementation of this is
-explained in Section .
-
-The coordinate system will have its origin at the top left, starting at 0, 0.
-Going to the right increases the value of the x-axis, and going to the bottom
-increases the value of the y-axis. This will result in a coordinate system that
-only has positive values with each value corresponding to a pixel.
-
-The expected output of this is four sets of pairs. Each pair corresponds to an
-edge of the single roi.
-
 Find which fingertip is on that roi
-The Finger Tracking Frame will contain the pixel positions of each landmark of
-the hand. For this step, the algorithm will find the landmark which is
-positioned within the single roi obtained from the previous step.
-This will be done using a series of checks.
+The Finger Tracking Data contained the pixel positions of each landmark of the
+hand. For this step, the algorithm finds the landmark which is positioned within
+the single roi obtained from the previous step. This was done using a
+series of checks.
 
-Each landmark's coordinates will be compared to the coordinates of the edges of
-the roi. A landmark will be determined as positioned within the roi if all of the
+Each landmark's coordinates was compared to the coordinates of the edges of the
+roi. A landmark was determined as positioned within the roi if all the
 following conditions are true:
+
 
 	In the X axis, the landmark's coordinates is greater than one or both of
 	      the two coordinates found of the left side of the roi
@@ -930,186 +1240,613 @@ following conditions are true:
 	In the Y axis, the landmark's coordinates is less than one or both of
 	      the two coordinates found of the bottom side of the roi
 
-These conditions maximize the total area of the roi and is not strict about
-exact accuracy. In essence, these conditions will create a perfectly rectangular
-box that contains the quadrilateral formed by the four points from the previous
-step.
+These conditions maximized the total area of the roi, and it is not strict
+about exact accuracy. In essence, these conditions creates a perfectly
+rectangular box that contained the quadrilateral formed by the four points from
+the coordinates. Figure  is an example of a frame with a
+successful finger-key identification using the conditions previously mentioned.
 
+
+			Fingertip within an roi
+		
 Return which fingertip
-The landmark will then be used to determine which specific finger corresponds to
-the keypress. Figure  shows each
-possible landmark that may be returned from the previous step. This step will
-then return the name of the landmark, up until the first underscore. As an
-example, if the landmark found is MIDDLEFINGERTIP, this step will
-return MIDDLE denoting that the middle finger is the finger that
-corresponds with the keypress. In addition, the specific hand will also be
-returned as one of two strings, Left and Right, since
-this information is also bundled together with the landmarks.
+The landmark was then used to determine which specific finger corresponds to the
+key press. Figure  shows each possible
+landmark that may be returned from the previous step. This step returned the
+name of the landmark, up until the first underscore. As an example, if the
+landmark found is MIDDLEFINGERTIP, this step will return
+MIDDLE denoting that the middle finger is the finger that corresponds
+with the key press. In addition, the specific hand will also be returned as one
+of two strings, LEFT and RIGHT, since this information is also
+bundled together with the landmarks. The two strings were then concatenated with
+an underscore. An example return value is RIGHTRING.
+
+As such, the expected output of the module is the hand and the finger used to
+press the key. This allows for a more flexible utilization of the data as it
+carries greater context, compared to just returning if the finger used was
+correct or not.
 
 
 			Hand landmarks that may be returned by the algorithm. Reproduced from mediapipe-hands.
 		
 Implementation
-The previously discussed algorithms will be implemented using Python. The
-Keyboard Detection, and Mapping Algorithm in
-Section  will be implemented as a separate
-submodule in Python using OpenCV.Finger Detection, and Tracking Solution
-in Section  will be consumed using the prebuilt
-Python package offered by the MediaPipe team. Finally, the integration of the
-two will be done as another separate submodule in Python.
+The previously discussed algorithms was implemented using Python. The Keyboard
+Detection, and Mapping Algorithm in Section was implemented as a separate module in Python using OpenCV. The Finger
+Detection, and Tracking Solution in Section  was
+consumed using the prebuilt Python package offered by the MediaPipe team.
+Finally, the integration of the two will be done as another separate module
+in Python.
 
-Trainer
+Training and Testing
 
 Typing Test Sequences
-Typing test sequences are strings that will be used in testing the user in their
-ability to type. The test sequences that will be used in the trainer will come
-from text found in the public domain obtained from Project Gutenberg and the
-Internet Archive. Sentences will be isolated from these text and used as test
-sequences if they fit a criteria.
+Typing test sequences are strings that was used in testing the user in their
+ability to type. The test sequences that was used came from text found in the
+public domain obtained from Project Gutenberg and the Internet Archive.
+Sentences were isolated from these text and used as test sequences if they fit
+the criteria.
 
-The criteria for choosing test sequences is as follows: (1)  of the
+The criteria for choosing test sequences were as follows: (1)  of the
 characters in the keyboard is present in a test sequence. (2) The number of
 words in a test sequence do not exceed 25. (3) Numbers and punctuations should
 be present in at least  of the total test sequences.
 
-There will be a total of 10 test sequences that will be gathered. An example
-test sequence is "What of it, if some old hunks of a sea-captain orders me to
-get a broom and sweep down the decks?" from Moby Dick by. The
-9 other test sequences can be found in Appendix
-Chapter
+There was a total of 10 test sequences that was gathered. An example test
+sequence is "What of it, if some old hunks of a sea-captain orders me to get a
+broom and sweep down the decks?" from Moby Dick by . The 9
+other test sequences can be found in Appendix
+Chapter .
 
- .
-
-UX/UI design and Front-end development for the touch typing trainer
-Design
-This design will be based on other type tests such as Monkeytype
-bartnik2021, and Keybr keybr, with additional components
-for showing real-time finger-key identification and mapping.
-Figure  and  illustrates the two main pages of
-the design. Additional screens, such as historical statistics, in-platform
-tutorial, and a written guide are shown in the appendix.
-
-
-			Test screen of the front-end design
-		
-Figure  has four main components. From the top, the first
-component is the navigation bar. This directs the user to the different pages
-within the website. The second component in the upper left displays the number
-of remaining words to be typed. This is 16 in the example. Below that is the
-test sequence. This shows the user what characters to type, and highlights
-mistakes in two distinct colors. Red if the character pressed was incorrect and
-purple if the character typed was correct, but the finger used to type it is
-wrong. The last main component in this screen is the keyboard that illustrates
-the correct finger positioning, with each finger corresponding to a different
-color.
-
-
-			Statistics screen of the front-end design
-		
-Figure  has two main components. The first component at the top
-shows the three major statistics for the typing test: Words per minute,
-Accuracy, and Finger placement accuracy. Finger placement accuracy will be
-explained in Section . The component below the statistics is a
-graph plotting the major statistics of the user in time. This includes when the
-user made the mistake and when the user slowed down, or increased their speed.
-
-Implementation
-The design will be created in Figma and the front-end will be web based.The
-framework the front-end will be developed in will be Svelte, due to its
-community resources, performance, and the researcher's familiarity with the
-framework. The front-end will serve as a display for the information and the
-interface which the user interacts and inputs information into the trainer. No
-calculation will be done within the front-end.
-
-Back-end development of a touch typing trainer using the program created
-	in  and the experimental setup identified in
-	
-
-The back-end will handle all of the computation for the trainer-mainly
-finger-key identification. The backend will also handle authentication and data
-storage.
-
-The back-end will expose a REST API. This is a type of application programming
-interface (API) that conforms to the REST architectural style. One key
-characteristic of the this style is its statelessness and cacheable data
-rest. This will be implemented using Django, a Python REST API
-framework.
-
-Finger-key Identification
-The submodule that integrates all of the sub algorithms will be called within
-the framework. The framework will then respond to requests for finger-key
-identification using this submodule. This will allow the back-end to expose its
-finger-key identification abilities and allow the front-end to use this data for
-the trainer.
-
-Authentication
-The core authentication system will rely on JSON Web Tokens (JWTs) . According
-to, "JSON Web Token (JWT) is a compact, URL-safe means of
-representing claims to be transferred between two parties." This allows for a
-user to claim that they are that specific user securely as the claim is
-cryptographically signed. For the backend of the trainer, the JWT will be signed
-using a secret and it will be encoded in HMAC SHA256.
-
-Data Storage
-The trainer will store all of the data in a relational database using
-PostgreSQL.specific technology was chosen due to its maturity, community,
-and industry recommendations and the researchers' familiarity with the
-technology.
-
-Testing of finger-key identification and mapping accuracy
-
-There will be 3 groups of 10 videos to be captured by the researcher, for a
+Data Gathering
+Video Capture
+There were 3 groups of 10 videos that were captured by the researcher, for a
 total of 30 videos. Each group corresponds to three predetermined speeds of
-typing: slow (15wpm), average(35wpm), and fast(80wpm). The researcher will type
-the 10 typing test sequences at these predetermined speeds. During typing,
-errors will not be consciously taken into account, and errors will happen
-naturally as part of the typing process. These speeds are based on test data
-from.
+typing: slow (15wpm), average (35wpm), and fast (80wpm). These speeds were based
+on test data from . The researcher typed the 10 typing test
+sequences at these predetermined speeds. During typing, errors were not
+consciously taken into account, and errors happened naturally as part of the
+typing process.
 
-The researcher will then manually perform finger-key identification for all key
-presses present in the video. The annotated data will then be divided into
-training and test data at a ratio of 60:40. The finger-key identification
-submodule will then perform the finger-key identification for the same videos.
-The accuracy of the submodule will then be obtained by verifying if its
-identification is as expected, based on the manual identification.
+A Python script was created to facilitate this process. The script captured a
+video of the researcher as the researcher was typing the test sequences.
+Whenever the researcher pressed a key, the corresponding frame count was
+captured, and the key pressed was recorded in conjunction. This was stored in
+the format FRAMENO:KEYPRESSED, and each keypress was then stored as
+a line in a file.
 
-Metric
+One caveat of the camera used was its autofocus capabilities. This meant that
+there was a set amount of time during the start of the recording where the
+camera captured blurry images of the keyboard. This necessitates around three
+seconds for the autofocus to complete and focus on the keyboard. There was one
+video capture where the whole test sequence was scrapped as the researcher
+started typing even if the camera was not focused.
 
-There will be two total metrics obtained pertaining to finger and key mapping.
-The first will be per test sequence, and the second will be per key.
+Keypress Labelling
+The researcher then manually perform finger-key identification for all key
+presses present in the video. This was also done through a Python script. The
+script parsed the file associated with a video. The frame number found at each
+line was then shown, and the associated data with the frame was superimposed
+over it. Figure  is an example of frame with these
+data overlaid over the captured image. The researcher then pressed keys that
+corresponded with the finger used to press the key. This was then again stored
+in the format FRAMENO:KEYPRESSED:FINGERUSED, and each keypress
+was then stored as a line in a file.
+
+
+			Screen showing the labelling process
+		
+
+Test-Training Split
+The annotated data was then divided into training and test data at a ratio of
+60:40.
+
+Training
+A script was created to test the accuracy of the module. This script opened each
+video, and the associated labeled file. There were three frames taken for each
+video to perform step one of the module: frames ten, fifteen, and twenty. The
+first frame that returned a Key-Edge Coordinates Map after going through step
+one of the module was used. The rest of the frames were not passed through the
+module and were discarded.
+
+The script then parsed the labeled file, and opened the frame for each keypress.
+The second algorithm of the module was then run, using the data needed for the
+algorithm: the key pressed. The result of the module was then compared with the
+manual labelling of the keypress. The resulting data from the test was then
+stored in a .csv file with the following content:
+
+
+			
+	CSV File Contents
+
+Adjustments were then made to the algorithm after each training pass to improve
+its performance. Some runs had improvements in its statistics without doing any
+adjustments. These were runs that showed errors in the manual labelling and
+were corrected afterward.
+
+Analysis
+The resulting .csv file was imported into Google Sheets and key
+statistics were obtained based on the data. These statistics can be found on
+Table . These key statistics informed what to adjust in
+the algorithm and its overall performance.
+
+
+			
+	Acquired statistics
+
+Testing
+The same script was run through the test data. The same format of output was
+gathered, and the same key statistics were recorded.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Metrics
+
+There was a two total metrics obtained pertaining to finger and key mapping.
+The first was per test sequence, and the second was per key.
 
 Per Test Sequence
-The metric to be calculated per test sequence is Finger Placement Accuracy (FP
-ACC). This metric will compute the percentage of accurate key presses pressed
-with the correct finger over the length of the typing test sequence. Inputting
-the wrong character, even if pressed with the correct finger will reduce FP ACC
-since FP ACC measures accurate key presses, and incorrect characters will
-be considered as inaccurate key presses.
+The metric which calculates per test sequence is fpacc. This metric
+computes the percentage of accurate keys pressed with the correct finger over the
+length of the typing test sequence. Inputting the wrong character, even if
+pressed with the correct finger, reduces fpacc since fpacc measures
+accurate key presses, and incorrect characters are considered as
+inaccurate key presses.
 
-The equation for calculating FP ACC is as follows:
+The equation for calculating fpacc is as follows:
 
 
+Finger Placement Accuracy
 
-Where  refers to the number of accurate key presses pressed with the
+
+Where  refers to the number of accurate keys pressed with the
 correct finger and  refers to the length of the text.
 
 Per Key
-This metric will compute the Historical Finger Placement Accuracy (HFP ACC) for
-a certain key. This will include the times the user pressed the wrong key when
-asked for a certain character, the same as in FP ACC. This will allow the user
-to easily verify which keys need attention and retraining if there is a high
-frequency of error.
+This metric, hfpacc, computes the accuracy of the user in pressing a
+certain key with the correct finger over all test sequences. The same criteria
+in determining accurate key presses This allows the user to easily verify which keys need
+attention and retraining if there is a high frequency of error.
 
-The equation for calculating a key's HFP ACC is as follows:
-
+The equation for calculating a key's hfpacc is as follows:
 
 
-Where  refers to the number of accurate key presses pressed with the
+Historical Finger Placement Accuracy
+
+Where  refers to the number of accurate keys pressed with the
 correct finger for a certain character, identified as . 
 refers to the number of times the character has appeared in all test sequences
 for the user.
 
-[heading=bibintoc,title=References]
+Results and Discussion
+
+Accuracy
+Accuracy, in the context of the finger-key identification module calculates the
+percentage of successful finger-key identifications that the module has
+performed. In this case, success is defined as having the expected finger, based
+on the manual labelling, equal the return value of the module. Accuracy is
+calculated as
+
+
+Finger-Key Identification Module Accuracy
+
+Where  is the number of successful finger-key identifications, and  is
+the total number of keypresses for all typing test sequences. This is also
+referred to as the success percentage.
+
+Training Results
+There were a total of seven training iterations. These training iterations
+served as a way to improve the performance of the module by adjusting its
+parameters.
+
+Identifications
+
+
+		
+	Identification results of the training iterations
+	
+Over the seven training iterations, there was an increase in success percentage
+as shown in Figure . Consequently, there was
+also a decrease in failure percentage. There was a total of 1475 total
+keypresses for iterations one to three, and 1571 total keypresses for iteration
+four to seven.
+
+The increase in total keypresses starting from iteration four was due to adding
+multiple tries to the training routine in obtaining the Key-Edge Coordinates
+Map. Iterations one through three only tried frame 10 as the source frame for
+the module while iterations four through seven tried frame 10, 15, and 20.
+
+There was a need to try different frames since the camera was not consistent in
+its ability to focus on the keyboard for each video. In some videos video, the
+camera was not focused on the keyboard on frame 10, but it was able to focus on
+frame 15. As a result, the total number of available keypresses to test
+increased.
+
+The 0.48% jump between iteration one and two can be attributed to correcting
+erroneous finger-key identifications that was obtained from manual labelling.
+The 9.56% jump in success percentage between iteration two and three was due to
+adding buffers around the roi by scaling the contours by 10 pixels on each
+side. Iteration four's increase was due to fixing the image map. There were
+certain keys that had incorrect color values assigned in the Key-Color Values
+Map, and some keys were of incorrect shape. Iterations five to seven were
+performed to test different values and shapes for scaling the roi.
+
+Uncertain Successes
+
+
+		
+	Uncertain Successes of the training iterations
+	
+Uncertain Successes are instances where the finger-key identification module was
+able to detect two or more fingertips within the roi of the key. As such,
+the module is uncertain which of the multiple fingertips actually pressed the
+key. However, it is still classified as a success since the expected finger from
+the manual labelling exists within the array of fingertips returned by the
+module. Figure  shows the trend of this
+metric over the course of the different training iterations.
+
+Spacebar
+In a 60% keyboard, the spacebar is the longest key on the keyboard. In
+addition, this key is right below the non-dominant hand's thumb default resting
+position when the hand's posture follows the proper touch typing posture. As
+such, it was to be expected that a majority of the uncertain successes were
+because of the spacebar. However, this was not the case for iterations three and
+four. This was because the buffer for the roi was too big and this caused
+the module to detect more than one fingertip within that roi.
+
+Non-spacebar
+There were cases where the module had uncertain successes that were not over the
+spacebar. In almost practically all cases, these were over the alphanumeric
+keys. This uncertain successes stem from the increased buffer of the roi.
+This type of uncertain successes carry more weight compared to spacebar
+uncertain successes since the keys where these uncertain successes come from are
+the smallest keys in the keyboard. This means that the chances that a person
+actually has two or more fingers over the keys is rare, compared to the
+spacebar.
+
+
+Uncertain Successes vs Success Percentage
+
+
+		
+	Uncertain Successes of the training iterations
+	
+
+Tuning the algorithm required managing both uncertain successes and the success
+percentage and making compromises between one or the other. The goal of the
+training process was to maximize the success percentage, while limiting the
+number of uncertain successes.
+
+As seen in Figure , it can
+be noted that in iterations one and two, the success rate was lower compared to
+the other iterations. However, the percentage of uncertain successes was also
+the lowest. Iteration three was the first iteration that created a buffer around
+each key, however this buffer of 10 pixels was too aggressive, with the
+uncertain successes spiking upwards to nearly 30%. Iteration five reduced the
+buffer size in half to five pixels. This did not affect success rate that much,
+with only a reduction of 1.07%. This also greatly decreased the uncertain
+success percentage by 16.74%. The sixth iteration met halfway between iteration
+four and five, by adding a buffer of seven pixels. This increased the success
+rate back to 99.17% without greatly increasing the number of uncertain
+successes. In comparison with the fourth iteration, the sixth iteration had its
+success rate decrease by 0.38%, but its percentage of uncertain successes
+decreased by 12.67%. A seventh iteration was trialed where the increase in
+buffer was asymmetrical. For each key, the points nearer the user were increased
+by 10 pixels, while the points farther away were increased by five pixels only.
+This slightly increased the success rate by 0.32%. However, the percentage of
+uncertain successes also increased by 5.28%.
+
+While the percentage of uncertain successes in iterations five through seven was
+in the range of 13% to 20%, The majority of these uncertain successes were
+spacebar uncertain success, as shown in
+Figure .
+
+Based on these results, the final selected parameters for the module was the
+parameters set in iteration six, with the buffer set to seven pixels as it was a
+good middle ground between success rate, and uncertain successes.
+
+
+Failure Types
+
+
+		
+	Uncertain Successes of the training iterations
+	
+Mismatched Identification
+These are failures where the module did not return the expected fingertip based
+on the manual labelling. This type of failure only manifested in iterations one
+and three. The failures in iteration one, after double-checking the video, were
+due to an error during manual labelling. In iteration three, these errors were
+due to an incorrect image map and Key-Color Values map. The information for some
+keys were not consistent between both.
+
+Based on this information and from the gathered data as shown in
+Figure , This failure type is non-existent
+for the module in real-life conditions.
+
+No Identification
+These are failures where the module did not detect any fingertips within the
+roi. These made up all the failures from the test results. These types of
+failures occurred because the fingertips used to press the key were not directly
+above the key, but rather offset to its side. Scaling the roi would reduce
+the number of no identification failures, but it would also increase the number
+of uncertain successes. See Section ,
+Uncertain Successes vs Success Percentage for more information.
+
+Occlusion
+The module was also successful in finger-key identification, even if both the
+key and finger was occluded. Figure  is one frame where
+this occurred. The module was successful in identifying that the Left Thumb was
+used to press the Left Shift.
+
+
+			Occluded finger and key
+	
+
+Test Results
+
+			
+	Accuracy Results of the Module with Test Data
+
+Table  provides the accuracy results of the module with
+test data. These results were satisfactory after running the module with the
+parameters from the sixth training iteration on the test data. There was another
+run with the same test data and the same parameters, however these results were
+omitted since this run had inconclusive results as there was a single
+identification that was incorrectly labeled during manual finger-key
+identification.
+
+Speed
+
+Based on the definition of wpm from as seen in
+Equation , it can be extrapolated that calculating cps is:
+
+
+Characters per Second
+
+The average wpm when typing using the QWERTY layout, according to test
+data from is  wpm. As such, we can
+calculate that the average Characters per Second when typing using the QWERTY
+layout is 3.125. We can calculate the seconds need per character by this equation:
+
+
+Seconds per Character
+
+This means that each character, on average, requires 0.32
+seconds to type. This sets the maximum time spent for finger-key identification
+for a single character. Any more than this would result in noticeable slowdown
+during typing.
+
+Results
+
+Training Iterations
+
+
+		
+	Keyboard detection time of the training iterations
+	
+The training iterations had an average keyboard detection time of
+ and average finger identification time of .
+Over the course of the training, there was no noticeable difference between
+running time over the same dataset as shown in
+Figure . However, The first
+training iteration had issues with gathering the speed of the module, as the
+average keyboard detection time included other operations that was not part of
+getting the Key-Edge Coordinates Map. Removing this iteration, the average
+keyboard detection time becomes more consistent, with it being
+.
+
+Test Results
+
+
+			
+	Speed Results of the Module with Test Data
+
+These results, as tabulated in Table  were consistent with the
+training iterations. These means that the module has repeatable and predictable
+running times.
+
+Average Keyboard Detection Time
+This is the time that was measured as the module generated the Key-Edge
+Coordinates Map. This corresponds with the first step of the module. It is to be
+noted that this time does not affect keyboard typing and is not limited by the
+0.32 threshold as the user is not yet typing at this point.
+
+Average Finger Identification Time
+This is the time spent in finger-key identification for a single key. As such,
+this time should be below 0.32 seconds for the module to be capable of
+performing finger-key identification in real-time without noticeable slowdown
+from the perspective of the user.
+
+The average finger identification time that the module got, 0.083s was
+well below 0.32s. This can be attributed to the speed of the MediaPipe
+library, and the pre-calculation of the edge coordinates.
+
+Real Time Finger-Key Identification
+With each keypress only requiring 0.083s for finger-key identification, it can
+be gathered that the maximum cps which the module can still perform
+real-time finger-key identification is 11.9200 cps, based on
+Equation . It follows that the maximum wpm that still allows for
+real-time finger-key identification is 143.040 wpm, based on
+Equation . This is well above the median of 37.5 wpm on Keybr.
+The module can also perform finger-key identification for 90.99% of the
+community members of Monkeytype with the speed role.
+
+Conclusion
+
+The development of a finger-key identification module was successful.
+
+The finger-key identification solution was split into two parts, keyboard
+detection and key mapping, and finger detection. Keyboard detection and key
+mapping used the following algorithm and techniques: (1) Edge Detection using
+Sobel filter sobel2014, (2) Thresholding using Otsu's algorithm
+otsu, (3) Finding contours using the algorithm of,
+(4) Line Simplification using the Douglas-Peucker algorithm
+douglas-peucker, and (5) Perspective transform
+opencv-image-transform. Finger detection utilized a ready-made
+solution called MediaPipe Hands by. The two were combined to
+perform finger-key identification.
+
+The keyboard used was a 60% keyboard in ANSI. It was a light in color, and was
+connected with a black USB-C cable. The surface of the desk was dark, and a LED
+Bulb rated at 9 Watts, 700 lumens, and 6500k color temperature was used to
+uniformly light the capture area. The single optical camera, a Logitech C920,
+was placed above the keyboard, pointing directly downwards. It captured videos
+in 720p/30fps with a diagonal field of view of 78logitech.
+The computer used had a AMD Ryzen 5 3600 CPU, AMD Radeon RX 5600 XT GPU, G.Skill
+Trident Z Neo RGB 16GB 3200mhz RAM, and Samsung SSD 850 EVO SSD.
+
+The development of the module utilized OpenCV as the main image manipulation
+platform that implemented the algorithms mentioned previously. OpenCV was also
+used to capture videos from the optical camera. It was all written in Python.
+
+The module was accurate in 99.47% of identifications in a data set composed of
+942 keypresses. However, 14.12% of the identifications were uncertain
+successes. These are successes where more than one fingertip was found in an
+roi. Of these, 6.48% were non-spacebar uncertain successes. These are
+uncertain successes where that was not over the spacebar. This bears more weight
+since these keys were the smallest in the keyboard, and in most cases, only one
+fingertip could actually fit within the key. These uncertain successes were due to
+the addition of a buffer around each roi to increase success rate.
+
+The module is fast enough for real-time finger-key identification up to typing
+speeds of 143.040 wpm. This is above the median typing speed of 37.5
+wpm on Keybr keybr. This also handles 90.99% of the 12678
+members with the speed role on MonkeyType monkey-stats.
+
+Two metrics were developed: (1) Finger Placement Accuracy which computes the
+percentage of keys pressed with the correct figure over the length of the test
+sequence, and (2) Historical Finger Placement Accuracy which computes the amount
+of times the user is successful if pressing a key with the correct finger over
+all test sequences.
+
+Future Work
+
+Trainer
+The paper only presented a module for finger-key identification and did not
+include a trainer that utilized the module. This would allow the module to be
+used by actual users and allow for further testing to be done.
+
+Effects on Touch Typing Education
+The paper created a method for finger-key identification in hopes of improving
+touch typing education, however there was no test done to prove that the module
+will have an effect on the learner's skill in touch typing
+
+Effects on Health
+In connection with the previous section, the module also has no testing done to
+quantify if training using the module will improve the posture and reduce
+problematic hand positions and movements that can cause nerve and muscular
+disorders.
+
+Environmental Setup
+The environmental setup was tightly controlled, with the keyboard and the desk
+of contrasting color, lighting was nearly perfect, and the camera was of great
+quality. This is not realistic and is not representative of the real world.
+Future work could improve upon this area. An idea would be to have a separate
+process where the user could just select four points rather than relying on an
+automated computer vision process to detect the four edges.
+
+Detecting Keyboard Movement Between Frames
+The module is limited in its ability to track keyboards that move between
+keypresses. While this is not something that usually happens during keyboard
+typing, having the ability to track movements would be a great addition in
+improving the module's performance.
+
+Different Keyboard Types, Layouts, and Colors
+The module is limited to detecting keypresses with a 60% keyboard. This type of
+keyboard is not that commonly used. Other keyboard types, like the 100%, 75%,
+and TKLs would be good starting points for adding support. In addition,
+supporting other layouts, like ISO, would also greatly increase the number of
+people that could use the module. Furthermore, supporting other color schemes
+would also widen the number of keyboards that can be used with the module.
 
 
 Key-Color Values Map
@@ -1253,7 +1990,16 @@ ll
 
 Typing Test Sequences
 
-	What of it, if some old hunks of a sea-captain orders me to get a broom and sweep down the decks?
+	"What of it, if some old hunks of a sea-captain orders me to get a broom and sweep down the decks?" moby-dick
+	"I sat down on an old wooden settle, carved all over like a bench on the Battery." moby-dick
+	"I lay there dismally calculating that sixteen entire hours must elapse before I could hope for a resurrection." moby-dick
+	"How slowly the time passes here, encompassed as I am by frost and snow!" frankenstein
+	"I listened to my father in silence and remained for some time incapable of offering any reply." frankenstein
+	"Think you’re escaping and run into yourself. Longest way round is the shortest way home." ulysses
+	"History, Stephen said, is a nightmare from which I am trying to awake" ulysses
+	"A man of genius makes no mistakes. His errors are volitional and are the portals of discovery." ulysses
+	"Never trust to general impressions, my boy, but concentrate yourself upon details" sherlock
+	"I have no data yet. It is a capital mistake to theorise before one has data." sherlock
 
 Front-End Screens
 
@@ -1271,3 +2017,9 @@ Front-End Screens
 
 			Step 3 of the tour of the platform
 	
+Gantt Chart
+
+	[pages=-,landscape,scale=0.8,pagecommand=]images/gantt-chart.pdf
+
+[heading=bibintoc,title=References]
+

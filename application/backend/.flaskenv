@@ -1,0 +1,2 @@
+FLASK_ENV=development
+QT_QPA_PLATFORM=xcb
