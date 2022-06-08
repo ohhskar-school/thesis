@@ -1,19 +1,16 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 
-	import type { Hands, Results } from '@mediapipe/hands';
+	import type { Results } from '@mediapipe/hands';
 	import mpHands from '@mediapipe/hands';
 
-	import { hands, video, fingersDetected } from 'src/store/mediapipe';
+	import { hands, video, result } from 'src/store/mediapipe';
 	import { inputData } from 'src/store/test-sequence';
 
 	const width = 1280;
 	const height = 720;
 	const fingerTips = [4, 8, 12, 16, 20];
 	const fingerTipLabel = { 4: 'THUMB', 8: 'INDEX', 12: 'MIDDLE', 16: 'RING', 20: 'PINKY' };
-
-	let initialized = false;
-	let capturing = false;
 
 	let canvas: HTMLCanvasElement;
 
@@ -50,9 +47,6 @@
 					const x = Math.round(landmark.x * width);
 					const y = Math.round(landmark.y * height);
 
-					context.fillStyle = 'blue';
-					context.fillRect(x, y, 5, 5);
-
 					if (x < $inputData.coordinates![0][0] && x < $inputData.coordinates![3][0]) {
 						continue;
 					}
@@ -69,6 +63,9 @@
 						continue;
 					}
 
+					context.fillStyle = 'blue';
+					context.fillRect(x, y, 5, 5);
+
 					const label = classification.label === 'Right' ? 'LEFT' : 'RIGHT';
 					const landmarkName = fingerTipLabel[landmarkIndex as keyof typeof fingerTipLabel];
 
@@ -76,7 +73,11 @@
 				}
 			}
 
-			$fingersDetected = tempResults;
+			$result = {
+				currentLetter: $inputData.currentLetter,
+				key: $inputData.key,
+				fingersDetected: tempResults
+			};
 		}
 
 		context.restore();
@@ -116,7 +117,6 @@
 
 				$video.srcObject = stream;
 				$video.play();
-				initialized = true;
 
 				$hands?.send({ image: $video });
 			})

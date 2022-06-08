@@ -5,7 +5,7 @@
 	import { keyMap, expectedKeys } from 'src/constants/keymap';
 
 	import { testSequence, inputData } from 'src/store/test-sequence';
-	import { fingersDetected, hands, video } from 'src/store/mediapipe';
+	import { result, hands, video } from 'src/store/mediapipe';
 	import { edgeCoordinates } from 'src/store/edge-coordinates';
 
 	import Input from 'src/components/@test-area/input.svelte';
@@ -38,10 +38,11 @@
 	});
 
 	const words = testSequences[$testSequence].split(' ');
-	const userInput = words.map((word) => Array(word.length).fill(0));
+	const userInput = words.map((word) => Array(word.length).fill(null));
+	const wrongFingers = words.map((word) => Array(word.length).fill(false));
 	let currentWord = 0;
-	let currentLetter = 0;
 	let totalEnteredCharacters = 0;
+	let totalWrongCharacters = 0;
 
 	const handleInput = (event: Event) => {
 		if (finished) {
@@ -58,13 +59,19 @@
 
 		const actualLen = words[currentWord].length;
 
+		const currentLetter = target.value.length - 1;
+
 		if (
 			$video &&
 			inputEvent.data &&
 			inputEvent.data === words[currentWord][target.value.length - 1]
 		) {
 			const key = keyMap?.[inputEvent.data as keyof typeof keyMap] ?? inputEvent.data.toUpperCase();
-			$inputData = { coordinates: $edgeCoordinates?.[key] ?? null, key: inputEvent.data };
+			$inputData = {
+				coordinates: $edgeCoordinates?.[key] ?? null,
+				currentLetter,
+				key
+			};
 
 			setTimeout(() => {
 				if (!$video) {
@@ -72,34 +79,42 @@
 				}
 
 				$hands?.send({ image: $video });
-			}, 10);
+			}, 1000 / 60);
 		}
 
 		totalEnteredCharacters += 1;
 
-		if (inputEvent.data === ' ' && userInput[currentWord].join('') === words[currentWord]) {
-			currentWord += 1;
-			target.value = '';
+		if (inputEvent.data === ' ') {
+			if (userInput[currentWord].join('') === words[currentWord]) {
+				if (currentWord + 1 === words.length) {
+					finished = true;
+					return;
+				}
+				currentWord += 1;
+				target.value = '';
+			}
 
 			return;
 		}
 
 		userInput[currentWord] = target.value.split('');
-		currentLetter = target.value.length - 1;
+
 		const difference = actualLen - userInput[currentWord].length;
 
 		if (difference > 0) {
-			userInput[currentWord] = userInput[currentWord].concat(Array(difference).fill(0));
+			userInput[currentWord] = userInput[currentWord].concat(Array(difference).fill(null));
 		}
 	};
 
 	$: {
+		console.log($result);
 		if (
-			!$fingersDetected.includes(expectedKeys[$inputData.key as keyof typeof expectedKeys]) &&
-			startTime > 0
+			$result.currentLetter >= 0 &&
+			$result.fingersDetected.length > 0 &&
+			!$result.fingersDetected.includes(expectedKeys[$result.key as keyof typeof expectedKeys])
 		) {
-			userInput[currentWord][currentLetter] = 1;
-			console.log(userInput);
+			wrongFingers[currentWord][$result.currentLetter] = true;
+			totalWrongCharacters += 1;
 		}
 	}
 </script>
@@ -107,7 +122,7 @@
 <div class="test-area">
 	<Timer {elapsedTime} />
 	<div class="container">
-		<Words {userInput} />
+		<Words {userInput} {wrongFingers} />
 		<Caret {currentWord} {userInput} {focused} />
 		<Input
 			on:input={handleInput}

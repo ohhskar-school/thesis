@@ -3,7 +3,12 @@ import { writable } from 'svelte/store';
 export const testSequence = writable<number>(Math.floor(Math.random() * 9));
 export const timeElapsed = writable<number>(0);
 export const totalCharactersTyped = writable<number>(0);
-export const inputData = writable<{ coordinates: TeeCubed.Key | null; key: string }>({
+export const inputData = writable<{
+	coordinates: TeeCubed.Key | null;
+	key: string;
+	currentLetter: number;
+}>({
 	coordinates: null,
-	key: 'z'
+	key: 'Z',
+	currentLetter: 0
 });

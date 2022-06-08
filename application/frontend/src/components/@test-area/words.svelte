@@ -5,20 +5,29 @@
 	const words = testSequences[$testSequence].split(' ');
 
 	export let userInput: (string | null)[][];
+	export let wrongFingers: boolean[][];
+
+	$: console.log(userInput);
 </script>
 
 <div class="container">
 	<div class="words">
 		{#each userInput as word, wordIndex}
 			{#each word as letter, letterIndex}
-				<div
-					class="letter"
-					class:text-gray-50={letter === words[wordIndex][letterIndex]}
-					class:text-gray-600={letter === null}
-					class:text-red-600={letter !== null && letter !== words[wordIndex][letterIndex]}
-				>
-					{words[wordIndex]?.[letterIndex] ?? letter}
-				</div>
+				{#if wrongFingers[wordIndex][letterIndex]}
+					<div class="letter text-purple-600">
+						{words[wordIndex][letterIndex]}
+					</div>
+				{:else}
+					<div
+						class="letter"
+						class:text-gray-50={letter === words[wordIndex][letterIndex]}
+						class:text-gray-600={letter === null}
+						class:text-red-600={letter !== null && letter !== words[wordIndex][letterIndex]}
+					>
+						{words[wordIndex]?.[letterIndex] ?? letter}
+					</div>
+				{/if}
 			{/each}
 
 			<div class="letter" />
