@@ -135,7 +135,7 @@
 </script>
 
 <div class="finger-tracking">
-	<video class="hidden" bind:this={$video} {width} {height} />
+	<video class="" bind:this={$video} {width} {height} />
 	<canvas class="canvas" {width} {height} bind:this={canvas} />
 </div>
 
