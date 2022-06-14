@@ -311,6 +311,38 @@ Department of Computer Science approves this Special Problem entitled:
 \newpage
 
 \pagenumbering{roman}
+
+\addcontentsline{toc}{chapter}{Abstract}
+\begin{center}
+	\LARGE\textbf{Acknowledgment}
+\end{center}
+
+I would like to express my deepest appreciation for the guidance that my Special
+Project Adviser, Dhong Fhel K. Gom-os, has given me throughout the duration of
+the project. His technical knowledge has been a key factor to the success of the
+finger-key identification module. The paper would not have been possible without
+his unwavering support and commitment.
+
+I also greatly appreciate the advice that Prof. Aileen Joan O. Vicente and Ms.
+Sram J Isle L. Santillan have given me. The constructive criticism that I
+received was instrumental in giving me a clear direction on where I want to take
+this research.
+
+I am particularly grateful to Jack Bartnik, the developer of Monkeytype. The
+application that they developed was the main source of inspiration for this
+project. I would also like to thank Jack for their generosity in sharing
+statistics concerning the typing speed of the users of Monkeytype.
+
+I would like to acknowledge that this research was partially supported by the
+Department of Science and Technology --- Science Education Institute.
+
+I give my heartfelt thanks to Ana Janelle H. Ca\~{n}ete for her love and comfort
+in these trying times.
+
+To friends, family, and other significant people in my life, thank you for
+supporting me thus far.
+
+\newpage
 \addcontentsline{toc}{chapter}{Abstract}
 \begin{center}
 	\LARGE\textbf{Abstract}
@@ -325,7 +357,7 @@ beneficial. This paper introduces a technique to achieve this by developing a
 finger-key identification module that utilizes computer vision algorithms to
 detect the keys in a keyboard, and a ready-made machine learning solution to
 track fingers while typing. This module was successful in finger-key
-identification with an accuracy of 99.58\% in a dataset of 938 keypresses. The
+identification with an accuracy of 99.58\% in a dataset of 942 keypresses. The
 module also had an average finger-key identification time of 0.083 seconds,
 which allows the module to perform real-time finger-key identification for
 typing speeds up to 143.030 Words per Minute which is well beyond the median
@@ -457,7 +489,7 @@ the development and testing of the finger-key identification module only.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\textwidth]{60.png}
-	\caption{A 60\% keyboard in \ac{ansi} layout.}
+	\caption{A 60\% keyboard in modified \ac{ansi} layout.}
 	\label{fig:60}
 	\centering
 \end{figure}
@@ -465,7 +497,7 @@ the development and testing of the finger-key identification module only.
 
 \section{Significance of the Research}
 This research is beneficial for all users of physical keyboards. These include a
-majority of the population as there are a lot of professions that heavily rely
+majority of the population as there are a lot of professions that rely heavily
 on keyboards. Examples include developers, physicians, educators, and
 accountants. By having better ergonomics while typing --- by touch typing
 correctly --- wrist injuries can be prevented, and typing speed may be
@@ -937,7 +969,7 @@ JS, and Coral interfaces. It also supports Android and iOS devices
 Examples of projects that utilized MediaPipe and its solutions include a
 real-time hand gesture recognition system by \textcite{mediapipe-sample-1} which
 utilized MediaPipe Hands. Another example is by \textcite{mediapipe-sample-2}
-which utilized MediaPipe Hands to track movements during pen spinning
+who utilized MediaPipe Hands to track movements during pen spinning
 competitions. \textcite{mediapipe-sample-3} developed a real-time sign language
 recognition program using MediaPipe Hands.
 
@@ -950,8 +982,8 @@ mathematics \parencite{what-matlab}.
 A toolbox offered by MATLAB is the Computer Vision Toolbox which contains
 algorithms, and functions for use in the development of computer vision, 3D
 vision, and video processing systems. By using the available algorithms in the
-toolbox, such as YOLOv2, and ACF, hand detection and gesture recognition is made
-possible in the platform \parencite{matlab}.
+toolbox, such as YOLOv2, and ACF, hand detection and gesture recognition are
+made possible in the platform \parencite{matlab}.
 
 \subsection{Applications}
 
@@ -994,10 +1026,10 @@ This section provides an overview of the development and testing of a real-time
 finger-key identification module. First, the experimental setup used for data
 collection will be presented. Following that, the algorithm used to implement
 real-time finger-key identification will be discussed. The process of training
-and testing of the developed algorithm comes next. Afterwards, the development
-and design of the proof of concept trainer will be described. Finally, this
-section introduces two metrics that were developed to quantify correct finger
-placement during typing tests.
+and testing the developed algorithm comes next. Afterward, the development and
+design of the proof of concept trainer will be described. Finally, this section
+introduces two metrics that were developed to quantify correct finger placement
+during typing tests.
 
 \section{Setup}
 \label{section:metho-setup}
@@ -1040,7 +1072,7 @@ position.
 	\label{fig:metho-setup-keeb}
 \end{figure}
 
-The specific camera used was a Logitech C920. It is a 3 mega pixel webcam that
+The specific camera used was a Logitech C920. It is a 3 megapixel webcam that
 is capable of capturing color video in 1080p/30fps and 720p/30fps with a
 diagonal field of view of 78\degree. For the setup, the camera captured the
 video in 480p/30fps. This camera has a universal mounting clip that allows the
@@ -2752,8 +2784,8 @@ real-time finger-key identification is 11.9200 \ac{cps}, based on
 Equation~\ref{eq:s}. It follows that the maximum \ac{wpm} that still allows for
 real-time finger-key identification is 143.040 \ac{wpm}, based on
 Equation~\ref{eq:cps}. This is well above the median of 37.5 \ac{wpm} on Keybr.
-The module can also perform finger-key identification for 90.99\% of the
-community members of Monkeytype with the speed role.
+The module can also perform real-time finger-key identification for 90.99\% of
+the community members of Monkeytype with the speed role.
 
 \chapter{Conclusion}
 
@@ -2796,7 +2828,7 @@ to the addition of a buffer around each \ac{roi} to increase the success rate.
 The module is fast enough for real-time finger-key identification up to typing
 speeds of 143.040 \ac{wpm}. This is above the median typing speed of 37.5
 \ac{wpm} on Keybr \parencite{keybr}. This also handles 90.99\% of the 12678
-members with the speed role on MonkeyType \parencite{monkey-stats}.
+members with the speed role on Monkeytype \parencite{monkey-stats}.
 
 Two metrics were developed and implemented in a proof of concept trainer: (1)
 Finger Placement Accuracy which computes the percentage of keys pressed with the
